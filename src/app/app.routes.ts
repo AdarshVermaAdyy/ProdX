@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { SidenavComponent } from './components/sidenav/sidenav.component';
+import { SidenavComponent } from './Layout/sidenav/sidenav.component';
 
 export const routes: Routes = [
  ];
