@@ -1,4 +1,4 @@
-<mat-toolbar color="primary" class="example-toolbar">
+<mat-toolbar  class="example-toolbar">
 	<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
 	<h1 class="product-name">ProdX</h1>
   <span class="spacer"></span>
@@ -7,7 +7,7 @@
     <input matInput placeholder="Search">
   </mat-form-field>
     <button mat-icon-button  class="product-name">
-      <mat-icon mat-add_alert-icon matBadge="15" matBadgeColor="warn">notifications</mat-icon>
+      <mat-icon mat-add_alert-icon matBadge="15" aria-hidden="false" matBadgeColor="warn">notifications</mat-icon>
     </button>
     <button mat-icon-button  class="product-name">
       <mat-icon>account_circle</mat-icon>
@@ -17,12 +17,16 @@
 </mat-toolbar>
 <mat-sidenav-container class="example-container" autosize>
 	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()" (mouseleave)="mouseleave()">
-		<mat-nav-list>
+		<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+			<mat-icon>design_services</mat-icon>
+			<span *ngIf="isExpanded || isShowing">Template Management</span>
+		  </button>
+		<!-- <mat-nav-list>
 			<mat-list-item  class="parent">
 				<span class="full-width" *ngIf="isExpanded || isShowing">Template Management</span>
 				<mat-icon mat-library_add_icon>library_add</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
+				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
+			<!-- </mat-list-item> -->
 			<!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
 				<a mat-list-item href="...">Submenu Item 1</a>
 				<a mat-list-item href="...">Submenu Item 2</a>
@@ -35,40 +39,39 @@
 					<mat-list-item>SubSubmenu Item 2</mat-list-item>
 				</div>
 			</div> -->
+			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon >inventory_2</mat-icon>
+				<span *ngIf="isExpanded || isShowing">Product Management</span>
+			  </button>
 
-      <mat-list-item  class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">Product Management</span>
-				<mat-icon mat-note-icon>note</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
-      <mat-list-item  class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">Modify a Product</span>
-				<mat-icon mat-library_add_icon>library_add</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
-      <mat-list-item  class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">FAQ</span>
-				<mat-icon mat-help-icon>help</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
-      <mat-list-item  class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">Reports & Anayltics</span>
-				<mat-icon mat-assistant-icon>assistant</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
-      <mat-list-item  class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">Help and Support</span>
-				<mat-icon mat-help-icon>help</mat-icon>
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			</mat-list-item>
+			  <button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon>edit_square</mat-icon>
+				<span *ngIf="isExpanded || isShowing">Modify a Product</span>
+			  </button>
 
-		</mat-nav-list>
+			  <button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon>quiz</mat-icon>
+				<span *ngIf="isExpanded || isShowing">FAQ</span>
+			  </button>
+      
+			  <button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon>monitoring</mat-icon>
+				<span *ngIf="isExpanded || isShowing">Reports & Anayltics</span>
+			  </button>
+     
+			  <button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon mat-help-icon>help</mat-icon>
+				<span *ngIf="isExpanded || isShowing">Help and Support</span>
+			  </button>
+			  <mat-divider></mat-divider>
+		
     <mat-nav-list>
-      <mat-list-item (click)="showSubmenu = !showSubmenu" class="parent">
-				<span class="full-width" *ngIf="isExpanded || isShowing">My Drafts</span>
-				<mat-icon mat-collections_bookmark-icon>collections_bookmark</mat-icon>
-				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
-			</mat-list-item>
+		<button mat-button (click)="showSubmenu = !showSubmenu" [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+			<mat-icon >drafts</mat-icon>
+			<span *ngIf="isExpanded || isShowing">My Drafts</span>
+			<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
+		  </button>
+     
       	<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
 				<a mat-list-item href="...">Draft 1</a>
 				<a mat-list-item href="...">Draft 2</a>
@@ -84,9 +87,12 @@
 </mat-nav-list>
 	</mat-sidenav>
 
-	<div class="example-sidenav-content">
+	<mat-sidenav-content>
+		<div class="example-sidenav-content">Main content here!</div>
+	  </mat-sidenav-content>
+	<!-- <div class="example-sidenav-content">
 		Main content that resizes properly
-	</div>
+	</div> -->
 
 </mat-sidenav-container>
 
