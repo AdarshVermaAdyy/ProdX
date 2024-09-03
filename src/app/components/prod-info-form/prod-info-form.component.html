@@ -1,24 +1,21 @@
 <div class="wrapper-container">
-   
-    <div class="field-list-wrapper">
-        <h4>Option</h4>
-            <div *ngFor="let group of  getUniqueGroup()">
-                <h4>{{group}}</h4>
-                <div *ngFor="let option of optionalFieldsList | filterByGroup:group; let i= index">
-                    <mat-checkbox  (change)="onCheckboxChange($event, i)">
-                        {{option.label}}
-                    </mat-checkbox>
-                </div>
 
-            </div>
+    <div class="field-list-wrapper">
+
         <!-- <div formArrayName="options"> -->
-        <!-- <h4>Option</h4>
+        <h4>Option</h4>
+        <div *ngFor="let group of  getUniqueGroup()">
+            <h4>{{group}}</h4>
+           
         <div *ngFor="let option  of optionalFieldsList; let i = index">
-            <mat-checkbox type="text"  (change)="onCheckboxChange($event, i)">
+            <ng-container *ngIf="option.group === group">
+            <mat-checkbox  (change)="onCheckboxChange($event, i)">
                 {{option .label}}
             </mat-checkbox>
-           
-        </div> -->
+        </ng-container>
+        </div>
+            <!-- </div> -->
+        </div>
     </div>
     <div class="form-wrapper">
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
@@ -67,18 +64,18 @@
                                                     </div>
                                                 </div>
 
-                                                
-                                                <div class="col-6">  
+
+                                                    <mat-form-field>
                                                     <label class="mat-label" for="max{{i}}">Max:</label>
                                                     <input matInput id="max{{i}}" type="number" formControlName="max" />
-                                                
+                                                </mat-form-field>
                                                     <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
                                                         class="text-danger">
                                                         <div *ngIf="field.get('max')?.errors?.['required']">
                                                             This field is required</div>
                                                     </div>
-                                                
-                                                </div>  
+
+
 
                                             </div>
                                         </mat-form-field>
@@ -93,18 +90,19 @@
                                         </mat-select>
 
                                     </div>
-                                    
+
                                         <div *ngSwitchCase="'text'">
                                             <mat-form-field>
                                             <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                             <input matInput type="text" formControlName="value" />
                                         </mat-form-field>
                                         </div>
-                                   
+
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label >{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-radio-group  formControlName="value">
+                                        <mat-radio-group >
                                             <div *ngFor="let option of field.get('options')?.value">
+
                                                 <mat-radio-button type="radio" 
                                                     [value]="option" > {{ option }} </mat-radio-button>
                                             </div>
@@ -280,7 +278,7 @@
                     </div>
                 </div>
 
-               
+
                  <h4>prodcut Boundary</h4>
         <div formArrayName="selectedValues">
           <div formArrayName="productBoundary">
@@ -307,7 +305,7 @@
             </div>
           </div>
           </div>
-        
+
 
             </div>
             <div class="form-btn-wrapper">

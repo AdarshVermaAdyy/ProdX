@@ -118,7 +118,7 @@ export class ProdInfoFormComponent  implements OnInit{
   
     const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
 
-    if (e) {
+    if (e.checked) {
       if (option.group === 'productBoundaryCondition') {
         this.productBoundaryCondition.push(selectedGroup);
 
