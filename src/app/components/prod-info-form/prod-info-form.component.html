@@ -172,10 +172,12 @@
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-form-field appearance="fill">
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <label>{{ field.get('label')?.value }}:</label>
@@ -200,14 +202,16 @@
                     <div formArrayName="featreandReinsate">
                         <div class="row">
                             <div *ngFor="let field of featreandReinsate.controls; let i = index" [formGroupName]="i"
-                                class="col-6">
+                            class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-form-field appearance="fill">
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -260,14 +264,16 @@
                     <div formArrayName="productServicingAlteration">
                         <div class="row">
                             <div *ngFor="let field of  productServicingAlteration.controls; let i = index"
-                                [formGroupName]="i" class="col-md-4">
+                                [formGroupName]="i" class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-form-field appearance="fill">
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -293,14 +299,16 @@
                     <div formArrayName="terminationCancellation">
                         <div class="row">
                             <div *ngFor="let field of terminationCancellation.controls; let i = index"
-                                [formGroupName]="i" class="col-6">
+                                [formGroupName]="i" class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{field.get('label')?.value}}:</mat-label>
+                                        <mat-form-field>
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
+                                                [value]="option">{{option}}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -325,14 +333,16 @@
                     <div formArrayName="productBoundary">
                         <div class="row">
                             <div *ngFor="let field of productBoundary.controls; let i = index" [formGroupName]="i"
-                                class="col-6">
+                            class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-form-field appearance="fill">
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
