@@ -11,6 +11,8 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterOutlet } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 
 @Component({
   selector: 'app-sidenav',
@@ -20,7 +22,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule],
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
@@ -29,6 +31,11 @@ export class SidenavComponent {
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
+  notificationArray = [{title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"}
+  ]
 
   mouseenter() {
     if (!this.isExpanded) {

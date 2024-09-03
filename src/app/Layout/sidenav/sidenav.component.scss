@@ -77,9 +77,36 @@
   padding-left: 1.2rem !important;
   margin: 0.7rem 0rem;
 }
-mat-divider {
+.sidenav-divider {
   margin-top: 16px;
   
   background-color: rgb(14 14 13 / 26%)
 }
 
+.noti-item{
+  display: flex;
+  align-items: center;
+  width: 100%;
+  text-align: left;
+  padding: 10px;
+}
+.noti-icon{
+  margin-right: 16px;
+}
+.noti-content{
+  flex-grow: 1;
+}
+.noti-title{
+  font-weight: bold;
+}
+.noti-msg{
+  font-size: 12px;
+}
+button[mat-icon-button]{
+  margin-left: auto;
+}
+
+::ng-deep .noti-menu{
+  min-width: 300px !important;
+  max-width: 300px !important;
+}
