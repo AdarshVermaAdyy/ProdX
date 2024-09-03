@@ -9,7 +9,8 @@ import { CommonModule } from '@angular/common';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import {MatBadgeModule} from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
-
+import {MatButtonModule} from '@angular/material/button';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'app-sidenav',
@@ -19,7 +20,7 @@ import { MatInputModule } from '@angular/material/input';
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule],
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })

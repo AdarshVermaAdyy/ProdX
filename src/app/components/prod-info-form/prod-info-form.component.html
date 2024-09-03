@@ -1,15 +1,24 @@
 <div class="wrapper-container">
-
+   
     <div class="field-list-wrapper">
-
-        <!-- <div formArrayName="options"> -->
         <h4>Option</h4>
+            <div *ngFor="let group of  getUniqueGroup()">
+                <h4>{{group}}</h4>
+                <div *ngFor="let option of optionalFieldsList | filterByGroup:group; let i= index">
+                    <mat-checkbox  (change)="onCheckboxChange($event, i)">
+                        {{option.label}}
+                    </mat-checkbox>
+                </div>
+
+            </div>
+        <!-- <div formArrayName="options"> -->
+        <!-- <h4>Option</h4>
         <div *ngFor="let option  of optionalFieldsList; let i = index">
             <mat-checkbox type="text"  (change)="onCheckboxChange($event, i)">
                 {{option .label}}
             </mat-checkbox>
-            <!-- </div> -->
-        </div>
+           
+        </div> -->
     </div>
     <div class="form-wrapper">
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
@@ -59,17 +68,17 @@
                                                 </div>
 
                                                 
-                                                    <mat-form-field>
+                                                <div class="col-6">  
                                                     <label class="mat-label" for="max{{i}}">Max:</label>
                                                     <input matInput id="max{{i}}" type="number" formControlName="max" />
-                                                </mat-form-field>
+                                                
                                                     <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
                                                         class="text-danger">
                                                         <div *ngIf="field.get('max')?.errors?.['required']">
                                                             This field is required</div>
                                                     </div>
                                                 
-
+                                                </div>  
 
                                             </div>
                                         </mat-form-field>
@@ -94,9 +103,8 @@
                                    
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label >{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-radio-group >
+                                        <mat-radio-group  formControlName="value">
                                             <div *ngFor="let option of field.get('options')?.value">
-
                                                 <mat-radio-button type="radio" 
                                                     [value]="option" > {{ option }} </mat-radio-button>
                                             </div>

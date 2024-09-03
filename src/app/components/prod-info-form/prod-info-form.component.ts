@@ -9,7 +9,8 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
-
+import { ChangeDetectorRef } from '@angular/core';
+import { FilterByGroupPipe } from '../../filter-by-group.pipe';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -18,7 +19,8 @@ import {MatRadioModule} from '@angular/material/radio';
     HttpClientModule,MatButtonModule,
     MatFormFieldModule, MatInputModule,
     MatSelectModule, MatCheckboxModule,
-    MatInputModule, MatRadioModule
+    MatInputModule, MatRadioModule,
+    FilterByGroupPipe
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'
@@ -32,8 +34,11 @@ export class ProdInfoFormComponent  implements OnInit{
   toastType = '';
   showErrorToast = false;
   showSuccessToast = false;
+ 
+  headingDispaly = false;
+
   
-  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService) {}
+  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr :ChangeDetectorRef) {}
   
  
   ngOnInit() {
@@ -44,8 +49,22 @@ export class ProdInfoFormComponent  implements OnInit{
     this.dynamicForm.get('optionalOption')?.valueChanges.subscribe(data => {
       this.formService.updateFormGroups(this.dynamicForm);
     });
+   
     this.addCheckboxes();
+    
+   
+
   }
+ 
+  getUniqueGroup() {
+    const groups = this.optionalFieldsList.map(option=>
+      option.group.trim()
+    );
+    const uniqueGroups = Array.from(new Set(groups));
+   // console.log("unique... "+uniqueGroups);
+    return uniqueGroups;
+  }
+
 
   get options(): FormArray {
     return this.dynamicForm.get('options') as FormArray;
@@ -149,12 +168,13 @@ export class ProdInfoFormComponent  implements OnInit{
   }
 
   onSubmit() {
+    console.log("dynamic error is.."+ this.dynamicForm.errors);
     if (this.dynamicForm.invalid) {
-      console.log("invalid form ...");
+      console.log("invalid form ...", this.dynamicForm.value);
       this.markAllAsTouched();
     } else {
       this.isSubmitted = true;
-      console.log("Form submitted ", this.isSubmitted, this.dynamicForm.value);
+      console.log("Form submitted ", this.dynamicForm.value);
     }
   }
   next(){

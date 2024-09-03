@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SidenavComponent } from "./components/sidenav/sidenav.component";
+import { SidenavComponent } from "./Layout/sidenav/sidenav.component";
 import { ProdInfoFormComponent } from './components/prod-info-form/prod-info-form.component';
 
 @Component({
