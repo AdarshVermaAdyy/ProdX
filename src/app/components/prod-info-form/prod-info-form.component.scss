@@ -44,3 +44,26 @@
     margin: 20px 0;
     width: 100%;
 }
+.mat-grid-container{
+    display: flex;
+    gap: 16px;
+
+}
+.mat-form-field{
+    flex: 1;
+}
+mat-grid-list {
+    width: 100%;
+}
+.mat-form-field{
+    width: 100%;
+}
+mat-grid-tile{
+    padding: 0 8px;
+}
+.form-field-container{
+    display: flex;
+    align-items: center;
+    width: 100%;
+
+}

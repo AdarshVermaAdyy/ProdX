@@ -9,6 +9,7 @@ import { MatInputModule } from '@angular/material/input';
 import {MatSelectModule} from '@angular/material/select';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import {MatRadioModule} from '@angular/material/radio';
+import {MatGridListModule} from '@angular/material/grid-list';
 import { ChangeDetectorRef } from '@angular/core';
 import { FilterByGroupPipe } from '../../filter-by-group.pipe';
 @Component({
@@ -20,7 +21,7 @@ import { FilterByGroupPipe } from '../../filter-by-group.pipe';
     MatFormFieldModule, MatInputModule,
     MatSelectModule, MatCheckboxModule,
     MatInputModule, MatRadioModule,
-    FilterByGroupPipe
+    FilterByGroupPipe, MatGridListModule,
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'

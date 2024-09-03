@@ -6,14 +6,14 @@
         <h4>Option</h4>
         <div *ngFor="let group of  getUniqueGroup()">
             <h4>{{group}}</h4>
-           
-        <div *ngFor="let option  of optionalFieldsList; let i = index">
-            <ng-container *ngIf="option.group === group">
-            <mat-checkbox  (change)="onCheckboxChange($event, i)">
-                {{option .label}}
-            </mat-checkbox>
-        </ng-container>
-        </div>
+
+            <div *ngFor="let option  of optionalFieldsList; let i = index">
+                <ng-container *ngIf="option.group === group">
+                    <mat-checkbox (change)="onCheckboxChange($event, i)">
+                        {{option .label}}
+                    </mat-checkbox>
+                </ng-container>
+            </div>
             <!-- </div> -->
         </div>
     </div>
@@ -28,17 +28,6 @@
 
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
-            <!-- Available Options -->
-            <!-- <div class="motif-col-xs-1">
-      <h4>Available Options</h4>
-      <div formArrayName="options">
-        <div *ngFor="let option of availableOptions; let i = index" class="mb-2">
-          <input matInput type="checkbox" [formControlName]="i" (change)="onCheckboxChange($event, i)" [disabled]="isDefaultField(option)" />
-          {{ option.label }}
-        </div>
-      </div>
-    </div> -->
-
             <!-- Dynamic Form Fields -->
             <div class="row">
                 <!-- Product Boundary Condition -->
@@ -51,60 +40,111 @@
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'range'">
 
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field>
-                                            <div class="row">
-                                                <div class="col-6">
-                                                    <label class="mat-label" for="min{{i}}">Min:</label>
-                                                    <input matInput id="min{{i}}" type="number"
-                                                        formControlName="min" />
-                                                    <div *ngIf="field.get('min')?.invalid && (field.get('min')?.dirty || field.get('min')?.touched)" class="text-danger">
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        
+                                            <!-- <div class="row"> 
+                                                <mat-form-field>
+                                                    <mat-grid-list cols="2" rowHeight="20px">
+                                                        <mat-grid-tile>
+                                                <label class="mat-label" for="min{{i}}" >Min:</label>
+                                            </mat-grid-tile>
+                                            <mat-grid-tile>
+                                                <input matInput id="min{{i}}" type="number" formControlName="min" />
+                                          
+                                            </mat-grid-tile>
+                                                <div *ngIf="field.get('min')?.invalid && (field.get('min')?.dirty || field.get('min')?.touched)"
+                                                    class="text-danger">
+                                                    <div *ngIf="field.get('min')?.errors?.['required']">
+                                                        This field is required</div>
+                                                </div>
+                                            </mat-grid-list>
+                                            </mat-form-field>
+                                           
+                                                <mat-form-field appearance="fill">
+                                                  
+                                                <label class="mat-label" for="max{{i}}">Max:</label>
+                                                       
+                                                <input matInput id="max{{i}}" type="number" formControlName="max" />
+                                            
+                                            <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
+                                                class="text-danger">
+                                                <div *ngIf="field.get('max')?.errors?.['required']">
+                                                    This field is required</div>
+                                            </div>
+                                        
+                                        </mat-form-field>
+                                        </div>
+                                       -->
+                                    <!-- </div> -->
+                                           <mat-grid-list cols="2" rowHeight="65px">
+                                                <mat-grid-tile>
+                                                    <mat-form-field>
+                                                        <mat-grid-list cols="2">
+                                                            <mat-grid-tile>
+                                                    <label class="mat-label" for="min{{i}}" >Min:</label>
+                                                </mat-grid-tile>
+                                            <mat-grid-tile>
+                                                    <input matInput id="min{{i}}" type="number" formControlName="min" />
+                                                </mat-grid-tile>
+                                                </mat-grid-list>
+                                                
+                                                    <div *ngIf="field.get('min')?.invalid && (field.get('min')?.dirty || field.get('min')?.touched)"
+                                                        class="text-danger">
                                                         <div *ngIf="field.get('min')?.errors?.['required']">
                                                             This field is required</div>
                                                     </div>
-                                                </div>
-
-
-                                                    <mat-form-field>
-                                                    <label class="mat-label" for="max{{i}}">Max:</label>
-                                                    <input matInput id="max{{i}}" type="number" formControlName="max" />
                                                 </mat-form-field>
-                                                    <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
-                                                        class="text-danger">
-                                                        <div *ngIf="field.get('max')?.errors?.['required']">
-                                                            This field is required</div>
-                                                    </div>
+                                                </mat-grid-tile>
 
 
+                                                <mat-grid-tile>
+                                                    <mat-form-field appearance="fill">
+                                                        <mat-grid-list cols="2">
+                                                            <mat-grid-tile>
+                                                    <label class="mat-label" for="max{{i}}">Max:</label>
+                                                            </mat-grid-tile>
+                                                            <mat-grid-tile>
+                                                    <input matInput id="max{{i}}" type="number" formControlName="max" />
+                                                
+                                                <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
+                                                    class="text-danger">
+                                                    <div *ngIf="field.get('max')?.errors?.['required']">
+                                                        This field is required</div>
+                                                </div>
+                                            </mat-grid-tile>
+                                            </mat-grid-list>
+                                            </mat-form-field>
+                                            </mat-grid-tile>
 
-                                            </div>
-                                        </mat-form-field>
-                                    </div>
+                                            </mat-grid-list>
+                                        
+                                   </div>
 
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
-
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-form-field appearance="fill">
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
+                                    </mat-form-field>
 
                                     </div>
 
-                                        <div *ngSwitchCase="'text'">
-                                            <mat-form-field>
+                                    <div *ngSwitchCase="'text'">
+                                        <mat-form-field>
                                             <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                             <input matInput type="text" formControlName="value" />
                                         </mat-form-field>
-                                        </div>
+                                    </div>
 
                                     <div *ngSwitchCase="'radio'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-radio-group >
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-radio-group formControlName="value">
                                             <div *ngFor="let option of field.get('options')?.value">
 
-                                                <mat-radio-button type="radio" 
-                                                    [value]="option" > {{ option }} </mat-radio-button>
+                                                <mat-radio-button type="radio" [value]="option"> {{ option }}
+                                                </mat-radio-button>
                                             </div>
                                         </mat-radio-group>
                                     </div>
@@ -138,10 +178,10 @@
                                         </mat-select>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <label >{{ field.get('label')?.value }}:</label>
+                                        <label>{{ field.get('label')?.value }}:</label>
                                         <div *ngFor="let option of field.get('options')?.value">
-                                            <input matInput type="radio" [formControlName]="'value'"
-                                                [value]="option" /> {{ option }}
+                                            <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                            {{ option }}
                                         </div>
                                     </div>
                                 </div>
@@ -163,17 +203,17 @@
                                 class="col-6">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <div *ngFor="let option of field.get('options')?.value">
-                                            <input matInput type="radio" [formControlName]="'value'"
-                                                [value]="option" /> {{ option }}
+                                            <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                            {{ option }}
                                         </div>
                                     </div>
                                 </div>
@@ -219,20 +259,21 @@
                 <div formArrayName="selectedValues">
                     <div formArrayName="productServicingAlteration">
                         <div class="row">
-                            <div *ngFor="let field of  productServicingAlteration.controls; let i = index" [formGroupName]="i" class="col-md-4">
+                            <div *ngFor="let field of  productServicingAlteration.controls; let i = index"
+                                [formGroupName]="i" class="col-md-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <div *ngFor="let option of field.get('options')?.value">
-                                            <input matInput type="radio" [formControlName]="'value'"
-                                                [value]="option" /> {{ option }}
+                                            <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                            {{ option }}
                                         </div>
                                     </div>
                                 </div>
@@ -255,17 +296,17 @@
                                 [formGroupName]="i" class="col-6">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-select formControlName="value">
                                             <mat-option *ngFor="let option of field.get('options')?.value"
                                                 [value]="option">{{ option }}</mat-option>
                                         </mat-select>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
-                                        <mat-label >{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <div *ngFor="let option of field.get('options')?.value">
-                                            <input matInput type="radio" [formControlName]="'value'"
-                                                [value]="option" /> {{ option }}
+                                            <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                            {{ option }}
                                         </div>
                                     </div>
                                 </div>
@@ -279,38 +320,44 @@
                 </div>
 
 
-                 <h4>prodcut Boundary</h4>
-        <div formArrayName="selectedValues">
-          <div formArrayName="productBoundary">
-              <div class="row">
-            <div *ngFor="let field of productBoundary.controls; let i = index" [formGroupName]="i" class="col-6">
-              <div [ngSwitch]="field.get('type')?.value">
-                <div *ngSwitchCase="'dropdown'">
-                  <mat-label  >{{ field.get('label')?.value }}:</mat-label>
-                  <mat-select formControlName="value">
-                    <mat-option *ngFor="let option of field.get('options')?.value" [value]="option">{{ option }}</mat-option>
-                  </mat-select>
+                <h4>prodcut Boundary</h4>
+                <div formArrayName="selectedValues">
+                    <div formArrayName="productBoundary">
+                        <div class="row">
+                            <div *ngFor="let field of productBoundary.controls; let i = index" [formGroupName]="i"
+                                class="col-6">
+                                <div [ngSwitch]="field.get('type')?.value">
+                                    <div *ngSwitchCase="'dropdown'">
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <mat-select formControlName="value">
+                                            <mat-option *ngFor="let option of field.get('options')?.value"
+                                                [value]="option">{{ option }}</mat-option>
+                                        </mat-select>
+                                    </div>
+                                    <div *ngSwitchCase="'radio'">
+                                        <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                        <div *ngFor="let option of field.get('options')?.value">
+                                            <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                            {{ option }}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)"
+                                    class="text-danger">
+                                    <div *ngIf="field.get('value')?.errors?.['required']">This field is required</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-                <div *ngSwitchCase="'radio'">
-                  <mat-label  >{{ field.get('label')?.value }}:</mat-label>
-                  <div *ngFor="let option of field.get('options')?.value">
-                    <input matInput type="radio" [formControlName]="'value'" [value]="option" /> {{ option }}
-                  </div>
-                </div>
-              </div>
-              <div *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)" class="text-danger">
-                <div *ngIf="field.get('value')?.errors?.['required']">This field is required</div>
-              </div>
-            </div>
-            </div>
-          </div>
-          </div>
 
 
             </div>
             <div class="form-btn-wrapper">
-                <button mat-button  size="medium" class="mt-3" (click)="onSubmit()"  [disabled]="dynamicForm.invalid">Save as Draft</button>
-                <button mat-button  size="medium" class="mt-3" (click)="next()" [disabled]="dynamicForm.invalid">Next</button>
+                <button mat-button size="medium" class="mt-3" (click)="onSubmit()" [disabled]="dynamicForm.invalid">Save
+                    as Draft</button>
+                <button mat-button size="medium" class="mt-3" (click)="next()"
+                    [disabled]="dynamicForm.invalid">Next</button>
             </div>
 
         </form>
