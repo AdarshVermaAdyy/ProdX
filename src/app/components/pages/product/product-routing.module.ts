@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { TemplateManagementComponent } from './template-management/template-management.component';
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
+import { ProdInfoFormComponent } from '../../prod-info-form/prod-info-form.component';
 
 const routes: Routes = [
   {
@@ -17,6 +18,10 @@ const routes: Routes = [
     path: "product-management",
     component: ProductManagementComponent
   },
+  {
+    path: 'product-info',
+    component: ProdInfoFormComponent
+  }
 ];
 
 @NgModule({

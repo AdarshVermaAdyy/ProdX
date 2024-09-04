@@ -1,14 +1,15 @@
-<mat-sidenav-container class="sidenav-container">
-
+<!-- <mat-sidenav-container class="sidenav-container"> -->
+    <div class="container-fluid d-flex">
+        <div class="field-list-wrapper">
 
    
-    <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen">
+    <!-- <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen"> -->
         <!-- <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button> -->
-        <div class="sidenav-content">
+        <!-- <div class="sidenav-content"> -->
             <h4>Available Option</h4>
             <div *ngFor="let group of  getUniqueGroup()">
                
-                <h4>{{group | uppercase}}</h4>
+                <h4>{{group | lowercase}}</h4>
               
                 <div *ngFor="let option  of optionalFieldsList; let i = index">
                     <ng-container *ngIf="option.group === group">
@@ -20,12 +21,13 @@
                 <div class="custom-divider mt-4"></div>
                 <!-- </div> -->
             </div>
-        </div>
+            </div>
+        <!-- </div> -->
 
-    </mat-sidenav>
+    <!-- </mat-sidenav> -->
     <!-- </div> -->
 
-    <mat-sidenav-content>
+    <!-- <mat-sidenav-content> -->
         <!-- <div class="main-content">  -->
         <!-- <div class="form-wrapper"> -->
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
@@ -35,7 +37,7 @@
             </ng-container>
         </motif-toast> 
          -->
-
+         <div class="form-wrapper">
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
             <!-- Dynamic Form Fields -->
@@ -86,9 +88,9 @@
                                         </div>
                                        -->
                                         <!-- </div> -->
-                                        <mat-grid-list cols="2" rowHeight="60px">
+                                        <mat-grid-list cols="3" rowHeight="60px">
                                             <mat-grid-tile>
-                                                <mat-form-field>
+                                                <mat-form-field appearance="outline">
                                                     <!-- <mat-grid-list cols="2"> -->
                                                         <!-- <mat-grid-tile> -->
                                                             <label class="mat-label" for="min{{i}}">Min:</label>
@@ -135,7 +137,7 @@
                                     <div *ngSwitchCase="'dropdown'">
                                         <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
@@ -187,7 +189,7 @@
                                     <div *ngSwitchCase="'dropdown'">
                                         <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
@@ -223,7 +225,7 @@
                                     <div *ngSwitchCase="'dropdown'">
                                         <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
@@ -288,7 +290,7 @@
                                     <div *ngSwitchCase="'dropdown'">
                                         <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
@@ -361,7 +363,7 @@
                                     <div *ngSwitchCase="'dropdown'">
                                         <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        <mat-form-field appearance="fill">
+                                        <mat-form-field>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
@@ -396,8 +398,9 @@
             </div>
 
         </form>
-
+        </div>
+</div>
         <!-- </div> -->
-    </mat-sidenav-content>
+    <!-- </mat-sidenav-content> -->
     <!-- </div> -->
-</mat-sidenav-container>
+<!-- </mat-sidenav-container> -->
