@@ -1,17 +1,84 @@
 <mat-toolbar  class="example-toolbar">
 	<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
+	<span><img alt="Product name" src="assets/images/ey-logo-black.png" style="height: 3.2rem;width: 3.5rem;"/></span>
 	<h1 class="product-name">ProdX</h1>
   <span class="spacer"></span>
 
-  <mat-form-field class="search-bar">
-    <input matInput placeholder="Search">
-  </mat-form-field>
-    <button mat-icon-button  class="product-name">
+  <!-- Notification Panel -->
+    <button mat-icon-button  class="icon-button-large" [matMenuTriggerFor]="notification">
       <mat-icon mat-add_alert-icon matBadge="15" aria-hidden="false" matBadgeColor="warn">notifications</mat-icon>
     </button>
-    <button mat-icon-button  class="product-name">
+	<mat-menu #notification="matMenu" class="noti-menu">
+		<ng-container *ngFor="let noti of notificationArray">
+			<div mat-menu-item>
+				<div class="noti-wrapper">
+				  <div class="noti-heading">Heading</div>
+				  <div class="noti-body">
+					<div class="noti-msg">This is a sample notification.</div>
+					<div class="noti-time">12:34</div>
+				  </div>
+				</div>
+			  </div>
+
+
+
+
+			<!-- <div class="noti-item" mat-menu-item>
+				<div class="noti-content">
+					<div class="noti-title">
+						{{noti.title}}
+					</div>
+					<div class="noti-msg">
+						{{noti.msg}}
+					</div>
+					
+				</div>
+			</div> -->
+			<mat-divider></mat-divider>
+
+			<!-- <ng-container *ngIf="notificationArray.length>0">
+				<button *ngFor="let noti of notificationArray;let i = index" class="noti-item" mat-menu-item>
+					
+					<div class="noti-content">
+						<div class="noti-title">
+							{{noti.title}}
+						</div>
+						<div class="noti-msg">
+							{{noti.msg}}
+						</div>
+						
+					</div>
+					<button mat-icon-button>
+						<mat-icon>delete</mat-icon>
+					</button>
+					
+				</button>
+			</ng-container> -->
+		</ng-container>
+
+	  </mat-menu>
+	  <!-- -------------------- -->
+
+	  <!-- Profile panel -->
+    <button mat-icon-button  class="icon-button-large"  [matMenuTriggerFor]="profile">
       <mat-icon>account_circle</mat-icon>
     </button>
+	<mat-menu #profile="matMenu"  class="profile-menu">
+		<button mat-menu-item>
+		  <mat-icon>person</mat-icon>
+		  <span>Profile</span>
+		</button>
+		<button mat-menu-item>
+			<mat-icon>app_registration</mat-icon>
+			<span>Register</span>
+		  </button>
+		<button mat-menu-item (click)="openDialog()">
+		  <mat-icon>logout</mat-icon>
+		  <span>Logout</span>
+		</button>    
+	  </mat-menu>
+
+	<!-- ------------------ -->
 
 
 </mat-toolbar>
@@ -63,7 +130,7 @@
 				<mat-icon mat-help-icon>help</mat-icon>
 				<span *ngIf="isExpanded || isShowing">Help and Support</span>
 			  </button>
-			  <mat-divider></mat-divider>
+			  <mat-divider class="sidenav-divider"></mat-divider>
 		
     <mat-nav-list>
 		<button mat-button (click)="showSubmenu = !showSubmenu" [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
@@ -88,7 +155,7 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<div class="example-sidenav-content">Main content here!</div>
+		<router-outlet></router-outlet>
 	  </mat-sidenav-content>
 	<!-- <div class="example-sidenav-content">
 		Main content that resizes properly
