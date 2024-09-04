@@ -13,7 +13,8 @@ interface InputField{
   formControlName: string;
   type: 'select' | 'text' | 'radio' | 'checkbox';
   options?: Options[] | [];
-  isVisible?: boolean
+  isVisible?: boolean,
+  category: string
 }
 
 interface Options {
@@ -46,15 +47,15 @@ export class ProductDetailsComponent implements OnInit{
   productDetailsForm: FormGroup;
 
   optionalFieldsList: InputField[] = [
-    {label: "Product Name", formControlName: 'productName', type: 'text', isVisible: false},
-    {label: "Product Description", formControlName: 'productDescription', type: 'text', isVisible: false},
-    {label: "Product Tageline", formControlName: 'productTagline', type: 'text', isVisible: false},
-    {label: "Underwriting Guideline", formControlName: 'underwritingGuidelines', type: 'text', isVisible: false},
-    {label: "Underwriting Requirements", formControlName: 'underwritingRequirements', type: 'text', isVisible: false},
-    {label: "Risk Assessment Criteria", formControlName: 'riskAssessCriteria', type: 'text', isVisible: false},
-    {label: "Refundable Premium", formControlName: 'refundablePrem', type: 'text', isVisible: false},
-    {label: "Tax Benefits", formControlName: 'taxBenefits', type: 'text', isVisible: false},
-    {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false},
+    {label: "Product Name", formControlName: 'productName', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Product Description", formControlName: 'productDescription', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Product Tageline", formControlName: 'productTagline', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Underwriting Guideline", formControlName: 'underwritingGuidelines', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
+    {label: "Underwriting Requirements", formControlName: 'underwritingRequirements', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
+    {label: "Risk Assessment Criteria", formControlName: 'riskAssessCriteria', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
+    {label: "Refundable Premium", formControlName: 'refundablePrem', type: 'text', isVisible: false, category: 'refundablePrem'},
+    {label: "Tax Benefits", formControlName: 'taxBenefits', type: 'text', isVisible: false, category: 'refundablePrem'},
+    {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false, category: 'refundablePrem'},
   ]
 
   constructor(private _fb: FormBuilder,) {
@@ -148,12 +149,25 @@ export class ProductDetailsComponent implements OnInit{
     return this.productDetailsForm.get('renewal');
   }
   
-  addRemoveControls(event: any, field: InputField, index: number){
-    field.isVisible = event.checked;
-    if(event.checked){
+  addRemoveControls(event: any, field: InputField){
+    field.isVisible = event;
+    if(event){
       this.productDetailsForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
     } else {
       this.productDetailsForm.removeControl(field.formControlName);
+    }
+  }
+
+  selectUnselectGroup(event, field){
+    const relFields = this.optionalFieldsList.filter(item => item.category === field.category);
+    if(event.checked){
+      relFields.forEach(item => {
+        this.addRemoveControls(true, item);
+      })
+    } else {
+      relFields.forEach(item => {
+        this.addRemoveControls(false, item);
+      })
     }
   }
 

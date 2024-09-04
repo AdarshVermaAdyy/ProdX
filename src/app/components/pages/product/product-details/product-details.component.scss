@@ -9,7 +9,7 @@
     padding: 20px;
     width: 20%;
     border-radius: 5px;
-    height: 100vh;
+    min-height: 100vh;
 }
 
 .form-wrapper{
@@ -65,4 +65,9 @@ mat-radio-group{
 
 mat-form-field{
     width: 100% !important;
+}
+
+.checkbox-list-heading{
+    margin-bottom: 0;
+    margin-top: 10px;
 }
