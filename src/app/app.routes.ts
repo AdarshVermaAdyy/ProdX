@@ -1,5 +1,4 @@
 import { Routes } from '@angular/router';
-import { LoginComponent } from './Auth/login/login.component';
 
 export const routes: Routes = [
    
@@ -8,7 +7,7 @@ export const routes: Routes = [
         loadChildren : ()=>import('./Auth/auth.module').then(m=>m.AuthModule)
     },
     {
-        path: 'master',
-        loadChildren : ()=>import('./master/master.module').then(m=>m.MasterModule)
+        path: 'main',
+        loadChildren : ()=>import('./components/components.module').then(m=>m.ComponentsModule)
     }
  ];
