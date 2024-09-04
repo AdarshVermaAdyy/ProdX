@@ -14,11 +14,13 @@ import { MatDividerModule } from '@angular/material/divider';
 import { RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [ MatSidenavModule,
+  imports: [
+    RouterOutlet,
+    MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     MatBadgeModule,
