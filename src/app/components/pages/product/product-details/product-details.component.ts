@@ -6,6 +6,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 interface InputField{
   label: string;
@@ -31,7 +32,8 @@ interface Options {
     MatButtonModule,
     MatSelectModule,
     MatRadioModule,
-    MatCheckboxModule
+    MatCheckboxModule,
+    MatFormFieldModule
   ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
@@ -62,18 +64,18 @@ export class ProductDetailsComponent implements OnInit{
 
   initialiseForm(){
     this.productDetailsForm = this._fb.group({
-      productCode: ['', [Validators.required]],
-      productStatus: ['active', [Validators.required]],
-      category: ['term', [Validators.required]],
-      coverageCode1: ['', [Validators.required]],
-      coverageName1: ['', [Validators.required]],
-      coverageCode2: ['', [Validators.required]],
-      coverageName2: ['', [Validators.required]],
-      ridersApplicable: ['yes', [Validators.required]],
-      riderCheckbox1: [''],
-      riderRadio1: [''],
-      riderCheckbox2: [''],
-      riderRadio2: ['']
+      productCode: new FormControl('',[Validators.required]),
+      productStatus: new FormControl('',[Validators.required]),
+      category: new FormControl('',[Validators.required]),
+      coverageCode1: new FormControl('',[Validators.required]),
+      coverageName1: new FormControl('',[Validators.required]),
+      coverageCode2:new FormControl('',[Validators.required]),
+      coverageName2:new FormControl('',[Validators.required]),
+      ridersApplicable: new FormControl('yes',[Validators.required]),
+      riderCheckbox1:new FormControl(''),
+      riderRadio1:new FormControl(''),
+      riderCheckbox2: new FormControl(''),
+      riderRadio2: new FormControl('')
     })
   }
 
