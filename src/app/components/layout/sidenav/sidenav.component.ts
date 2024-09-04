@@ -11,7 +11,7 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
-import { RouterOutlet } from '@angular/router';
+import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
@@ -25,7 +25,9 @@ import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule],
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule,
+    RouterModule
+  ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })

@@ -5,18 +5,17 @@
 }
 
 .field-list-wrapper{
-    border-top: 1px solid grey;
-    border-left: 1px solid grey;
-    border-bottom: 1px solid grey;
+    border: 1px solid grey;
     padding: 20px;
     width: 20%;
     border-radius: 5px;
+    height: 100vh;
 }
 
 .form-wrapper{
-    border: 1px solid grey;
+    // border: 1px solid grey;
     padding: 20px;
-    width: 60%;
+    width: 80%;
     border-radius: 5px;
 }
 
@@ -56,10 +55,14 @@
     justify-content: flex-end;
     gap: 10px;
 }
-.motif-row{
+.row{
     margin-bottom: 1rem !important;
 }
 
-motif-radio-button-group{
+mat-radio-group{
     flex-direction: row !important;
+}
+
+mat-form-field{
+    width: 100% !important;
 }
