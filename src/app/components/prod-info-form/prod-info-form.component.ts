@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { ProductInfoServiceService } from '../../service/ProductInfo/product-info-service.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -12,6 +12,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatGridListModule} from '@angular/material/grid-list';
 import { ChangeDetectorRef } from '@angular/core';
 import { FilterByGroupPipe } from '../../filter-by-group.pipe';
+import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -22,11 +23,15 @@ import { FilterByGroupPipe } from '../../filter-by-group.pipe';
     MatSelectModule, MatCheckboxModule,
     MatInputModule, MatRadioModule,
     FilterByGroupPipe, MatGridListModule,
+    MatSidenavModule
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'
 })
 export class ProdInfoFormComponent  implements OnInit{
+
+  @ViewChild('sidenav')
+  sidenav!: MatSidenav;
 
   isSubmitted = false;
   dynamicForm!: FormGroup;
@@ -37,7 +42,8 @@ export class ProdInfoFormComponent  implements OnInit{
   showSuccessToast = false;
  
   headingDispaly = false;
-
+  isSidenavOpen = true;
+  isSidenavCollapsed= false;
   
   constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr :ChangeDetectorRef) {}
   
@@ -189,5 +195,11 @@ export class ProdInfoFormComponent  implements OnInit{
     this.productServicingAlteration.controls.forEach(control => control.markAsTouched());
     this.terminationCancellation.controls.forEach(control => control.markAsTouched());
     this.productBoundary.controls.forEach(control => control.markAsTouched());
+  }
+  toggleSidenav(){
+  //  this.sidenav.toggle();
+  this.isSidenavCollapsed = !this.isSidenavCollapsed;
+  console.log("toggle clicked");
+  // this.isSidenavOpen = !this.isSidenavOpen;
   }
 }

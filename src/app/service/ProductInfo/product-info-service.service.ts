@@ -54,9 +54,9 @@ export class ProductInfoServiceService {
 
     { id: 38, label: "Free Look Period Cancell", type: 'dropdown', options: ['FP15', 'FP16'], group: 'terminationCancellation' },
     
-    { id: 39, label: "Death Claim", type: 'dropdown', options: ['DPRP', 'DSING', 'DLUMP','DMNIC5', 'NA'], group: 'terminationCancellation' },
-    { id: 40, label: "Surrender", type: 'dropdown', options: ['SURNORM', 'SUR3', 'SUR0BEN'], group: 'terminationCancellation' },
-    { id: 41, label: "Maturity", type: 'dropdown', options: ['M0BEN', 'MTERM', 'NA'], group: 'terminationCancellation' },
+    { id: 39, label: " Death Claim ", type: 'dropdown', options: ['DPRP', 'DSING', 'DLUMP','DMNIC5', 'NA'], group: 'terminationCancellation' },
+    { id: 40, label: "   Surrender  ", type: 'dropdown', options: ['SURNORM', 'SUR3', 'SUR0BEN'], group: 'terminationCancellation' },
+    { id: 41, label: " Maturity ", type: 'dropdown', options: ['M0BEN', 'MTERM', 'NA'], group: 'terminationCancellation' },
     
     { id: 42, label: "Policy Cancellation", type: 'dropdown', options: ['POLC', 'NA'], group: 'terminationCancellation' },
     

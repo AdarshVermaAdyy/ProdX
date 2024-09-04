@@ -1,5 +1,5 @@
 .main-content{
-    margin-left: 250px;
+    margin-left: 20px;
     padding: 20px;
 }
 .form-btn-wrapper{
@@ -67,3 +67,51 @@ mat-grid-tile{
     width: 100%;
 
 }
+.sidenav-container{
+    height: 100vh;
+    // display: flex;
+    // position: relative;
+}
+.sidenav{
+    width: 250px;
+    transition:  width 0.3s ease;
+    // min-width: 50px;
+    // overflow: hidden;
+}
+.sidenav-content{
+    padding: 16px;
+}
+.mat-sidenav-content{
+    transition: margin-left 0.3s ease, width 0.3s ease;
+    padding: 16px;
+    width: calc(100% - 250px);
+}
+.mat-sidenav-content.sidenav-collapsed{
+    margin-left: 50px;
+    width: calc(100% - 50px);
+    // transition: margin-left 0.3s ease, width 0.3s ease;
+}
+.sidenav-collapsed.sidenav{
+    width: 10%;
+}
+// .main-content{
+//     flex: 1;
+//     width: 80%;
+//     margin-left: 250px;
+//     padding: 16px;
+//     box-sizing: border-box;
+// }
+.sidenav-collapsed{
+    transform: translateX(-200);
+    transition: transform 0.3s ease;
+}
+.toggle-btn{
+    position: absolute;
+    // top: 8px;
+    // left: 16px;
+    z-index: 1000;
+    margin-bottom: 16px;
+}
+// .sidenav-collapsed.mat-sidenav-content{
+//     margin-left: 50px;
+// }

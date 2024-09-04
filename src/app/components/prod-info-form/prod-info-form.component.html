@@ -1,8 +1,13 @@
-<div class="wrapper-container">
+<mat-sidenav-container class="sidenav-container">
 
-    <div class="field-list-wrapper">
-
+  
         <!-- <div formArrayName="options"> -->
+            <!-- <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen" [ngClass]="{'sidenav-collapsed': !isSidenavCollapsed}" >
+                <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button>
+                <div class="sidenav-content"> -->
+                    <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen" >
+                        <!-- <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button> -->
+                        <div class="sidenav-content">
         <h4>Option</h4>
         <div *ngFor="let group of  getUniqueGroup()">
             <h4>{{group}}</h4>
@@ -17,7 +22,13 @@
             <!-- </div> -->
         </div>
     </div>
-    <div class="form-wrapper">
+         
+    </mat-sidenav>
+    <!-- </div> -->
+     
+     <mat-sidenav-content>
+        <!-- <div class="main-content">  -->
+    <!-- <div class="form-wrapper"> -->
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
             ariaLabelCloseButton="Close info toast message">
             <ng-container>
@@ -333,7 +344,7 @@
                     <div formArrayName="productBoundary">
                         <div class="row">
                             <div *ngFor="let field of productBoundary.controls; let i = index" [formGroupName]="i"
-                            class="col-4">
+                                class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -371,5 +382,8 @@
             </div>
 
         </form>
-    </div>
-</div>
+   
+<!-- </div> -->
+</mat-sidenav-content>
+<!-- </div> -->
+</mat-sidenav-container>
