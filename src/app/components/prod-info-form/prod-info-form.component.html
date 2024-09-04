@@ -7,22 +7,29 @@
         <!-- <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button> -->
         <!-- <div class="sidenav-content"> -->
             <h4>Available Option</h4>
-            <div *ngFor="let group of  getUniqueGroup()">
+            <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
                
-                <h4>{{group | lowercase}}</h4>
+                <mat-checkbox  (change)="toggleSelectAll($event, group, groupIndex)">
+                    {{group | lowercase}}
+                </mat-checkbox>
               
-                <div *ngFor="let option  of optionalFieldsList; let i = index">
+                 <div *ngFor="let option  of optionalFieldsList; let i = index">
+                  <!--  <mat-checkbox *ngIf="option.group === 'productBoundary'">
+                        <h4 class="checkbox-list-heading">Basic Information</h4>
+                    </mat-checkbox>
+                    </div> -->
+                    
                     <ng-container *ngIf="option.group === group">
-                        <mat-checkbox (change)="onCheckboxChange($event, i)">
-                            {{option .label}}
+                        <mat-checkbox  [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)">
+                            {{option.label}}
                         </mat-checkbox>
                     </ng-container>
                 </div>
-                <div class="custom-divider mt-4"></div>
+                <!-- <div class="custom-divider mt-4"></div> -->
                 <!-- </div> -->
+            <!-- </div> -->
             </div>
-            </div>
-        <!-- </div> -->
+        </div>
 
     <!-- </mat-sidenav> -->
     <!-- </div> -->
