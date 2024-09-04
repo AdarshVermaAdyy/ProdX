@@ -77,17 +77,61 @@
   padding-left: 1.2rem !important;
   margin: 0.7rem 0rem;
 }
-mat-divider {
+.sidenav-divider {
   margin-top: 16px;
   
   background-color: rgb(14 14 13 / 26%)
 }
 
 
-::ng-deep .mat-form-field-flex > .mat-form-field-infix { padding: 0.4em 0px !important;}
-::ng-deep .mat-form-field-label-wrapper { top: -1.5em; }
-
-::ng-deep .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-label {
-    transform: translateY(-1.1em) scale(.75);
-    width: 133.33333%;
+.noti-time {
+  font-size: 12px;
 }
+
+.noti-msg {
+  font-size: 14px;
+}
+
+.noti-body{
+  display: flex;
+  justify-content: space-between;
+}
+
+.noti-heading{
+  font-weight: 500;
+  font-size: 14px;
+}
+button[mat-icon-button]{
+  margin-left: auto;
+}
+
+::ng-deep .noti-menu{
+  min-width: 300px !important;
+  max-width: 300px !important;
+}
+::ng-deep .profile-menu{
+  min-width: 150px !important;
+  max-width: 150px !important;
+}
+button[mat-icon-button]{
+  $large-size-button: 60px;
+  $large-size-icon: 30px;
+  
+      &.icon-button-large {
+        width: $large-size-button;
+        height: $large-size-button;
+       
+      .mat-icon {
+        font-size: $large-size-icon;
+        width: $large-size-icon;
+        height: $large-size-icon;
+        line-height: $large-size-icon;
+      }
+      .mat-button-ripple {
+        font-size: inherit;
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+      }
+    }
+  }

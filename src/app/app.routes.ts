@@ -1,7 +1,14 @@
 import { Routes } from '@angular/router';
+import { LoginComponent } from './Auth/login/login.component';
 
 export const routes: Routes = [
+   
     {
-        path: 'product', loadChildren: () => import('./components/pages/product/product.module').then(m => m.ProductModule)
+        path:'login',
+        loadChildren : ()=>import('./Auth/auth.module').then(m=>m.AuthModule)
     },
-];
+    {
+        path: 'master',
+        loadChildren : ()=>import('./master/master.module').then(m=>m.MasterModule)
+    }
+ ];

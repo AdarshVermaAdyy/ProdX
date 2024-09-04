@@ -12,7 +12,9 @@ import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
 import { RouterOutlet } from '@angular/router';
-
+import { MatMenuModule } from '@angular/material/menu';
+import {MatDialog, MatDialogModule} from '@angular/material/dialog';
+import { ConfirmationDialogComponent } from '../../shared/confirmation-dialog/confirmation-dialog.component';
 @Component({
   selector: 'app-sidenav',
   standalone: true,
@@ -23,12 +25,7 @@ import { RouterOutlet } from '@angular/router';
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,
-    CommonModule,
-    MatFormFieldModule,
-    MatButtonModule,
-    MatDividerModule
-  ],
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
@@ -37,6 +34,21 @@ export class SidenavComponent {
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
+  notificationArray = [{title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"},
+    {title: "Notification",msg: "This is a notification",icon:"edit"}
+  ]
+
+  constructor(private matdialog: MatDialog){}
+
+  openDialog(){
+    const dialogRef = this.matdialog.open(ConfirmationDialogComponent,{
+      data: {
+        title : "Logout",message : "Are you sure, you want to logout?"
+      }
+    });
+  }
 
   mouseenter() {
     if (!this.isExpanded) {
