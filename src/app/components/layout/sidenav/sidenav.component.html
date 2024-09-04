@@ -3,8 +3,9 @@
 	<h1 class="product-name">ProdX</h1>
   <span class="spacer"></span>
 
-  <mat-form-field class="search-bar">
-    <input matInput placeholder="Search">
+  <mat-form-field class="search-bar" appearance="fill">
+	<mat-label>Search</mat-label>
+    <input matInput>
   </mat-form-field>
     <button mat-icon-button  class="product-name">
       <mat-icon mat-add_alert-icon matBadge="15" aria-hidden="false" matBadgeColor="warn">notifications</mat-icon>
@@ -88,7 +89,9 @@
 	</mat-sidenav>
 
 	<mat-sidenav-content>
-		<div class="example-sidenav-content">Main content here!</div>
+		<div class="example-sidenav-content">
+			<router-outlet></router-outlet>
+		</div>
 	  </mat-sidenav-content>
 	<!-- <div class="example-sidenav-content">
 		Main content that resizes properly

@@ -11,16 +11,24 @@ import {MatBadgeModule} from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import {MatButtonModule} from '@angular/material/button';
 import { MatDividerModule } from '@angular/material/divider';
+import { RouterOutlet } from '@angular/router';
 
 @Component({
   selector: 'app-sidenav',
   standalone: true,
-  imports: [ MatSidenavModule,
+  imports: [
+    RouterOutlet,
+    MatSidenavModule,
     MatToolbarModule,
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule],
+    MatListModule,
+    CommonModule,
+    MatFormFieldModule,
+    MatButtonModule,
+    MatDividerModule
+  ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })

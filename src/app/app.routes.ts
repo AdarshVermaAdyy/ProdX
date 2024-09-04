@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
-import { SidenavComponent } from './Layout/sidenav/sidenav.component';
 
 export const routes: Routes = [
- ];
+    {
+        path: 'product', loadChildren: () => import('./components/pages/product/product.module').then(m => m.ProductModule)
+    },
+];
