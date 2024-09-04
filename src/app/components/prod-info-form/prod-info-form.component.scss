@@ -1,18 +1,21 @@
-.main-content{
+.main-content {
     margin-left: 20px;
     padding: 20px;
 }
-.form-btn-wrapper{
+
+.form-btn-wrapper {
     display: flex;
     justify-content: flex-end;
     gap: 10px;
 }
+
 .wrapper-container {
     width: 100%;
     display: flex;
     justify-content: center;
 }
-.field-list-wrapper{
+
+.field-list-wrapper {
     border-top: 1px solid grey;
     border-left: 1px solid grey;
     border-bottom: 1px solid grey;
@@ -21,79 +24,95 @@
     border-radius: 5px;
 }
 
-.form-wrapper{
+.form-wrapper {
     border: 1px solid grey;
     padding: 20px;
     width: 60%;
     border-radius: 5px;
 }
-.radio-bt-group{
+
+.radio-bt-group {
     display: flex;
     flex-wrap: wrap;
     gap: 40px;
 }
-.radio-item{
+
+.radio-item {
     display: flex;
     align-items: center;
     gap: 10px;
 }
-.custom-divider{
+
+.custom-divider {
     height: 1px;
-   // background-color: black;
+    // background-color: black;
     border-bottom: 1px solid black;
     margin: 20px 0;
     width: 100%;
 }
-.mat-grid-container{
+
+.mat-grid-container {
     display: flex;
     gap: 16px;
 
 }
-.mat-form-field{
+
+.mat-form-field {
     flex: 1;
 }
+
 mat-grid-list {
     width: 100%;
 }
-.mat-form-field{
+
+.mat-form-field {
     width: 100%;
 }
-mat-grid-tile{
+
+mat-grid-tile {
     padding: 0 8px;
 }
-.form-field-container{
+
+.form-field-container {
     display: flex;
     align-items: center;
     width: 100%;
 
 }
-.sidenav-container{
+
+.sidenav-container {
     height: 100vh;
     // display: flex;
     // position: relative;
 }
-.sidenav{
+
+.sidenav {
     width: 250px;
-    transition:  width 0.3s ease;
+    transition: width 0.3s ease;
     // min-width: 50px;
     // overflow: hidden;
 }
-.sidenav-content{
+
+.sidenav-content {
     padding: 16px;
 }
-.mat-sidenav-content{
+
+.mat-sidenav-content {
     transition: margin-left 0.3s ease, width 0.3s ease;
     padding: 16px;
     width: calc(100% - 250px);
 }
-.mat-sidenav-content.sidenav-collapsed{
+
+.mat-sidenav-content.sidenav-collapsed {
     margin-left: 50px;
     width: calc(100% - 50px);
     // transition: margin-left 0.3s ease, width 0.3s ease;
 }
-.sidenav-collapsed.sidenav{
+
+.sidenav-collapsed.sidenav {
     width: 10%;
 }
+
 // .main-content{
 //     flex: 1;
 //     width: 80%;
@@ -101,17 +120,24 @@ mat-grid-tile{
 //     padding: 16px;
 //     box-sizing: border-box;
 // }
-.sidenav-collapsed{
+.sidenav-collapsed {
     transform: translateX(-200);
     transition: transform 0.3s ease;
 }
-.toggle-btn{
+
+.toggle-btn {
     position: absolute;
     // top: 8px;
     // left: 16px;
     z-index: 1000;
     margin-bottom: 16px;
 }
+
 // .sidenav-collapsed.mat-sidenav-content{
 //     margin-left: 50px;
 // }
+.fromDropdown mat-label{
+    display: block;
+   
+    
+}

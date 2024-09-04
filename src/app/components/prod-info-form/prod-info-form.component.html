@@ -1,34 +1,33 @@
 <mat-sidenav-container class="sidenav-container">
 
-  
-        <!-- <div formArrayName="options"> -->
-            <!-- <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen" [ngClass]="{'sidenav-collapsed': !isSidenavCollapsed}" >
-                <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button>
-                <div class="sidenav-content"> -->
-                    <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen" >
-                        <!-- <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button> -->
-                        <div class="sidenav-content">
-        <h4>Option</h4>
-        <div *ngFor="let group of  getUniqueGroup()">
-            <h4>{{group}}</h4>
 
-            <div *ngFor="let option  of optionalFieldsList; let i = index">
-                <ng-container *ngIf="option.group === group">
-                    <mat-checkbox (change)="onCheckboxChange($event, i)">
-                        {{option .label}}
-                    </mat-checkbox>
-                </ng-container>
+   
+    <mat-sidenav mode="side" #sidenav class="sidenav" [(opened)]="isSidenavOpen">
+        <!-- <button mat-button class="toggle-btn" (click)="toggleSidenav()">Toogle sidenav</button> -->
+        <div class="sidenav-content">
+            <h4>Available Option</h4>
+            <div *ngFor="let group of  getUniqueGroup()">
+               
+                <h4>{{group | uppercase}}</h4>
+              
+                <div *ngFor="let option  of optionalFieldsList; let i = index">
+                    <ng-container *ngIf="option.group === group">
+                        <mat-checkbox (change)="onCheckboxChange($event, i)">
+                            {{option .label}}
+                        </mat-checkbox>
+                    </ng-container>
+                </div>
+                <div class="custom-divider mt-4"></div>
+                <!-- </div> -->
             </div>
-            <!-- </div> -->
         </div>
-    </div>
-         
+
     </mat-sidenav>
     <!-- </div> -->
-     
-     <mat-sidenav-content>
+
+    <mat-sidenav-content>
         <!-- <div class="main-content">  -->
-    <!-- <div class="form-wrapper"> -->
+        <!-- <div class="form-wrapper"> -->
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
             ariaLabelCloseButton="Close info toast message">
             <ng-container>
@@ -52,8 +51,8 @@
                                     <div *ngSwitchCase="'range'">
 
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                        
-                                            <!-- <div class="row"> 
+
+                                        <!-- <div class="row"> 
                                                 <mat-form-field>
                                                     <mat-grid-list cols="2" rowHeight="20px">
                                                         <mat-grid-tile>
@@ -86,59 +85,63 @@
                                         </mat-form-field>
                                         </div>
                                        -->
-                                    <!-- </div> -->
-                                           <mat-grid-list cols="2" rowHeight="65px">
-                                                <mat-grid-tile>
-                                                    <mat-form-field>
-                                                        <mat-grid-list cols="2">
-                                                            <mat-grid-tile>
-                                                    <label class="mat-label" for="min{{i}}" >Min:</label>
-                                                </mat-grid-tile>
+                                        <!-- </div> -->
+                                        <mat-grid-list cols="2" rowHeight="60px">
                                             <mat-grid-tile>
-                                                    <input matInput id="min{{i}}" type="number" formControlName="min" />
-                                                </mat-grid-tile>
-                                                </mat-grid-list>
-                                                
+                                                <mat-form-field>
+                                                    <!-- <mat-grid-list cols="2"> -->
+                                                        <!-- <mat-grid-tile> -->
+                                                            <label class="mat-label" for="min{{i}}">Min:</label>
+                                                        <!-- </mat-grid-tile> -->
+                                                        <!-- <mat-grid-tile> -->
+                                                            <input matInput id="min{{i}}" type="number"
+                                                                formControlName="min" />
+                                                        <!-- </mat-grid-tile> -->
+                                                    <!-- </mat-grid-list> -->
+
                                                     <div *ngIf="field.get('min')?.invalid && (field.get('min')?.dirty || field.get('min')?.touched)"
                                                         class="text-danger">
                                                         <div *ngIf="field.get('min')?.errors?.['required']">
                                                             This field is required</div>
                                                     </div>
                                                 </mat-form-field>
-                                                </mat-grid-tile>
-
-
-                                                <mat-grid-tile>
-                                                    <mat-form-field appearance="fill">
-                                                        <mat-grid-list cols="2">
-                                                            <mat-grid-tile>
-                                                    <label class="mat-label" for="max{{i}}">Max:</label>
-                                                            </mat-grid-tile>
-                                                            <mat-grid-tile>
-                                                    <input matInput id="max{{i}}" type="number" formControlName="max" />
-                                                
-                                                <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
-                                                    class="text-danger">
-                                                    <div *ngIf="field.get('max')?.errors?.['required']">
-                                                        This field is required</div>
-                                                </div>
-                                            </mat-grid-tile>
-                                            </mat-grid-list>
-                                            </mat-form-field>
                                             </mat-grid-tile>
 
-                                            </mat-grid-list>
-                                        
-                                   </div>
+
+                                            <mat-grid-tile>
+                                                <mat-form-field>
+                                                    <!-- <mat-grid-list cols="2">
+                                                        <mat-grid-tile> -->
+                                                            <label class="mat-label" for="max{{i}}">Max:</label>
+                                                        <!-- </mat-grid-tile>
+                                                        <mat-grid-tile> -->
+                                                            <input matInput id="max{{i}}" type="number"
+                                                                formControlName="max" />
+
+                                                            <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
+                                                                class="text-danger">
+                                                                <div *ngIf="field.get('max')?.errors?.['required']">
+                                                                    This field is required</div>
+                                                            </div>
+                                                        <!-- </mat-grid-tile>
+                                                    </mat-grid-list> -->
+                                                </mat-form-field>
+                                            </mat-grid-tile>
+
+                                        </mat-grid-list>
+
+                                    </div>
 
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-form-field appearance="fill">
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{ option }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        </div>
 
                                     </div>
 
@@ -182,13 +185,15 @@
                                 class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-form-field appearance="fill">
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{ option }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <label>{{ field.get('label')?.value }}:</label>
@@ -213,16 +218,18 @@
                     <div formArrayName="featreandReinsate">
                         <div class="row">
                             <div *ngFor="let field of featreandReinsate.controls; let i = index" [formGroupName]="i"
-                            class="col-4">
+                                class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-form-field appearance="fill">
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{ option }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -277,14 +284,17 @@
                             <div *ngFor="let field of  productServicingAlteration.controls; let i = index"
                                 [formGroupName]="i" class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
+                                    
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-form-field appearance="fill">
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{ option }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        </div>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -313,13 +323,15 @@
                                 [formGroupName]="i" class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{field.get('label')?.value}}:</mat-label>
                                         <mat-form-field>
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{option}}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{option}}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        </div>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -347,13 +359,15 @@
                                 class="col-4">
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
+                                        <div class="fromDropdown">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <mat-form-field appearance="fill">
-                                        <mat-select formControlName="value">
-                                            <mat-option *ngFor="let option of field.get('options')?.value"
-                                                [value]="option">{{ option }}</mat-option>
-                                        </mat-select>
-                                    </mat-form-field>
+                                            <mat-select formControlName="value">
+                                                <mat-option *ngFor="let option of field.get('options')?.value"
+                                                    [value]="option">{{ option }}</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                        </div>
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -382,8 +396,8 @@
             </div>
 
         </form>
-   
-<!-- </div> -->
-</mat-sidenav-content>
-<!-- </div> -->
+
+        <!-- </div> -->
+    </mat-sidenav-content>
+    <!-- </div> -->
 </mat-sidenav-container>

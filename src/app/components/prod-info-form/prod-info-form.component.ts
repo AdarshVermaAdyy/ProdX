@@ -3,13 +3,13 @@ import { ProductInfoServiceService } from '../../service/ProductInfo/product-inf
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
-import {MatButtonModule} from '@angular/material/button';
+import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import {MatSelectModule} from '@angular/material/select';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatGridListModule} from '@angular/material/grid-list';
+import { MatSelectModule } from '@angular/material/select';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatGridListModule } from '@angular/material/grid-list';
 import { ChangeDetectorRef } from '@angular/core';
 import { FilterByGroupPipe } from '../../filter-by-group.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
@@ -18,7 +18,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
   standalone: true,
   imports: [
     ReactiveFormsModule, CommonModule,
-    HttpClientModule,MatButtonModule,
+    HttpClientModule, MatButtonModule,
     MatFormFieldModule, MatInputModule,
     MatSelectModule, MatCheckboxModule,
     MatInputModule, MatRadioModule,
@@ -28,7 +28,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'
 })
-export class ProdInfoFormComponent  implements OnInit{
+export class ProdInfoFormComponent implements OnInit {
 
   @ViewChild('sidenav')
   sidenav!: MatSidenav;
@@ -40,35 +40,35 @@ export class ProdInfoFormComponent  implements OnInit{
   toastType = '';
   showErrorToast = false;
   showSuccessToast = false;
- 
+
   headingDispaly = false;
   isSidenavOpen = true;
-  isSidenavCollapsed= false;
-  
-  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr :ChangeDetectorRef) {}
-  
- 
+  isSidenavCollapsed = false;
+
+  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr: ChangeDetectorRef) { }
+
+
   ngOnInit() {
     this.availableOptions = this.formService.getAvailableOptions();
-     this.optionalFieldsList = this.formService.getOptionalFieldOptions();
+    this.optionalFieldsList = this.formService.getOptionalFieldOptions();
 
     this.dynamicForm = this.formService.initializeForm();
     this.dynamicForm.get('optionalOption')?.valueChanges.subscribe(data => {
       this.formService.updateFormGroups(this.dynamicForm);
     });
-   
+
     this.addCheckboxes();
-    
-   
+
+
 
   }
- 
+
   getUniqueGroup() {
-    const groups = this.optionalFieldsList.map(option=>
+    const groups = this.optionalFieldsList.map(option =>
       option.group.trim()
     );
     const uniqueGroups = Array.from(new Set(groups));
-   // console.log("unique... "+uniqueGroups);
+    // console.log("unique... "+uniqueGroups);
     return uniqueGroups;
   }
 
@@ -80,34 +80,34 @@ export class ProdInfoFormComponent  implements OnInit{
   get productBoundaryCondition(): FormArray {
     return this.dynamicForm.get('selectedValues.productBoundaryCondition') as FormArray;
   }
-  
+
   get productBoundary(): FormArray {
-    return this.dynamicForm.get('selectedValues.productBoundary') as FormArray; 
+    return this.dynamicForm.get('selectedValues.productBoundary') as FormArray;
   }
 
   get premiumDetails(): FormArray {
     return this.dynamicForm.get('selectedValues.premiumDetails') as FormArray;
   }
-  get  featreandReinsate(): FormArray {
+  get featreandReinsate(): FormArray {
     return this.dynamicForm.get('selectedValues.featreandReinsate') as FormArray;
   }
 
   get selectedGroupIds(): FormArray {
     return this.dynamicForm.get('selectedValues') as FormArray;
   }
-  
-  get  terminationCancellation(): FormArray {
+
+  get terminationCancellation(): FormArray {
     return this.dynamicForm.get('selectedValues.terminationCancellation') as FormArray;
   }
-  
-  get  productServicingAlteration(): FormArray {
+
+  get productServicingAlteration(): FormArray {
     return this.dynamicForm.get('selectedValues.productServicingAlteration') as FormArray;
   }
   addCheckboxes() {
-   this.optionalFieldsList.forEach((option: any, index: number) => {
+    this.optionalFieldsList.forEach((option: any, index: number) => {
       if (!this.isDefaultField(option)) {
         const control = this.options.at(index) as FormControl;
-           control.setValue(false);
+        control.setValue(false);
       }
     });
   }
@@ -115,14 +115,14 @@ export class ProdInfoFormComponent  implements OnInit{
   isDefaultField(option: any): boolean {
     return ['Entity Age', 'Maturity Age', 'Premium Payment Frequency', 'PT (In Year)', 'Gender', 'Username', 'Premium Payment Type'].includes(option.label);
   }
-  addRemoveControls(event: any, field: any, index: number){
+  addRemoveControls(event: any, field: any, index: number) {
     console.log("Input add check");
-    
+
   }
   onCheckboxChange(e: any, index: number) {
-   
-   const option = this.optionalFieldsList[index];
-  
+
+    const option = this.optionalFieldsList[index];
+
     const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
 
     if (e.checked) {
@@ -132,19 +132,19 @@ export class ProdInfoFormComponent  implements OnInit{
       } else if (option.group === 'premiumDetails') {
         this.premiumDetails.push(selectedGroup);
       }
-      else if(option.group === 'featreandReinsate'){
-         this.featreandReinsate.push(selectedGroup);
+      else if (option.group === 'featreandReinsate') {
+        this.featreandReinsate.push(selectedGroup);
       }
-      else if(option.group === 'productServicingAlteration'){
+      else if (option.group === 'productServicingAlteration') {
         this.productServicingAlteration.push(selectedGroup);
       }
-      else if(option.group === 'terminationCancellation'){
+      else if (option.group === 'terminationCancellation') {
         this.terminationCancellation.push(selectedGroup);
       }
-      else if(option.group === 'productBoundary'){
+      else if (option.group === 'productBoundary') {
         this.productBoundary.push(selectedGroup);
       }
-      
+
     } else {
       const selectedIndex = this.findOptionIndex(option.label, option.group);
       if (selectedIndex > -1) {
@@ -162,7 +162,7 @@ export class ProdInfoFormComponent  implements OnInit{
         else if (option.group === 'terminationCancellation') {
           this.terminationCancellation.removeAt(selectedIndex);
         }
-        else if(option.group === 'productBoundary'){
+        else if (option.group === 'productBoundary') {
           this.productBoundary.removeAt(selectedIndex);
         }
       }
@@ -175,7 +175,7 @@ export class ProdInfoFormComponent  implements OnInit{
   }
 
   onSubmit() {
-    console.log("dynamic error is.."+ this.dynamicForm.errors);
+    console.log("dynamic error is.." + this.dynamicForm.errors);
     if (this.dynamicForm.invalid) {
       console.log("invalid form ...", this.dynamicForm.value);
       this.markAllAsTouched();
@@ -184,7 +184,7 @@ export class ProdInfoFormComponent  implements OnInit{
       console.log("Form submitted ", this.dynamicForm.value);
     }
   }
-  next(){
+  next() {
     console.log("Next click");
   }
 
@@ -196,10 +196,10 @@ export class ProdInfoFormComponent  implements OnInit{
     this.terminationCancellation.controls.forEach(control => control.markAsTouched());
     this.productBoundary.controls.forEach(control => control.markAsTouched());
   }
-  toggleSidenav(){
-  //  this.sidenav.toggle();
-  this.isSidenavCollapsed = !this.isSidenavCollapsed;
-  console.log("toggle clicked");
-  // this.isSidenavOpen = !this.isSidenavOpen;
+  toggleSidenav() {
+    //  this.sidenav.toggle();
+    this.isSidenavCollapsed = !this.isSidenavCollapsed;
+    console.log("toggle clicked");
+    // this.isSidenavOpen = !this.isSidenavOpen;
   }
 }
