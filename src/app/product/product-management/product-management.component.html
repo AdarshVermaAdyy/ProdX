@@ -25,12 +25,12 @@
 
               <!-- category filter -->
                <form [formGroup]="filterForm">
-                <mat-form-field class="filter-box">
+                <mat-form-field class="filter-box input-fields-height">
                   <mat-label>Search</mat-label>
                   <input matInput formControlName="search"  placeholder="Search" #input>
                 </mat-form-field>
 
-                <mat-form-field class="filter-box">
+                <mat-form-field class="filter-box input-fields-height">
                   <mat-label>Category filter</mat-label>
                   <mat-select formControlName="category" (selectionChange)="onCategoryChange('category',$event)" >
                       <mat-option
@@ -42,7 +42,7 @@
                 </mat-form-field>
   
                 <!-- sub-category filter -->
-                <mat-form-field class="filter-box">
+                <mat-form-field class="filter-box input-fields-height">
                   <mat-label>Sub-Category filter</mat-label>
                   <mat-select  formControlName="subCategory">
                       <mat-option
@@ -53,7 +53,7 @@
                     </mat-select>
                 </mat-form-field>
                  <!-- Status filter -->
-                 <mat-form-field class="filter-box">
+                 <mat-form-field class="filter-box input-fields-height">
                   <mat-label>Status filter</mat-label>
                   <mat-select  formControlName="status">
                       <mat-option
