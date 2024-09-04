@@ -1,0 +1,238 @@
+<div class="container">
+    <div class="table-container">
+      <h2>Tasks</h2>
+      <mat-form-field>
+        <mat-label>Filter</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="Seach Here" #input>
+      </mat-form-field>
+      <div class="scrollable-table">
+          <mat-table [dataSource]="tasksDataSource" class="mat-elevation-z8" custom-mat-table>
+            <!-- Position Column -->
+            <ng-container matColumnDef="taskId">
+              <mat-header-cell *matHeaderCellDef> Task ID </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.taskId}} </mat-cell>
+            </ng-container>
+   
+            <!-- Name Column -->
+            <ng-container matColumnDef="Product_name">
+              <mat-header-cell *matHeaderCellDef> Product Name/Code </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Product_name}} </mat-cell>
+            </ng-container>
+   
+            <!-- Weight Column -->
+            <ng-container matColumnDef="Task_name">
+              <mat-header-cell *matHeaderCellDef> Task Name </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Task_name}} </mat-cell>
+            </ng-container>
+   
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="Status">
+              <mat-header-cell *matHeaderCellDef> Status </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Status}} </mat-cell>
+            </ng-container>
+   
+   
+            <ng-container matColumnDef="Description">
+              <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Description}} </mat-cell>
+            </ng-container>
+   
+   
+            <ng-container matColumnDef="Ageing">
+              <mat-header-cell *matHeaderCellDef> Ageing </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Ageing}} </mat-cell>
+            </ng-container>
+   
+            <ng-container matColumnDef="Prioity">
+              <mat-header-cell *matHeaderCellDef> Prioity </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Prioity}} </mat-cell>
+            </ng-container>
+   
+            <ng-container matColumnDef="Due_date">
+              <mat-header-cell *matHeaderCellDef> Due Date </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Due_date}} </mat-cell>
+            </ng-container>
+   
+            <ng-container matColumnDef="Completion_date">
+              <mat-header-cell *matHeaderCellDef> Completion Date </mat-header-cell>
+              <mat-cell *matCellDef="let element"> {{element.Due_date}} </mat-cell>
+            </ng-container>
+   
+   
+            <ng-container matColumnDef="Call_Action">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-icon-button [matMenuTriggerFor]="menu">
+                  <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu">
+                  <button mat-menu-item (click)="updateRows(element)">
+                    <mat-icon>edit</mat-icon>
+                    <span>Update</span>
+                  </button>
+                  <button mat-menu-item (click)="deleteRows(element)">
+                    <mat-icon>delete</mat-icon>
+                    <span>Delete</span>
+                  </button>
+                </mat-menu>
+              </mat-cell>
+            </ng-container>
+   
+            <!-- <ng-container matColumnDef="Call_Action">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+              <mat-cell *matCellDef="let element">
+                <button mat-icon-button (click)="editRow(element)">
+                  <mat-icon>more_vert</mat-icon>
+                </button> -->
+                <!-- <button mat-icon-button (click)="deleteRow(element)">
+                  <mat-icon>delete</mat-icon>
+                </button>
+                <button mat-icon-button *ngIf="element.isEdit" (click)="updateRow(element)">
+                  <mat-icon>check</mat-icon>
+                </button> -->
+              <!-- </mat-cell>
+            </ng-container> -->
+   
+    <!-- <ng-container matColumnDef="Call_Action">
+              <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+   
+            <button mat-icon-button [matMenuTriggerFor]="menu">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="onUpdate()">
+                <mat-icon>edit</mat-icon>
+                <span>Update</span>
+              </button>
+              <button mat-menu-item (click)="onDelete()">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+   
+   
+    </ng-container> -->
+   
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+          </mat-table>
+      </div>
+    </div>
+  <div class="table-container">
+    <h2>Updates & Feeds</h2>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter1($event)" placeholder="Seach Here" #input>
+    </mat-form-field>
+    <div class="scrollable-table">
+        <mat-table [dataSource]="updatesDataSource" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="entrytype">
+            <mat-header-cell *matHeaderCellDef> Entry Type </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.entrytype}} </mat-cell>
+          </ng-container>
+   
+          <!-- Name Column -->
+          <ng-container matColumnDef="timestamp">
+            <mat-header-cell *matHeaderCellDef> Time stamp</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.timestamp}} </mat-cell>
+          </ng-container>
+   
+          <!-- Weight Column -->
+          <ng-container matColumnDef="icon">
+            <mat-header-cell *matHeaderCellDef> Icon </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.icon}} </mat-cell>
+          </ng-container>
+   
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="Status">
+            <mat-header-cell *matHeaderCellDef> Title </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Status}} </mat-cell>
+          </ng-container>
+   
+   
+          <ng-container matColumnDef="Description">
+            <mat-header-cell *matHeaderCellDef> Description </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Description}} </mat-cell>
+          </ng-container>
+   
+          <mat-header-row *matHeaderRowDef="displayedColumn"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColumn;"></mat-row>
+        </mat-table>
+    </div>
+  </div>
+  <div class="table-container">
+    <h2>Messages</h2>
+    <mat-form-field>
+      <mat-label>Filter</mat-label>
+      <input matInput (keyup)="applyFilter1($event)" placeholder="Seach Here" #input>
+    </mat-form-field>
+    <div class="scrollable-table">
+        <mat-table [dataSource]="messagesDataSource" class="mat-elevation-z8">
+          <!-- Position Column -->
+          <ng-container matColumnDef="Messagetype">
+            <mat-header-cell *matHeaderCellDef> Message Type </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Messagetype}} </mat-cell>
+          </ng-container>
+   
+          <!-- Name Column -->
+          <ng-container matColumnDef="sender">
+            <mat-header-cell *matHeaderCellDef> Sender/Recipient</mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.sender}} </mat-cell>
+          </ng-container>
+   
+          <!-- Weight Column -->
+          <ng-container matColumnDef="Timestamp">
+            <mat-header-cell *matHeaderCellDef> Time Stamp </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Timestamp}} </mat-cell>
+          </ng-container>
+   
+          <!-- Symbol Column -->
+          <ng-container matColumnDef="Mpreview">
+            <mat-header-cell *matHeaderCellDef> Message Preview </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.Mpreview}} </mat-cell>
+          </ng-container>
+   
+   
+          <ng-container matColumnDef="mstatus">
+            <mat-header-cell *matHeaderCellDef> Message Status </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.mstatus}} </mat-cell>
+          </ng-container>
+   
+          <!-- <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Action </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.action}} </mat-cell>
+          </ng-container> -->
+          <ng-container matColumnDef="action">
+            <mat-header-cell *matHeaderCellDef> Actions </mat-header-cell>
+            <mat-cell *matCellDef="let element">
+              <button mat-icon-button [matMenuTriggerFor]="menu">
+                <mat-icon>more_vert</mat-icon>
+              </button>
+              <mat-menu #menu="matMenu">
+                <button mat-menu-item (click)="updateRow(element)">
+                  <mat-icon>edit</mat-icon>
+                  <span>Update</span>
+                </button>
+                <button mat-menu-item (click)="deleteRow(element)">
+                  <mat-icon>delete</mat-icon>
+                  <span>Delete</span>
+                </button>
+              </mat-menu>
+            </mat-cell>
+          </ng-container>
+   
+          <ng-container matColumnDef="AFeilds">
+            <mat-header-cell *matHeaderCellDef>  Additional Features </mat-header-cell>
+            <mat-cell *matCellDef="let element"> {{element.AFeilds}} </mat-cell>
+          </ng-container>
+   
+   
+   
+          <mat-header-row *matHeaderRowDef="displayedColom"></mat-header-row>
+          <mat-row *matRowDef="let row; columns: displayedColom;"></mat-row>
+        </mat-table>
+    </div>
+  </div>
+   
+  </div>

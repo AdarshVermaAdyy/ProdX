@@ -1,6 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { Components } from './components.component';
+import { DashboardComponent } from './pages/dashboard/dashboard.component';
 // import { MasterComponent } from './master.component';
 
 const routes: Routes = [
@@ -10,13 +11,18 @@ const routes: Routes = [
     children:[
       
       {
-        path : 'product',
-        loadChildren : () => import('../components/pages/product/product.module').then(m=>m.ProductModule)
+        path : 'dashboard',
+        component: DashboardComponent
       },
       {
-        path:'',
-        redirectTo : 'product',
-        pathMatch : 'full'
+        path : '',
+        redirectTo : 'dashboard',
+        pathMatch: 'full'
+      },
+      
+      {
+        path : 'product',
+        loadChildren : () => import('../components/pages/product/product.module').then(m=>m.ProductModule)
       }
     ]
   },

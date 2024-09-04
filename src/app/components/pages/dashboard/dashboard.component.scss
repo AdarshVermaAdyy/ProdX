@@ -1,0 +1,33 @@
+.table-container {
+    margin-bottom: 20px;
+  //   width: 60%;
+  // display: flex;
+  //   justify-content: space-between;
+  //   margin: 0 auto; /* Center the container */
+  //   border: 1px solid #ccc; /* Optional: Add a border for visual separation */
+  //   padding: 10px; /* Optional: Add padding */
+   
+  }
+   
+  .scrollable-table {
+    max-height: 200px;
+    overflow-y: auto;
+   
+  }
+   
+  table {
+    width: 100%;
+   
+  }
+  .mat-table {
+    font-size: 8px;
+  }
+  .mat-cell, .mat-header-cell {
+    padding: 4px;
+  }
+  .mat-column-task {
+    width: 80px;
+  }
+  .custom-mat-table {
+    font-size: 8px;
+  }
