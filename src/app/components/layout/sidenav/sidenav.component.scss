@@ -135,3 +135,22 @@ button[mat-icon-button]{
       }
     }
   }
+
+.is-active{
+  background-color: rgba(255, 230, 0, 0.1);
+  border-bottom: 4px solid #FFE600;
+}
+
+.link-wrapper{
+  padding: 5px;
+  // pointer-events: ;
+  cursor: pointer;
+}
+
+.link-wrapper:hover{
+  background-color: rgba(255, 230, 0, 0.05);
+}
+
+.link-wrapper button {
+  pointer-events: none;
+}
