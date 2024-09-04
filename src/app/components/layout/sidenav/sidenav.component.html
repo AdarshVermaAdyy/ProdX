@@ -6,7 +6,7 @@
 
 	<!-- Notification Panel -->
 	<button mat-icon-button class="icon-button-large" [matMenuTriggerFor]="notification">
-		<mat-icon mat-add_alert-icon matBadge="15" aria-hidden="false" matBadgeColor="warn">notifications</mat-icon>
+		<mat-icon mat-add_alert-icon matBadge="4" aria-hidden="false" matBadgeColor="primary">notifications</mat-icon>
 	</button>
 	<mat-menu #notification="matMenu" class="noti-menu">
 		<ng-container *ngFor="let noti of notificationArray">
@@ -85,6 +85,12 @@
 <mat-sidenav-container class="example-container" autosize>
 	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
 		(mouseleave)="mouseleave()">
+		<div class="link-wrapper" routerLink="/main/dashboard" [routerLinkActive]="'is-active'">
+			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon fontIcon="home">design_services</mat-icon>
+				<span *ngIf="isExpanded || isShowing">Dashboard</span>
+			</button>
+		</div>
 		<div class="link-wrapper" routerLink="/main/product/template-management" [routerLinkActive]="'is-active'">
 			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
 				<mat-icon>design_services</mat-icon>

@@ -1,9 +1,9 @@
 import { MatTableModule } from '@angular/material/table';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatSortModule } from '@angular/material/sort';
+import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
+import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
@@ -89,6 +89,16 @@ displayedColumns: string[] = ['taskId', 'Product_name', 'Task_name', 'Status','D
 displayedColumn: string[] = ['entrytype', 'timestamp', 'icon', 'Status','Description'];
 displayedColom:string[]= ['Messagetype','sender','Timestamp','Mpreview','mstatus','action','AFeilds']
  // dataSource = ELEMENT_DATA;
+
+ @ViewChild(MatPaginator) paginator: MatPaginator;
+ @ViewChild(MatSort) sort: MatSort;
+
+ constructor(){}
+
+ ngAfterViewInit() {
+  this.tasksDataSource.paginator = this.paginator;
+  this.tasksDataSource.sort = this.sort;
+}
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tasksDataSource.filter = filterValue.trim().toLowerCase();
