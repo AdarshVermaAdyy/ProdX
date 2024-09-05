@@ -9,7 +9,7 @@ const routes: Routes = [
     path : '',
     component : Components,
     children:[
-      
+
       {
         path : 'dashboard',
         component: DashboardComponent
@@ -19,14 +19,14 @@ const routes: Routes = [
         redirectTo : 'dashboard',
         pathMatch: 'full'
       },
-      
+
       {
         path : 'product',
         loadChildren : () => import('../components/pages/product/product.module').then(m=>m.ProductModule)
       }
     ]
   },
- 
+
 ];
 
 @NgModule({
