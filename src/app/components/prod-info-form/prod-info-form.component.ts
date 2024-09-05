@@ -16,6 +16,7 @@ import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
+  
   imports: [
     ReactiveFormsModule, CommonModule,
     HttpClientModule, MatButtonModule,
@@ -40,6 +41,7 @@ export class ProdInfoFormComponent implements OnInit {
   toastType = '';
   showErrorToast = false;
   showSuccessToast = false;
+  isProductBoundarySelected: boolean= false
 
   headingDispaly = false;
   isSidenavOpen = true;
@@ -121,59 +123,64 @@ export class ProdInfoFormComponent implements OnInit {
   //   console.log("Input add check");
 
   // }
-  onCheckboxChange(e: any, index: number) {
+  // onCheckboxChange(e: any, index: number) {
 
-    const option = this.optionalFieldsList[index];
+  //   const option = this.optionalFieldsList[index];
 
-    const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
+  //   const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
 
-    if (e.checked) {
-      if (option.group === 'productBoundaryCondition') {
-        this.productBoundaryCondition.push(selectedGroup);
+  //   if (e.checked) {
+  //     if (option.group === 'productBoundaryCondition') {
+  //       this.productBoundaryCondition.push(selectedGroup);
 
-      } else if (option.group === 'premiumDetails') {
-        this.premiumDetails.push(selectedGroup);
-      }
-      else if (option.group === 'featreandReinsate') {
-        this.featreandReinsate.push(selectedGroup);
-      }
-      else if (option.group === 'productServicingAlteration') {
-        this.productServicingAlteration.push(selectedGroup);
-      }
-      else if (option.group === 'terminationCancellation') {
-        this.terminationCancellation.push(selectedGroup);
-      }
-      else if (option.group === 'productBoundary') {
-        this.productBoundary.push(selectedGroup);
-      }
+  //     } else if (option.group === 'premiumDetails') {
+  //       this.premiumDetails.push(selectedGroup);
+  //     }
+  //     else if (option.group === 'featreandReinsate') {
+  //       this.featreandReinsate.push(selectedGroup);
+  //     }
+  //     else if (option.group === 'productServicingAlteration') {
+  //       this.productServicingAlteration.push(selectedGroup);
+  //     }
+  //     else if (option.group === 'terminationCancellation') {
+  //       this.terminationCancellation.push(selectedGroup);
+  //     }
+  //     else if (option.group === 'productBoundary') {
+  //       this.productBoundary.push(selectedGroup);
+  //     }
 
-    } else {
-      const selectedIndex = this.findOptionIndex(option.label, option.group);
-      if (selectedIndex > -1) {
-        if (option.group === 'productBoundaryCondition') {
-          this.productBoundaryCondition.removeAt(selectedIndex);
-        } else if (option.group === 'premiumDetails') {
-          this.premiumDetails.removeAt(selectedIndex);
-        }
-        else if (option.group === 'featreandReinsate') {
-          this.featreandReinsate.removeAt(selectedIndex);
-        }
-        else if (option.group === 'productServicingAlteration') {
-          this.productServicingAlteration.removeAt(selectedIndex);
-        }
-        else if (option.group === 'terminationCancellation') {
-          this.terminationCancellation.removeAt(selectedIndex);
-        }
-        else if (option.group === 'productBoundary') {
-          this.productBoundary.removeAt(selectedIndex);
-        }
-      }
-    }
-  }
+  //   } else {
+  //     const selectedIndex = this.findOptionIndex(option.label, option.group);
+  //     if (selectedIndex > -1) {
+  //       if (option.group === 'productBoundaryCondition') {
+  //         this.productBoundaryCondition.removeAt(selectedIndex);
+  //       } else if (option.group === 'premiumDetails') {
+  //         this.premiumDetails.removeAt(selectedIndex);
+  //       }
+  //       else if (option.group === 'featreandReinsate') {
+  //         this.featreandReinsate.removeAt(selectedIndex);
+  //       }
+  //       else if (option.group === 'productServicingAlteration') {
+  //         this.productServicingAlteration.removeAt(selectedIndex);
+  //       }
+  //       else if (option.group === 'terminationCancellation') {
+  //         this.terminationCancellation.removeAt(selectedIndex);
+  //       }
+  //       else if (option.group === 'productBoundary') {
+  //         this.productBoundary.removeAt(selectedIndex);
+  //       }
+  //     }
+  //   }
+  // }
 
   findOptionIndex(label: string, group: string): number {
     const formArray = this.dynamicForm.get(`selectedValues.${group}`) as FormArray;
     return formArray.controls.findIndex(group => group.get('label')?.value === label);
+  }
+
+  isProducBoundarySelect(): boolean {
+    const productBoundaryselect = this.dynamicForm.get(`selectedValues.productBoundary`) as FormArray;
+    return productBoundaryselect.controls.some(control => control.get('value')?.value);
   }
 
   onSubmit() {
@@ -198,21 +205,7 @@ export class ProdInfoFormComponent implements OnInit {
     this.terminationCancellation.controls.forEach(control => control.markAsTouched());
     this.productBoundary.controls.forEach(control => control.markAsTouched());
   }
-  // toggleSidenav() {
-  //   //  this.sidenav.toggle();
-  //   this.isSidenavCollapsed = !this.isSidenavCollapsed;
-  //   console.log("toggle clicked");
-  //   // this.isSidenavOpen = !this.isSidenavOpen;
-  // }
-//   onGroupCheckboxChange(event:any, group:string) {
-// const isChecked = event.checked;
-// this.optionalFieldsList.forEach((option, index)=>{
-//   if(option.group === group){
-//     this.setCheckboxState(index,isChecked);
-//   }
-// })
-//   }
-toggleSelectAll(event, group,i:any){ 
+ toggleSelectAll(event, group,i:any){ 
   const relFields = this.optionalFieldsList.filter(item => item.group === group);
    
     if(event.checked){
@@ -238,6 +231,7 @@ addRemoveControls(event: any, field: any,i){
     const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
         
         if (option.group === 'productBoundaryCondition') {
+         
           this.productBoundaryCondition.push(selectedGroup);
   
         } else if (option.group === 'premiumDetails') {
@@ -253,6 +247,7 @@ addRemoveControls(event: any, field: any,i){
           this.terminationCancellation.push(selectedGroup);
         }
         else if (option.group === 'productBoundary') {
+          this.isProductBoundarySelected = true;
           this.productBoundary.push(selectedGroup);
         }
   } else {
@@ -274,7 +269,10 @@ addRemoveControls(event: any, field: any,i){
        this.terminationCancellation.removeAt(selectedIndex);
      }
      else if (option.group === 'productBoundary') {
+     // this.isProductBoundarySelected = false;
        this.productBoundary.removeAt(selectedIndex);
+
+
      }
    }
  }
