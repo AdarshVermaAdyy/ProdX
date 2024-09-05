@@ -6,7 +6,7 @@
         <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
            <div class="group-header">
             <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
-                <h4 class="checkbox-list-heading">{{group | lowercase}}</h4>
+                <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
             </mat-checkbox>
         </div>
         <div class="group-option" style="padding-left: 10px;">
@@ -21,10 +21,6 @@
         <!-- <div class="custom-divider mt-4"></div> -->
         </div>
     </div>
-
-    <!-- </mat-sidenav> -->
-    <!-- </div> -->
-
 
     <div class="form-wrapper">
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
@@ -50,12 +46,9 @@
 
                                                     <input matInput id="min{{i}}" type="number" formControlName="min" />
 
-
-                                                    <div *ngIf="field.get('min')?.invalid && (field.get('min')?.dirty || field.get('min')?.touched)"
-                                                        class="text-danger">
-                                                        <div *ngIf="field.get('min')?.errors?.['required']">
-                                                            This field is required</div>
-                                                    </div>
+                                                    <mat-error *ngIf="field.get('min').invalid && (field.get('min')?.dirty || field.get('min').touched)">
+                                                        <span *ngIf="field.get('min').errors?.['required']">This information is required.</span>
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
 
@@ -66,12 +59,9 @@
 
                                                     <input matInput id="max{{i}}" type="number" formControlName="max" />
 
-                                                    <div *ngIf="field.get('max')?.invalid && (field.get('max')?.dirty || field.get('max')?.touched)"
-                                                        class="text-danger">
-                                                        <div *ngIf="field.get('max')?.errors?.['required']">
-                                                            This field is required</div>
-                                                    </div>
-
+                                                    <mat-error *ngIf="field.get('max').invalid && (field.get('max')?.dirty || field.get('max').touched)">
+                                                        <span *ngIf="field.get('max').errors?.['required']">This information is required.</span>
+                                                    </mat-error>
                                                 </mat-form-field>
                                             </div>
                                         </div>
@@ -90,6 +80,7 @@
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
                                             </mat-select>
+                                            
                                         </mat-form-field>
                                         <!-- </div> -->
 
