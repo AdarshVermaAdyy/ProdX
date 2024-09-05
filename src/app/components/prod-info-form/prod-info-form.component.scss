@@ -15,13 +15,13 @@
     justify-content: center;
 }
 
-.field-list-wrapper {
-    border-top: 1px solid grey;
-    border-left: 1px solid grey;
-    border-bottom: 1px solid grey;
+.field-list-wrapper{
+    border: 1px solid grey;
     padding: 20px;
     width: 20%;
     border-radius: 5px;
+    min-height: 100vh;
+    overflow: hidden;
 }
 
 // .form-wrapper {
@@ -146,3 +146,32 @@ mat-grid-tile {
    
     
 }
+// .mat-mdc-text-field-wrapper {
+//     height: 40px !important;
+// }
+// .mat-form-field .mat-prefix,
+// .mat-form-field.mat-suffix{
+// line-height: 40px;
+    
+// }
+
+
+// .custom-height{
+//     height: 60px !important;
+// }
+
+// .custom-height .mat-form-field-flex{
+//     height: 100%;
+// }
+.radiobtgroup{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.dropdowidth{
+    width: 100%;
+}
+// .radioContainer{
+//     border: 1px  grey;
+//     padding: 10px;
+// }

@@ -10,9 +10,10 @@ export class ProductInfoServiceService {
   private availableOptions = [
     { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' },
     { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition' },
-    { id: 3, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition'},
+    { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition' },
+   
     { id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition' },
-    { id: 5, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition' },
+    { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition'},
     { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5','10', '15', '20'], group: 'productBoundaryCondition' },
     { id: 7, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' },
     { id: 8, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition' },

@@ -212,10 +212,9 @@ export class ProdInfoFormComponent implements OnInit {
 //   }
 // })
 //   }
-toggleSelectAll(event, group,i){
- // alert("Select All"+event.checked+" "+ group);
+toggleSelectAll(event, group,i:any){ 
   const relFields = this.optionalFieldsList.filter(item => item.group === group);
-   console.log("AYE VALY "+ i);
+   
     if(event.checked){
       relFields.forEach((item, index) => {
         const actualIndex = this.optionalFieldsList.indexOf(item);
@@ -224,7 +223,6 @@ toggleSelectAll(event, group,i){
     } else {
       relFields.forEach(item => {
         const actualIndex = this.optionalFieldsList.indexOf(item);
-        console.log("false IT.. "+item);
         this.addRemoveControls(false, item,  actualIndex);
        
       })
@@ -232,14 +230,13 @@ toggleSelectAll(event, group,i){
 }
 addRemoveControls(event: any, field: any,i){
   field.selected = event;
-  console.log("AYE VALYYY "+ i);
   const option = this.optionalFieldsList[i];
-  console.log("OPT VALYYY "+ JSON.stringify(option));
+  
   if(event){
     
 
     const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
-        console.log("Selected GROUP..... "+ (selectedGroup));
+        
         if (option.group === 'productBoundaryCondition') {
           this.productBoundaryCondition.push(selectedGroup);
   
@@ -258,10 +255,8 @@ addRemoveControls(event: any, field: any,i){
         else if (option.group === 'productBoundary') {
           this.productBoundary.push(selectedGroup);
         }
-  
-   // this.dynamicForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
   } else {
-   // this.dynamicForm.removeControl(field.formControlName);
+   
    const selectedIndex = this.findOptionIndex(option.label, option.group);
    if (selectedIndex > -1) {
      if (option.group === 'productBoundaryCondition') {
