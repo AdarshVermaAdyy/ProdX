@@ -9,7 +9,7 @@
                 <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
             </mat-checkbox>
         </div>
-        <div class="group-option" style="padding-left: 10px;">
+        <div class="group-option">
             <div *ngFor="let option  of optionalFieldsList; let i = index">
                 <div *ngIf="option.group === group">
                     <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)">
@@ -294,6 +294,41 @@
                     </div>
                 </div>
                 </div>
+
+                <div *ngIf="isPremiumandPaymentDetailSelect()">
+                    <h2>Premium And Payment Detail</h2>
+                    <div formArrayName="selectedValues">
+                        <div formArrayName="PremiumandPaymentDetail">
+                            <div class="row">
+                                <div *ngFor="let field of PremiumandPaymentDetail.controls; let i = index" [formGroupName]="i"
+                                    class="col-6">
+                                    <div [ngSwitch]="field.get('type')?.value">
+                                        <div *ngSwitchCase="'dropdown'">
+                                            <mat-form-field class="dropdowidth">
+                                                <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                <mat-select formControlName="value">
+                                                    <mat-option *ngFor="let option of field.get('options')?.value"
+                                                        [value]="option">{{ option }}</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                        <div *ngSwitchCase="'radio'">
+                                            <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                            <div *ngFor="let option of field.get('options')?.value">
+                                                <input matInput type="radio" [formControlName]="'value'" [value]="option" />
+                                                {{ option }}
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)"
+                                        class="text-danger">
+                                        <div *ngIf="field.get('value')?.errors?.['required']">This field is required</div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    </div>
 
 
             </div>

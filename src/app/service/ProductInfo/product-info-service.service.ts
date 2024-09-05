@@ -123,6 +123,7 @@ export class ProductInfoServiceService {
         productServicingAlteration: this.fb.array([]),
         terminationCancellation: this.fb.array([]),
         productBoundary: this.fb.array([]),
+        PremiumandPaymentDetail: this.fb.array([])
 
       })
     });
@@ -155,11 +156,17 @@ export class ProductInfoServiceService {
       const productBoundaryOnlySelected = form.get('optionalOptions')?.value.some((checked: boolean, index:number)=>{
         return checked && this.optionalFieldsList[index].group ==='productBoundary';
       })
+const PremiumandPaymentDetailSelected = form.get('optionalOptions')?.value.some((checked: boolean, index:number)=>{
+  return checked && this.optionalFieldsList[index].group ==='PremiumandPaymentDetail';
+})
 
       const productBoundaryOnly = this.optionalFieldsList
       .filter(option => option.group === 'productBoundary' && productBoundaryOnlySelected)
       .map(option=> this.createDynamicFormGroup(option.label, option.type, option));
-
+     
+      const PremiumandPaymentDetailOnly = this.optionalFieldsList
+      .filter(option => option.group === 'PremiumandPaymentDetail' && PremiumandPaymentDetailSelected)
+      .map(option => this.createDynamicFormGroup(option.label, option.type, option));
       
 
       
@@ -170,7 +177,7 @@ export class ProductInfoServiceService {
     const productServicingAlterationArray = form.get('selectedValues.productServicingAlteration') as FormArray;
     const terminationCancellationArray = form.get('selectedValues.terminationCancellation') as FormArray;
     const productBoundaryFormArrayOnly = form.get('selectedValues.productBoundary') as FormArray;
-
+     const PremiumandPaymentDetailSelectedArray = form.get('selectedValues.PremiumandPaymentDetail') as FormArray;
 
     productBoundaryFormArray.clear();
     premiumDetailsFormArray.clear();
@@ -178,6 +185,7 @@ export class ProductInfoServiceService {
    productServicingAlterationArray.clear();
    terminationCancellationArray.clear();
    productBoundaryFormArrayOnly.clear();
+   PremiumandPaymentDetailSelectedArray.clear();
    
     productBoundaryConditions.forEach(group => productBoundaryFormArray.push(group));
     premiumDetails.forEach(group => premiumDetailsFormArray.push(group));
@@ -185,6 +193,7 @@ export class ProductInfoServiceService {
     productServicingAlteration.forEach(group => productServicingAlterationArray.push(group));
     terminationCancellation.forEach(group=> terminationCancellationArray.push(group));
     productBoundaryOnly.forEach(group=> productBoundaryFormArrayOnly.push(group));
+    PremiumandPaymentDetailOnly.forEach(group=> PremiumandPaymentDetailSelectedArray.push(group));
   }
 
 }

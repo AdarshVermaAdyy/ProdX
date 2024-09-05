@@ -139,3 +139,21 @@ mat-grid-list {
 .row{
     margin-bottom: 1rem !important;
 }
+.group-header{
+  //  display: flex;
+    align-items: left;
+    margin-bottom: 5px !important;
+}
+.group-option{
+    margin-left: 10px;
+    margin-bottom: 5px !important;
+}
+.group-container{
+  //  margin-bottom: 0px !important;
+  margin: 12px;
+}
+
+// .group-container mat-checkbox{
+//   //  display: block;
+//     margin-bottom: 10px;
+// }

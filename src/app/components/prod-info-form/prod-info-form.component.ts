@@ -42,8 +42,8 @@ export class ProdInfoFormComponent implements OnInit {
   toastType = '';
   showErrorToast = false;
   showSuccessToast = false;
-  isProductBoundarySelected: boolean = false
-
+  isProductBoundarySelected: boolean = false;
+  isPremiumandPaymentDetail: boolean = false;
   headingDispaly = false;
   isSidenavOpen = true;
   isSidenavCollapsed = false;
@@ -73,6 +73,7 @@ export class ProdInfoFormComponent implements OnInit {
       option.group.trim()
     );
     const uniqueGroups = Array.from(new Set(groups));
+  //  console.log("unique groups"+ uniqueGroups);
     return uniqueGroups;
   }
 
@@ -92,10 +93,14 @@ export class ProdInfoFormComponent implements OnInit {
   get premiumDetails(): FormArray {
     return this.dynamicForm.get('selectedValues.premiumDetails') as FormArray;
   }
+  
   get featreandReinsate(): FormArray {
     return this.dynamicForm.get('selectedValues.featreandReinsate') as FormArray;
   }
 
+  get PremiumandPaymentDetail(): FormArray {
+    return this.dynamicForm.get('selectedValues.PremiumandPaymentDetail') as FormArray;
+  }
   get selectedGroupIds(): FormArray {
     return this.dynamicForm.get('selectedValues') as FormArray;
   }
@@ -182,6 +187,10 @@ export class ProdInfoFormComponent implements OnInit {
     const productBoundaryselect = this.dynamicForm.get(`selectedValues.productBoundary`) as FormArray;
     return productBoundaryselect.controls.some(control => control.get('value')?.value);
   }
+  isPremiumandPaymentDetailSelect(): boolean {
+    const PremiumandPaymentDetail = this.dynamicForm.get(`selectedValues.PremiumandPaymentDetail`) as FormArray;
+    return PremiumandPaymentDetail.controls.some(control => control.get('value')?.value);
+  }
 
   onSubmit() {
     console.log("dynamic error is.." + this.dynamicForm.errors);
@@ -204,6 +213,7 @@ export class ProdInfoFormComponent implements OnInit {
     this.productServicingAlteration.controls.forEach(control => control.markAsTouched());
     this.terminationCancellation.controls.forEach(control => control.markAsTouched());
     this.productBoundary.controls.forEach(control => control.markAsTouched());
+    this.PremiumandPaymentDetail.controls.forEach(control => control.markAsTouched());
   }
   toggleSelectAll(event, group, i: any) {
     const relFields = this.optionalFieldsList.filter(item => item.group === group);
@@ -250,6 +260,12 @@ export class ProdInfoFormComponent implements OnInit {
         this.isProductBoundarySelected = true;
         this.productBoundary.push(selectedGroup);
       }
+      
+      else if (option.group === 'PremiumandPaymentDetail') {
+        this.isPremiumandPaymentDetail = true;
+        this.PremiumandPaymentDetail.push(selectedGroup);
+      }
+
     } else {
 
       const selectedIndex = this.findOptionIndex(option.label, option.group);
@@ -271,11 +287,14 @@ export class ProdInfoFormComponent implements OnInit {
         else if (option.group === 'productBoundary') {
           // this.isProductBoundarySelected = false;
           this.productBoundary.removeAt(selectedIndex);
-
-
+        }
+        else if (option.group === 'PremiumandPaymentDetail') {
+          // this.isProductBoundarySelected = false;
+          this.PremiumandPaymentDetail.removeAt(selectedIndex);
         }
       }
     }
 
   }
+  
 }
