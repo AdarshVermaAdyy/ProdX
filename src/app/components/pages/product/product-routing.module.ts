@@ -4,6 +4,7 @@ import { TemplateManagementComponent } from './template-management/template-mana
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { ProdInfoFormComponent } from '../../prod-info-form/prod-info-form.component';
+import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
 
 const routes: Routes = [
   {
@@ -13,6 +14,10 @@ const routes: Routes = [
   {
     path:'product-details',
     component: ProductDetailsComponent
+  },
+  {
+    path:'coverage-details',
+    component:CoverageInfoComponent
   },
   {
     path: "product-management",
