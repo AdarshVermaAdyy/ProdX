@@ -9,16 +9,15 @@
                 <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
             </mat-checkbox>
         </div>
-        <div class="group-option">
+       
             <div *ngFor="let option  of optionalFieldsList; let i = index">
                 <div *ngIf="option.group === group">
-                    <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)">
+                    <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
                         {{option.label}}
                     </mat-checkbox>
                 </div>
             </div>
-        </div>
-        <!-- <div class="custom-divider mt-4"></div> -->
+       
         </div>
     </div>
 
