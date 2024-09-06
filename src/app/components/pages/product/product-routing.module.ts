@@ -5,6 +5,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { ProdInfoFormComponent } from '../../prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
+import { RiderInformationComponent } from '../../rider-information/rider-information.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,10 @@ const routes: Routes = [
   {
     path: 'product-info',
     component: ProdInfoFormComponent
+  },
+  {
+    path: 'rider-info',
+    component: RiderInformationComponent
   }
 ];
 
