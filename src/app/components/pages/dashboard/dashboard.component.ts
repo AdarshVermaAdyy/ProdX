@@ -11,7 +11,7 @@ import { CommonModule } from '@angular/common';
 import {MatMenuModule} from  '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 export interface PeriodicElement {
- 
+
   taskId: string;
   Product_name: string;
   Task_name: string;
@@ -55,13 +55,13 @@ const UPDATES_DATA: Feed[]=[
   {entrytype: 'Idea Suggestion', timestamp: '2 days ago', icon: 'Complete Product Draft', Status: 'New Competitor Product: TermLife Advantage',Description:'Finalize the draft for the new product template by end of day.'},
   {entrytype: 'Competitor Insight', timestamp: '3 days ago', icon: 'Complete Product Draft', Status: 'Team Meeting Scheduled for August 30, 2024',Description:'Finalize the draft for the new product template by end of day.'},
   {entrytype: 'Reminder', timestamp: '5 days ago', icon: 'Complete Product Draft', Status: 'New Competitor Product: TermLife Advantage',Description:'Finalize the draft for the new product template by end of day.'},
- 
+
 ]
 const MESSAGES_DATA:Message[]=[
   {Messagetype:'Task Reminder',sender:'Project Manager',Timestamp:'10 min ago',Mpreview:'Dont forget to submit your feedback on the new product template by end of day. This is critical for timely completion',mstatus:'Unread',action:'',AFeilds:'Priority Flag: Red for high priority messages'},
   {Messagetype:'Task Reminder',sender:'Project Manager',Timestamp:'2 days ago',Mpreview:'Dont forget to submit your feedback on the new product template by end of day. This is critical for timely completion',mstatus:'Unread',action:'',AFeilds:'Priority Flag: Red for high priority messages'},
   {Messagetype:'Task Reminder',sender:'Project Manager',Timestamp:'3 days ago',Mpreview:'Dont forget to submit your feedback on the new product template by end of day. This is critical for timely completion',mstatus:'Unread',action:'',AFeilds:'Priority Flag: Red for high priority messages'}
- 
+
 ]
 
 @Component({
@@ -102,7 +102,7 @@ displayedColom:string[]= ['Messagetype','sender','Timestamp','Mpreview','mstatus
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.tasksDataSource.filter = filterValue.trim().toLowerCase();
- 
+
     if (this.tasksDataSource.paginator) {
       this.tasksDataSource.paginator.firstPage();
     }
@@ -110,15 +110,23 @@ displayedColom:string[]= ['Messagetype','sender','Timestamp','Mpreview','mstatus
   applyFilter1(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.updatesDataSource.filter = filterValue.trim().toLowerCase();
- 
+
     if (this.updatesDataSource.paginator) {
       this.updatesDataSource.paginator.firstPage();
+    }
+  }
+  applyFilter2(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.messagesDataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.messagesDataSource.paginator) {
+      this.messagesDataSource.paginator.firstPage();
     }
   }
   editRow(row: any) {
     row.isEdit = true;
   }
- 
+
   deleteRow(row: any) {
     const index = this.tasksDataSource.data.indexOf(row);
     if (index >= 0) {
@@ -147,24 +155,24 @@ displayedColom:string[]= ['Messagetype','sender','Timestamp','Mpreview','mstatus
     // Your update logic here
     console.log('Update action triggered');
   }
- 
+
   onDelete() {
     // Your delete logic here
     console.log('Delete action triggered');
   }
- 
- 
+
+
 }
 const TASKS_DATA = [
   { column1: 'Task 1', column2: 'Description 1', column3: 'Status 1' },
   // More task data
 ];
- 
+
 // const UPDATES_DATA = [
 //   { entrytype: 'Update 1', timestamp: 'Description 1', icon: 'Date 1',Status:'online', Description:'bjhj'},
 //   // More update data
 // ];
- 
+
 // const MESSAGES_DATA = [
 //   { column1: 'Message 1', column2: 'Sender 1', column3: 'Time 1' },
 //   // More message data
