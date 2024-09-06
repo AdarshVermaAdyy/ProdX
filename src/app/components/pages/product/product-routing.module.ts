@@ -4,6 +4,7 @@ import { TemplateManagementComponent } from './template-management/template-mana
 import { ProductDetailsComponent } from './product-details/product-details.component';
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
+import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
 
 const routes: Routes = [
   {
@@ -22,6 +23,10 @@ const routes: Routes = [
     path: "product-management",
     component: ProductManagementComponent
   },
+  {
+    path:"use-template",
+    component: CreateUsingTemplateComponent
+  }
 ];
 
 @NgModule({

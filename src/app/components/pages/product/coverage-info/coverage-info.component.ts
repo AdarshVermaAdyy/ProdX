@@ -9,6 +9,7 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
+import { MatStepperModule } from '@angular/material/stepper';
 
 interface InputField{
   label: string;
@@ -37,7 +38,8 @@ interface Options {
     MatCheckboxModule,
     MatDatepickerModule,
     MatNativeDateModule,
-    MatFormFieldModule],
+    MatFormFieldModule,
+  MatStepperModule],
   templateUrl: './coverage-info.component.html',
   styleUrl: './coverage-info.component.scss'
 })

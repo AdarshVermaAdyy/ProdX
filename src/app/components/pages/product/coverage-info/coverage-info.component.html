@@ -269,7 +269,8 @@
 
           <div class="form-btn-wrapper">
               <button  mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as Draft</button>
-              <button  mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Next</button>
+              <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious [disabled]="productDetailsForm.invalid">Back</button>
+              <button  mat-flat-button color="primary" class="mt-3" matStepperNext [disabled]="productDetailsForm.invalid">Next</button>
           </div>
       </form>
   </div>
