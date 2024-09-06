@@ -1,5 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
-import { ProductInfoServiceService } from '../../service/ProductInfo/product-info-service.service';
+import { ProductInfoServiceService } from '../../../../service/ProductInfo/product-info-service.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
@@ -11,9 +11,9 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { ChangeDetectorRef } from '@angular/core';
-import { FilterByGroupPipe } from '../../filter-by-group.pipe';
+import { FilterByGroupPipe } from '../../../../filter-by-group.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
-import { GroupNamePipePipe } from '../../group-name-pipe.pipe';
+import { GroupNamePipePipe } from '../../../../group-name-pipe.pipe';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
