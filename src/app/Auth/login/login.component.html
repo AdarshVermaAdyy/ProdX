@@ -1,115 +1,116 @@
 <div class="login-container">
   <div class="login-right">
-      <div class="login-info">
-        <img src="assets/images/ey-logo-black.png" alt="Dashboard example">
-      </div>
-    </div>
-   
-  
-    <div class="login-left">
-      <!-- <h2>ProdX Login! 👋</h2> -->
-     <div class="p-4 p-lg-5 text-black">
-     
-
-        <div class="d-flex align-items-center mb-3 pb-1">
-          <span class="h1 fw-bold mb-0">ProdX</span>
-        </div>
-        <ng-container *ngIf="isLoginPage">
-        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h3>
-        <form [formGroup]="loginForm">
-        <div class="mb-4">
-          <mat-form-field class="input-style">
-            <mat-label>Email</mat-label>
-              <input matInput type="email" formControlName="email"  placeholder="Email" />
-              <mat-error *ngIf="loginEmail?.invalid && (loginEmail?.dirty || loginEmail?.touched)">
-                <span *ngIf="loginEmail?.errors?.['required']">Email is required.</span>
-            </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="mb-4">
-          <mat-form-field class="input-style">
-            <mat-label>Password</mat-label>
-            <input matInput type="password" formControlName="password"  placeholder="Password" />
-            <mat-error *ngIf="loginPassword?.invalid && (loginPassword?.dirty || loginPassword?.touched)">
-              <span *ngIf="loginPassword?.errors?.['required']">Password is required.</span>
-          </mat-error>
-          </mat-form-field>
-        </div>
-
-        <div class="pt-1 mb-4">
-          <button mat-flat-button color="primary">
-            Sign In
-           </button> 
-        </div>
-
-        <a class="small text-muted" href="#!">Forgot password?</a>
-        <p class="mb-5 pb-lg-2">Don't have an account? <a routerLink="/auth/register" routerLinkActive="active">Sign Up here</a></p>
-        <a href="#!" class="small text-muted">Terms of use.</a>
-        <a href="#!" class="small text-muted">Privacy policy</a>
-      </form>
-    </ng-container>
-
-
-
-     <ng-container *ngIf="!isLoginPage">
-   
-      <h2>Sign Up! 👋</h2>
-      <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account</h3>
-      <form [formGroup]="registerForm">
-        <div class="row mb-3">
-          <div class="col">
-            <mat-form-field class="input-style">
-              <mat-label>First Name</mat-label>
-              <input matInput formControlName="firstName"  placeholder="First Name" />
-              <mat-error *ngIf="registerFirstName?.invalid && (registerFirstName?.dirty || registerFirstName?.touched)">
-                <span *ngIf="registerFirstName?.errors?.['required']">First Name is required.</span>
-            </mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col">
-            <mat-form-field class="input-style">
-              <mat-label>Last Name</mat-label>
-                <input matInput  formControlName="lastName"  placeholder="Last Name" />
-                <mat-error *ngIf="registerLastName?.invalid && (registerLastName?.dirty || registerLastName?.touched)">
-                  <span *ngIf="registerLastName?.errors?.['required']">Last Name is required.</span>
-              </mat-error>
-              </mat-form-field>
-          </div>
-        </div>
-
-          <div  class="mb-3">
-            <mat-form-field class="input-style">
-              <mat-label>Email</mat-label>
-                <input matInput type="email" formControlName="email"  placeholder="Email" />
-                <mat-error *ngIf="registerEmail?.invalid && (registerEmail?.dirty || registerEmail?.touched)">
-                  <span *ngIf="registerEmail?.errors?.['required']">Email is required.</span>
-              </mat-error>
-              </mat-form-field>
-          </div>
-  
-          <div  class="mb-4">
-            <mat-form-field class="input-style">
-              <mat-label>Password</mat-label>
-              <input matInput type="password" formControlName="password"  placeholder="Password" />
-              <mat-error *ngIf="registerPassword?.invalid && (registerPassword?.dirty || registerPassword?.touched)">
-                <span *ngIf="registerPassword?.errors?.['required']">Password is required.</span>
-            </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="pt-1 mb-4">
-          <button mat-flat-button color="primary">
-            Sign Up
-           </button> 
-        </div>
-      </form>
-      <p>Already have an account? <a  routerLink="/auth/login" routerLinkActive="active" >Sign In</a></p>
-   
-  </ng-container>
+    <div class="login-info">
+      <img src="assets/images/ey-logo-black.png" alt="Dashboard example">
     </div>
   </div>
 
 
- 
-  
+  <div class="login-left">
+    <!-- <h2>ProdX Login! 👋</h2> -->
+    <div class="p-4 p-lg-5">
+
+
+      <div class="d-flex align-items-center mb-3 pb-1">
+        <span class="h1 fw-bold mb-0">ProdX</span>
+      </div>
+      <ng-container *ngIf="isLoginPage">
+        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Sign into your account</h3>
+        <form [formGroup]="loginForm">
+          <div class="mb-4">
+            <mat-form-field class="input-style">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="Email" />
+              <mat-error *ngIf="loginEmail?.invalid && (loginEmail?.dirty || loginEmail?.touched)">
+                <span *ngIf="loginEmail?.errors?.['required']">Email is required.</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="mb-4">
+            <mat-form-field class="input-style">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="Password" />
+              <mat-error *ngIf="loginPassword?.invalid && (loginPassword?.dirty || loginPassword?.touched)">
+                <span *ngIf="loginPassword?.errors?.['required']">Password is required.</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="pt-1 mb-4">
+            <button mat-flat-button color="primary">
+              Sign In
+            </button>
+          </div>
+
+          <a class="small" href="#!"  style="color: white;">Forgot password?</a>
+          <p class="mb-5 pb-lg-2">Don't have an account? <a routerLink="/auth/register" routerLinkActive="active">Sign
+              Up here</a></p>
+          <a href="#!" class="small" style="color: white;">Terms of use.</a>
+          <a href="#!" class="small"  style="color: white;">Privacy policy</a>
+        </form>
+      </ng-container>
+
+
+
+      <ng-container *ngIf="!isLoginPage">
+        <h2>Sign Up! 👋</h2>
+        <h3 class="fw-normal mb-3 pb-3" style="letter-spacing: 1px;">Create your account</h3>
+        <form [formGroup]="registerForm">
+          <div class="row mb-3">
+            <div class="col">
+              <mat-form-field class="input-style">
+                <mat-label>First Name</mat-label>
+                <input matInput formControlName="firstName" placeholder="First Name" />
+                <mat-error
+                  *ngIf="registerFirstName?.invalid && (registerFirstName?.dirty || registerFirstName?.touched)">
+                  <span *ngIf="registerFirstName?.errors?.['required']">First Name is required.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+            <div class="col">
+              <mat-form-field class="input-style">
+                <mat-label>Last Name</mat-label>
+                <input matInput formControlName="lastName" placeholder="Last Name" />
+                <mat-error *ngIf="registerLastName?.invalid && (registerLastName?.dirty || registerLastName?.touched)">
+                  <span *ngIf="registerLastName?.errors?.['required']">Last Name is required.</span>
+                </mat-error>
+              </mat-form-field>
+            </div>
+          </div>
+
+          <div class="mb-3">
+            <mat-form-field class="input-style">
+              <mat-label>Email</mat-label>
+              <input matInput type="email" formControlName="email" placeholder="Email" />
+              <mat-error *ngIf="registerEmail?.invalid && (registerEmail?.dirty || registerEmail?.touched)">
+                <span *ngIf="registerEmail?.errors?.['required']">Email is required.</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="mb-4">
+            <mat-form-field class="input-style">
+              <mat-label>Password</mat-label>
+              <input matInput type="password" formControlName="password" placeholder="Password" />
+              <mat-error *ngIf="registerPassword?.invalid && (registerPassword?.dirty || registerPassword?.touched)">
+                <span *ngIf="registerPassword?.errors?.['required']">Password is required.</span>
+              </mat-error>
+            </mat-form-field>
+          </div>
+          <div class="pt-1 mb-4">
+            <button mat-flat-button color="primary">
+              Sign Up
+            </button>
+          </div>
+        </form>
+        <p>Already have an account? <a routerLink="/auth/login" routerLinkActive="active">Sign In</a></p>
+
+      </ng-container>
+    </div>
+  </div>
+
+
+
+
 </div>
