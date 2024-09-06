@@ -11,18 +11,12 @@
                     
                 </mat-step>
                 <mat-step >
-                  <form >
-                    <ng-template matStepLabel>Product Info</ng-template>
-                    <mat-form-field>
-                      <mat-label>Address</mat-label>
-                      <input matInput  placeholder="Ex. 1 Main St, New York, NY"
-                             required>
-                    </mat-form-field>
-                    <div>
-                      <button mat-button matStepperPrevious>Back</button>
-                      <button mat-button matStepperNext>Next</button>
-                    </div>
-                  </form>
+                  <ng-template matStepLabel>Product Info</ng-template>
+                  <ng-template matStepContent>
+                  <app-prod-info-form></app-prod-info-form>
+                    <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+                  </ng-template>
                 </mat-step>
                 <mat-step>
                   <ng-template matStepLabel>Coverage Info</ng-template>

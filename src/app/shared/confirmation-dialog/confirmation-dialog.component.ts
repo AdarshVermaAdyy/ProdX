@@ -2,11 +2,12 @@ import { Component, Inject, OnInit } from '@angular/core';
 import { MatButtonModule } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogContent, MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
+import { RouterModule } from '@angular/router';
 
 @Component({
   selector: 'app-confirmation-dialog',
   standalone: true,
-  imports: [MatDialogModule,MatButtonModule,MatIconModule],
+  imports: [MatDialogModule,MatButtonModule,MatIconModule,RouterModule],
   templateUrl: './confirmation-dialog.component.html',
   styleUrl: './confirmation-dialog.component.scss'
 })

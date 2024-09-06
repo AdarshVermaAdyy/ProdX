@@ -6,6 +6,7 @@ import {MatStepperModule} from '@angular/material/stepper';
 import {MatButtonModule} from '@angular/material/button';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
 import { CoverageInfoComponent } from '../coverage-info/coverage-info.component';
+import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.component';
 
 @Component({
   selector: 'app-create-using-template',
@@ -17,7 +18,9 @@ import { CoverageInfoComponent } from '../coverage-info/coverage-info.component'
     FormsModule,
     ReactiveFormsModule,
     ProductDetailsComponent,
-  CoverageInfoComponent],
+  CoverageInfoComponent,
+  ProdInfoFormComponent
+],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'
 })

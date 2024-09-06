@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { RouterModule } from '@angular/router';
+import { MatPaginator } from '@angular/material/paginator';
 
 export interface TemplateElement {
   thumbnail: string;
@@ -35,7 +36,8 @@ const ELEMENT_DATA: TemplateElement[] = [
     MatButtonModule,
     CommonModule,
     MatMenuModule,
-    RouterModule
+    RouterModule,
+    MatPaginator
   ],
   templateUrl: './template-management.component.html',
   styleUrl: './template-management.component.scss'

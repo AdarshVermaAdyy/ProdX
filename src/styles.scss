@@ -111,6 +111,8 @@ $prodx-theme: mat.define-dark-theme((
 // that you are using.
 @include mat.all-component-themes($prodx-theme);
 
+//@use '@angular/material' as mat;
+
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 
