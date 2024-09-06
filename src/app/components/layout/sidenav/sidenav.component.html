@@ -1,7 +1,7 @@
-<mat-toolbar class="example-toolbar">
+<mat-toolbar class="toolbar">
 	<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
 	<span><img alt="Product name" src="assets/images/ey-logo-black.png" style="height: 3.2rem;width: 3.5rem;" /></span>
-	<h1 class="product-name">ProdX</h1>
+	<h1 class="product-name" routerLink="/main/dashboard">ProdX</h1>
 	<span class="spacer"></span>
 
 	<!-- Notification Panel -->
@@ -82,8 +82,8 @@
 
 
 </mat-toolbar>
-<mat-sidenav-container class="example-container" autosize>
-	<mat-sidenav #sidenav class="example-sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
+<mat-sidenav-container class="wrapper" autosize>
+	<mat-sidenav #sidenav class="sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
 		(mouseleave)="mouseleave()">
 		<div class="link-wrapper" routerLink="/main/dashboard" [routerLinkActive]="'is-active'">
 			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
@@ -178,7 +178,7 @@
 		</mat-nav-list>
 	</mat-sidenav>
 
-	<mat-sidenav-content>
+	<mat-sidenav-content class="main-content">
 		<router-outlet></router-outlet>
 	</mat-sidenav-content>
 	<!-- <div class="example-sidenav-content">

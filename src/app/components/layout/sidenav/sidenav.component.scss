@@ -1,16 +1,22 @@
-.example-container {
-  height: 100vh;
-  // border: 1px solid rgba(0, 0, 0, 0.5);
+.wrapper{
+  height: 100%;
 }
-// .example-sidenav-content {
-//   display: flex;
-//   height: 100%;
-//   align-items: center;
-//   justify-content: center;
-// }
-.example-sidenav {
+
+.sidenav {
    user-select: none;
+   position: fixed;
+   top: 4rem;
 }
+
+.toolbar{
+  position: fixed;
+  z-index: 100;
+}
+
+.main-content{
+  padding-top: 5rem;
+}
+
 .full-width {
   width: 100%;
 }
@@ -44,6 +50,7 @@
 .product-name {
   margin-left: 20px;
   font-weight: bold;
+  cursor: pointer;
 }
 
 .spacer {

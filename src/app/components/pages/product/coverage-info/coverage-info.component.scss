@@ -1,0 +1,59 @@
+.wrapper-container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.field-list-wrapper{
+  border-right: 1px solid grey;
+  padding: 20px;
+  width: 20%;
+  // border-radius: 5px;
+}
+
+.form-wrapper{
+  padding: 20px;
+  width: 80%;
+  border-radius: 5px;
+}
+
+.field-wrapper{
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  gap: 1rem;
+}
+
+.field-div{
+  width: 32.5%;
+}
+
+.add-field{
+  width: 49.3% !important;
+}
+
+.mt-3 {
+  margin-top: 30px;
+}
+
+.form-btn-wrapper{
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+}
+.row{
+  margin-bottom: 1rem !important;
+}
+
+mat-radio-group{
+  flex-direction: row !important;
+}
+
+mat-form-field{
+  width: 100% !important;
+}
+
+.checkbox-list-heading{
+  margin-bottom: 0;
+  margin-top: 10px;
+}
