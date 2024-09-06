@@ -15,6 +15,7 @@ import { FilterByGroupPipe } from '../../../../filter-by-group.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { GroupNamePipePipe } from '../../../../group-name-pipe.pipe';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -27,7 +28,7 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatInputModule, MatRadioModule,
     FilterByGroupPipe, MatGridListModule,
     MatSidenavModule, GroupNamePipePipe,
-    MatStepperModule
+    MatStepperModule, MatDatepickerModule,
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'
@@ -239,7 +240,7 @@ export class ProdInfoFormComponent implements OnInit {
 
     if (event) {
 
-
+console.log("option"+ JSON.stringify(option));
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
 
       if (option.group === 'productBoundaryCondition') {

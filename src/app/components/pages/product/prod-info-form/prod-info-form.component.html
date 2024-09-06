@@ -276,6 +276,17 @@
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
+                                    <div *ngSwitchCase="'date'">
+                                    <mat-form-field class="dropdowidth">
+                                        <mat-label>{{field.get('label')?.value}}</mat-label>
+                                        <input matInput [matDatepicker]="pickers" formControlName="value">
+                                          <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                           <mat-datepicker #pickers></mat-datepicker>
+                                        <!-- <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
+                                            <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
+                                        </mat-error> -->
+                                    </mat-form-field>
+                                    </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                         <div *ngFor="let option of field.get('options')?.value">
