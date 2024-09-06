@@ -32,17 +32,23 @@ export class LoginComponent implements OnInit {
 
   initializeLoginForm() {
     this.loginForm = this.fb.group({
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required,Validators.email]),
       password: new FormControl('', [Validators.required])
     })
   }
   initializeSignUpForm() {
     this.registerForm = this.fb.group({
-      email: new FormControl('', [Validators.required]),
+      email: new FormControl('', [Validators.required,Validators.email]),
       password: new FormControl('', [Validators.required]),
       firstName: new FormControl('', [Validators.required]),
       lastName: new FormControl('', [Validators.required]),
     })
+  }
+
+  login(){
+    if(!this.loginForm.invalid){
+      this.router.navigate(['/main/dashboard'])
+    }
   }
 
   get loginEmail() { return this.loginForm.get('email'); }

@@ -14,6 +14,7 @@ import { ChangeDetectorRef } from '@angular/core';
 import { FilterByGroupPipe } from '../../../../filter-by-group.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { GroupNamePipePipe } from '../../../../group-name-pipe.pipe';
+import { MatStepperModule } from '@angular/material/stepper';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -25,7 +26,8 @@ import { GroupNamePipePipe } from '../../../../group-name-pipe.pipe';
     MatSelectModule, MatCheckboxModule,
     MatInputModule, MatRadioModule,
     FilterByGroupPipe, MatGridListModule,
-    MatSidenavModule, GroupNamePipePipe
+    MatSidenavModule, GroupNamePipePipe,
+    MatStepperModule
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'

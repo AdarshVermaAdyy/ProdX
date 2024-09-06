@@ -5,7 +5,7 @@ import { ProductDetailsComponent } from './product-details/product-details.compo
 import { ProductManagementComponent } from './product-management/product-management.component';
 import { ProdInfoFormComponent } from './prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
-import { RiderInformationComponent } from '../../rider-information/rider-information.component';
+import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
 
 const routes: Routes = [
   {
@@ -25,12 +25,12 @@ const routes: Routes = [
     component: ProductManagementComponent
   },
   {
-    path: 'product-info',
-    component: ProdInfoFormComponent
+    path:"use-template",
+    component: CreateUsingTemplateComponent
   },
   {
-    path: 'rider-info',
-    component: RiderInformationComponent
+    path: 'product-info',
+    component: ProdInfoFormComponent
   }
 ];
 

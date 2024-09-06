@@ -7,6 +7,7 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
+import { MatStepperModule } from '@angular/material/stepper';
 
 interface InputField{
   label: string;
@@ -34,7 +35,8 @@ interface Options {
     MatSelectModule,
     MatRadioModule,
     MatCheckboxModule,
-    RouterModule
+    RouterModule,
+    MatStepperModule
   ],
   providers: [
     

@@ -1,0 +1,33 @@
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-stepper linear #stepper>
+                <mat-step>
+                    <ng-template matStepLabel>Product Details</ng-template>
+                    <ng-template matStepContent>
+                        <app-product-details></app-product-details>
+                        
+                    </ng-template>
+                    
+                </mat-step>
+                <mat-step >
+                  <ng-template matStepLabel>Product Info</ng-template>
+                  <ng-template matStepContent>
+                  <app-prod-info-form></app-prod-info-form>
+                    <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+                  </ng-template>
+                </mat-step>
+                <mat-step>
+                  <ng-template matStepLabel>Coverage Info</ng-template>
+                  <ng-template matStepContent>
+                   <app-coverage-info></app-coverage-info>
+                    <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+                  </ng-template>
+                </mat-step>
+              </mat-stepper>
+        </div>
+    </div>
+</div>
+
