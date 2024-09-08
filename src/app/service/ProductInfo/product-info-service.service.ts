@@ -202,4 +202,5 @@ const PremiumandPaymentDetailSelected = form.get('optionalOptions')?.value.some(
     PremiumandPaymentDetailOnly.forEach(group=> PremiumandPaymentDetailSelectedArray.push(group));
   }
 
+  
 }

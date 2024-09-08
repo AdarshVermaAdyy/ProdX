@@ -8,6 +8,7 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 
 interface InputField{
   label: string;
@@ -60,7 +61,7 @@ export class ProductDetailsComponent implements OnInit{
     {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false, category: 'refundablePrem'},
   ]
 
-  constructor(private _fb: FormBuilder,) {
+  constructor(private _fb: FormBuilder, private shareproductData:ShareproductdataService) {
   }
 
   ngOnInit(): void {
@@ -172,5 +173,10 @@ export class ProductDetailsComponent implements OnInit{
       })
     }
   }
-
+  nextdata(){
+    console.log("next method called");
+    const data = 'Hello from form details';
+  //  this.shareproductData.updateData(data);
+  this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+  }
 }

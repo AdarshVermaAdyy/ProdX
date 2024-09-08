@@ -28,6 +28,7 @@
             <div class="row">
                 <!-- Product Boundary Condition -->
                 <h2>Product Boundary Condition</h2>
+                <p> Recived data : {{receivedshareData}}</p>
                 <div formArrayName="selectedValues">
                     <div formArrayName="productBoundaryCondition">
                         <div class="row">
@@ -129,12 +130,14 @@
                                 <div [ngSwitch]="field.get('type')?.value">
                                     <div *ngSwitchCase="'dropdown'">
                                         <mat-form-field class="dropdowidth">
+                                           
                                             <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
+
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <label>{{ field.get('label')?.value }}:</label>
@@ -199,13 +202,41 @@
                                 <div [ngSwitch]="field.get('type')?.value">
 
                                     <div *ngSwitchCase="'dropdown'">
-                                        <mat-form-field class="dropdowidth">
+                                        
+                                            <ng-container *ngIf="field.get('label')?.value ==='Change of Gender'; else otherLabel">                            
+                                                <mat-form-field class="dropdowidth"> 
+                                                <mat-label>Change of Gender:</mat-label>
+                                                    <!-- <mat-select formControlName="value" (openedChange)="onSelectedOpend($event)">
+                                                        <mat-option *ngFor="let option of field.get('options')?.value"
+                                                        [value]="option">{{ option }}</mat-option>
+                                                    </mat-select> -->
+                                                     <mat-select formControlName="value" (openedChange)="openDialog(dialogTemplate,$event)">
+                                                        <mat-option *ngFor="let option of field.get('options')?.value"
+                                                        [value]="option">{{ option }}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>  
+                                            </ng-container>
+                                            
+                                            <ng-template #otherLabel>
+                                                <mat-form-field class="dropdowidth"> 
                                             <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                             <mat-select formControlName="value">
                                                 <mat-option *ngFor="let option of field.get('options')?.value"
                                                     [value]="option">{{ option }}</mat-option>
                                             </mat-select>
                                         </mat-form-field>
+                                        </ng-template>
+                                        <ng-template #dialogTemplate>
+                                            <h1 mat-dialog-title>Delete</h1>
+                                            <div mat-dialog-content>
+                                                <p>Are you want to delete</p>
+                                            </div>
+                                           <div mat-dialog-actions>
+                                               <button mat-button (click)="dialog.closeAll()">Close</button>
+                                               <button mat-button (click)="deleteGenderField()">Yes</button>
+                                           </div>
+                                        </ng-template>
+                                      
                                     </div>
                                     <div *ngSwitchCase="'radio'">
                                         <mat-label>{{ field.get('label')?.value }}:</mat-label>
