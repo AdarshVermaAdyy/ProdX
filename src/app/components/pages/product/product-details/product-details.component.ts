@@ -8,11 +8,12 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
 import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 import {MatExpansionModule} from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
+import { GetSetService } from '../../../../service/get-set.service';
 
 interface InputField{
   label: string;
@@ -43,7 +44,8 @@ interface Options {
     RouterModule,
     MatStepperModule,
     MatExpansionModule,
-    MatIconModule
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [
 
@@ -55,7 +57,7 @@ export class ProductDetailsComponent implements OnInit{
 
   productDetailsForm: FormGroup;
   searchForm: FormGroup;
-  isBlankTemplate = false; // if the template is made from Blank template or not
+  isBlankTemplate = ''; // if the template is made from Blank template or not
   isPageBlank = true; //
   readonly panelOpenState = signal(true);
 
@@ -96,14 +98,20 @@ export class ProductDetailsComponent implements OnInit{
     'riderCheckbox2',
   ]
 
-  constructor(private _fb: FormBuilder,private dialog : MatDialog ,private shareproductData:ShareproductdataService) {
+  constructor(
+    private _fb: FormBuilder,
+    private dialog : MatDialog,
+    private shareproductData:ShareproductdataService,
+    private getSetService: GetSetService
+  ) {
     this.productDetailsForm = new FormGroup({});
+    this.isBlankTemplate = this.getSetService.get('createMode');
   }
 
   ngOnInit(): void {
     this.initialiseForm();
     this.initializeSearchForm();
-    if(!this.isBlankTemplate){
+    if(this.isBlankTemplate === 'create-by-template'){
       this.fieldsList.forEach(field => {
         const isFieldExits = this.templateFields.some(tempField => field.formControlName === tempField);
         if(isFieldExits){
@@ -250,4 +258,15 @@ export class ProductDetailsComponent implements OnInit{
     this.searchForm.reset();
     this.searchFilterList = this.fieldsList;
   }
+  
+  editlabel(controlname){
+    console.log(controlname)
+    const dialogRef = this.dialog.open(EditLabelComponent);
+    dialogRef.afterClosed().subscribe(result => {
+    
+      const element = controlname+'_label'
+      document.getElementById(element).innerHTML = result
+    });
+  }
+
 }
