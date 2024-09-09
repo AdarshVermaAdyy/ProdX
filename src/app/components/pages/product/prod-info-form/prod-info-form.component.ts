@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { ProductInfoServiceService } from '../../../../service/ProductInfo/product-info-service.service';
 import { FormArray, FormBuilder, FormControl, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
 import { CommonModule } from '@angular/common';
@@ -15,6 +15,9 @@ import { FilterByGroupPipe } from '../../../../filter-by-group.pipe';
 import { MatSidenav, MatSidenavModule } from '@angular/material/sidenav';
 import { GroupNamePipePipe } from '../../../../group-name-pipe.pipe';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatDatepickerModule } from '@angular/material/datepicker';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
+import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -27,16 +30,17 @@ import { MatStepperModule } from '@angular/material/stepper';
     MatInputModule, MatRadioModule,
     FilterByGroupPipe, MatGridListModule,
     MatSidenavModule, GroupNamePipePipe,
-    MatStepperModule
+    MatStepperModule, MatDatepickerModule,
   ],
   templateUrl: './prod-info-form.component.html',
   styleUrl: './prod-info-form.component.scss'
 })
 export class ProdInfoFormComponent implements OnInit {
 
-  @ViewChild('sidenav')
-  sidenav!: MatSidenav;
 
+  // @ViewChild('dialogContent', {static: true}) dialogContent!: TemplateRef<any>;
+  // sidenav!: MatSidenav;
+  
   isSubmitted = false;
   dynamicForm!: FormGroup;
   availableOptions!: any[];
@@ -51,8 +55,12 @@ export class ProdInfoFormComponent implements OnInit {
   isSidenavCollapsed = false;
   selectAllGroupControl = false;
   productDetailsForm: any;
-
-  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr: ChangeDetectorRef) { }
+  receivedshareData: any;
+  constructor(private fb: FormBuilder,
+     private formService: ProductInfoServiceService,
+  
+    private shareproductData: ShareproductdataService,
+  public dialog: MatDialog) { }
 
 
   ngOnInit() {
@@ -66,7 +74,9 @@ export class ProdInfoFormComponent implements OnInit {
 
     this.addCheckboxes();
 
-
+    this.shareproductData.currentData.subscribe(data => {
+      this.receivedshareData = data;
+    });
 
   }
 
@@ -239,7 +249,7 @@ export class ProdInfoFormComponent implements OnInit {
 
     if (event) {
 
-
+console.log("option"+ JSON.stringify(option));
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
 
       if (option.group === 'productBoundaryCondition') {
@@ -298,5 +308,32 @@ export class ProdInfoFormComponent implements OnInit {
     }
 
   }
-  
+  onSelectedOpend(isOpened: boolean){
+    if(isOpened){
+    //  alert("dropdown oppend");
+    //this.deleteGenderField();
+
+    }
+    else{
+      console.log("dropdown ntot opend");
+    }
+
+  }
+
+  //For delete gender field
+  deleteGenderField(){
+    const fieldLabel = 'Change of Gender';
+    const fieldgroup = 'productServicingAlteration'
+    const selectedIndex = this.findOptionIndex(fieldLabel, fieldgroup);
+    console.log("selected Index of gender field"+ selectedIndex);
+    this.productServicingAlteration.removeAt(selectedIndex);
+  }
+
+  openDialog(TemplateRef: TemplateRef<any>, $event){
+    this.dialog.open(TemplateRef);
+  }
+
+  closeDialog(){
+    this.dialog.closeAll();
+  }
 }
