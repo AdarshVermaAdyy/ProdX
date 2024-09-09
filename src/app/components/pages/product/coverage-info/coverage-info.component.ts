@@ -8,8 +8,11 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
-import { MatNativeDateModule } from '@angular/material/core';
+import { MatLineModule, MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
+import { MatListModule } from '@angular/material/list';
+import { MatIconModule } from '@angular/material/icon';
 
 interface InputField{
   label: string;
@@ -39,45 +42,118 @@ interface Options {
     MatDatepickerModule,
     MatNativeDateModule,
     MatFormFieldModule,
+    MatSidenavContainer,
+    MatSidenav,
+    MatIconModule,
+    MatListModule,
+    MatSidenavModule,
   MatStepperModule],
   templateUrl: './coverage-info.component.html',
   styleUrl: './coverage-info.component.scss'
 })
+
 export class CoverageInfoComponent {
-
+  searchForm: FormGroup;
   coverageInfoForm: FormGroup;
+   isBlankTemplete: boolean=false;
+   isPageBlank = true; //
 
-  optionalFieldsList: InputField[] = [
+  optionalFieldsList: InputField[] =
+  [
+    {label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
+
     {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'basicInformation'},
 
   ]
 
+  // filteredFields = this.optionalFieldsList;
+  searchFilterList = this.optionalFieldsList;
+  templeteFeilds=[
+      'coverageCode',
+      'cover_name1',
+      'cover_type' ,
+      'coverageAmount',
+      'coverageTerm',
+      'coverageEffectiveDate',
+      'coverageExpiryDate',
+      'coveragePremium',
+      'waiting_period',
+      'coverage_condition',
+
+
+  ]
+
   constructor(private _fb: FormBuilder,) {
     this.coverageInfoForm = new FormGroup({});
+
   }
 
   ngOnInit(): void {
     this.initialiseForm();
+this.initializeSearchForm();
+    if(!this.isBlankTemplete ){
+      this.optionalFieldsList.forEach(feild=>{
+        const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
+        if(isFeildExist){
+          this.addRemoveControls(true,feild)
+        }
+      })
+    }
   }
 
 
   initialiseForm(){
     this.coverageInfoForm = this._fb.group({
-      coverageCode: new FormControl('',[Validators.required]),
-      cover_name1: new FormControl('',[Validators.required]),
-      cover_type: new FormControl('',[Validators.required]),
-      coverageAmount: new FormControl('',[Validators.required]),
-      coverageTerm: new FormControl('',[Validators.required]),
-      coverageEffectiveDate:new FormControl('',[Validators.required]),
-      coverageExpiryDate:new FormControl('',[Validators.required]),
-      coveragePremium: new FormControl('',[Validators.required]),
-      waiting_period: new FormControl('',[Validators.required]),
-      coverage_condition:new FormControl(''),
+      // coverageCode: new FormControl('',[Validators.required]),
+      // cover_name1: new FormControl('',[Validators.required]),
+      // cover_type: new FormControl('',[Validators.required]),
+      // coverageAmount: new FormControl('',[Validators.required]),
+      // coverageTerm: new FormControl('',[Validators.required]),
+      // coverageEffectiveDate:new FormControl('',[Validators.required]),
+      // coverageExpiryDate:new FormControl('',[Validators.required]),
+      // coveragePremium: new FormControl('',[Validators.required]),
+      // waiting_period: new FormControl('',[Validators.required]),
+      // coverage_condition:new FormControl(''),
+      // Death_benefit:new FormControl('')
 
     })
   }
+  initializeSearchForm(){
+    this.searchForm = this._fb.group({
+      search: ['']
+    });
+  }
+  // applyFilter(searchTerm) {
+  //   this.filteredFields = this.optionalFieldsList.filter(field =>
+  //     field.label.toLowerCase().includes(searchTerm.toLowerCase())
+  //   );
+
+  // }
+
+  search(event){
+
+    const value = event.target.value.toLocaleLowerCase();
+    this.searchFilterList = this.optionalFieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
+  console.log("filter",this.searchFilterList)
+  }
+
+  cancelSearch(){
+    this.searchForm.reset();
+    this.searchFilterList = this.optionalFieldsList;
+  }
+
+
 
   //getters
   get coverageCode(){
@@ -145,6 +221,12 @@ export class CoverageInfoComponent {
       this.coverageInfoForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
     } else {
       this.coverageInfoForm.removeControl(field.formControlName);
+    }
+    const numberOfFields = Object.keys(this.coverageInfoForm.controls).length;
+    if(numberOfFields > 0){
+      this.isPageBlank = false;
+    } else {
+      this.isPageBlank = true;
     }
   }
 
