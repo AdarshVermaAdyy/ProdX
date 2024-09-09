@@ -320,6 +320,7 @@ console.log("option"+ JSON.stringify(option));
 
   }
 
+  //For delete gender field
   deleteGenderField(){
     const fieldLabel = 'Change of Gender';
     const fieldgroup = 'productServicingAlteration'
