@@ -60,29 +60,11 @@ export class ProdInfoFormComponent implements OnInit {
      private formService: ProductInfoServiceService,
   
     private shareproductData: ShareproductdataService,
-  public dialog: MatDialog,
-) {
-  
- }
-
-
-  preselectOption(option){
-
-    const preselectOption = [ { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
-      { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
-      { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
-      { id: 47, label: "Termination Reason Code", type: 'dropdown', options: ['TERM1', 'TERM2'], group: 'terminationCancellation', selected:false },]
-     
-      console.log("option id is " + option.label);
-      // return preselectOption.some(preselected =>{
-      //   preselected.id === option.id 
-      // //  preselected.group === option.group
-      // })
-      const preselectLabel = preselectOption.map(item => item.label);
-
-      return preselectLabel.includes(option.label);
-
+  public dialog: MatDialog) { 
+    this.dynamicForm = new FormGroup({});
   }
+
+
   ngOnInit() {
     this.availableOptions = this.formService.getAvailableOptions();
     if(this.isTeamplateValue === 'true') {

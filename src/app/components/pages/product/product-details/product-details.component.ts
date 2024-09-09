@@ -8,6 +8,9 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
 import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 
 interface InputField{
@@ -37,7 +40,9 @@ interface Options {
     MatRadioModule,
     MatCheckboxModule,
     RouterModule,
-    MatStepperModule
+    MatStepperModule,
+    MatIconModule,
+    MatDialogModule
   ],
   providers: [
     
@@ -61,7 +66,8 @@ export class ProductDetailsComponent implements OnInit{
     {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false, category: 'refundablePrem'},
   ]
 
-  constructor(private _fb: FormBuilder, private shareproductData:ShareproductdataService) {
+  constructor(private _fb: FormBuilder,private dialog : MatDialog ,private shareproductData:ShareproductdataService) {
+    this.productDetailsForm = new FormGroup({});
   }
 
   ngOnInit(): void {
@@ -179,4 +185,14 @@ export class ProductDetailsComponent implements OnInit{
   //  this.shareproductData.updateData(data);
   this.shareproductData.updateData(this.productDetailsForm.value.productCode);
   }
+  editlabel(controlname){
+    console.log(controlname)
+    const dialogRef = this.dialog.open(EditLabelComponent);
+    dialogRef.afterClosed().subscribe(result => {
+    
+      const element = controlname+'_label'
+      document.getElementById(element).innerHTML = result
+    });
+  }
+
 }
