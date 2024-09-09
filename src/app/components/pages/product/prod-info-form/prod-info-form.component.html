@@ -28,7 +28,7 @@
             <div class="row">
                 <!-- Product Boundary Condition -->
                 <h2>Product Boundary Condition</h2>
-                <p> Recived data : {{receivedshareData}}</p>
+                <!-- <p> Recived data : {{receivedshareData}}</p> -->
                 <div formArrayName="selectedValues">
                     <div formArrayName="productBoundaryCondition">
                         <div class="row">
@@ -39,8 +39,8 @@
 
 
                                         <div class="row">
-                                            <div class="col-md-6">
-                                                <mat-form-field class="custom-height">
+                                            <!-- <div class="col-md-6"> -->
+                                                <mat-form-field  class="col-md-6">
                                                     <mat-label>Min {{ field.get('label')?.value }}:</mat-label>
                                                     <!-- <label class="mat-label" for="min{{i}}">Min:</label> -->
 
@@ -50,10 +50,10 @@
                                                         <span *ngIf="field.get('min').errors?.['required']">This information is required.</span>
                                                     </mat-error>
                                                 </mat-form-field>
-                                            </div>
+                                            <!-- </div> -->
 
-                                            <div class="col-md-6">
-                                                <mat-form-field class="custom-height">
+                                            <!-- <div class="col-md-6"> -->
+                                                <mat-form-field class="col-md-6" >
 
                                                     <mat-label>Max {{ field.get('label')?.value }}:</mat-label>
 
@@ -63,7 +63,7 @@
                                                         <span *ngIf="field.get('max').errors?.['required']">This information is required.</span>
                                                     </mat-error>
                                                 </mat-form-field>
-                                            </div>
+                                            <!-- </div> -->
                                         </div>
 
 
@@ -206,14 +206,15 @@
                                             <ng-container *ngIf="field.get('label')?.value ==='Change of Gender'; else otherLabel">                            
                                                 <mat-form-field class="dropdowidth"> 
                                                 <mat-label>Change of Gender:</mat-label>
-                                                    <!-- <mat-select formControlName="value" (openedChange)="onSelectedOpend($event)">
-                                                        <mat-option *ngFor="let option of field.get('options')?.value"
-                                                        [value]="option">{{ option }}</mat-option>
-                                                    </mat-select> -->
-                                                     <mat-select formControlName="value" (openedChange)="openDialog(dialogTemplate,$event)">
+                                                    <mat-select formControlName="value" (openedChange)="onSelectedOpend($event)">
                                                         <mat-option *ngFor="let option of field.get('options')?.value"
                                                         [value]="option">{{ option }}</mat-option>
                                                     </mat-select>
+                                                    <!-- for delete Gender -->
+                                                     <!-- <mat-select formControlName="value" (openedChange)="openDialog(dialogTemplate,$event)">
+                                                        <mat-option *ngFor="let option of field.get('options')?.value"
+                                                        [value]="option">{{ option }}</mat-option>
+                                                    </mat-select> -->
                                                 </mat-form-field>  
                                             </ng-container>
                                             
