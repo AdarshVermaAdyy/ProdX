@@ -60,7 +60,9 @@ export class ProdInfoFormComponent implements OnInit {
      private formService: ProductInfoServiceService,
   
     private shareproductData: ShareproductdataService,
-  public dialog: MatDialog) { }
+  public dialog: MatDialog) { 
+    this.dynamicForm = new FormGroup({});
+  }
 
 
   ngOnInit() {

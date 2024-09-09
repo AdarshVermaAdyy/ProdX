@@ -45,7 +45,7 @@ interface Options {
 })
 export class CoverageInfoComponent {
 
-  productDetailsForm: FormGroup;
+  coverageInfoForm: FormGroup;
 
   optionalFieldsList: InputField[] = [
     {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'basicInformation'},
@@ -55,6 +55,7 @@ export class CoverageInfoComponent {
   ]
 
   constructor(private _fb: FormBuilder,) {
+    this.coverageInfoForm = new FormGroup({});
   }
 
   ngOnInit(): void {
@@ -63,7 +64,7 @@ export class CoverageInfoComponent {
 
 
   initialiseForm(){
-    this.productDetailsForm = this._fb.group({
+    this.coverageInfoForm = this._fb.group({
       coverageCode: new FormControl('',[Validators.required]),
       cover_name1: new FormControl('',[Validators.required]),
       cover_type: new FormControl('',[Validators.required]),
@@ -80,70 +81,70 @@ export class CoverageInfoComponent {
 
   //getters
   get coverageCode(){
-    return this.productDetailsForm.get('coverageCode');
+    return this.coverageInfoForm.get('coverageCode');
   }
   get cover_name1(){
-    return this.productDetailsForm.get('cover_name1');
+    return this.coverageInfoForm.get('cover_name1');
   }
   get cover_type(){
-    return this.productDetailsForm.get('cover_type');
+    return this.coverageInfoForm.get('cover_type');
   }
   get coverageAmount(){
-    return this.productDetailsForm.get('coverageAmount');
+    return this.coverageInfoForm.get('coverageAmount');
   }
   get coverageTerm(){
-    return this.productDetailsForm.get('coverageTerm');
+    return this.coverageInfoForm.get('coverageTerm');
   }
   get coverageEffectiveDate(){
-    return this.productDetailsForm.get('coverageEffectiveDate');
+    return this.coverageInfoForm.get('coverageEffectiveDate');
   }
   get coverageExpiryDate(){
-    return this.productDetailsForm.get('coverageExpiryDate');
+    return this.coverageInfoForm.get('coverageExpiryDate');
   }
   get coveragePremium(){
-    return this.productDetailsForm.get('coveragePremium');
+    return this.coverageInfoForm.get('coveragePremium');
   }
   get waiting_period(){
-    return this.productDetailsForm.get('waiting_period');
+    return this.coverageInfoForm.get('waiting_period');
   }
   get coverage_condition(){
-    return this.productDetailsForm.get('coverage_condition');
+    return this.coverageInfoForm.get('coverage_condition');
   }
 
   get coverage_struc(){
-    return this.productDetailsForm.get('coverage_struc');
+    return this.coverageInfoForm.get('coverage_struc');
   }
   get Beneficiary(){
-    return this.productDetailsForm.get('Beneficiary');
+    return this.coverageInfoForm.get('Beneficiary');
   }
   get Death_benefit(){
-    return this.productDetailsForm.get('Death_benefit');
+    return this.coverageInfoForm.get('Death_benefit');
   }
   get underwritingGuidelines(){
-    return this.productDetailsForm.get('underwritingGuidelines');
+    return this.coverageInfoForm.get('underwritingGuidelines');
   }
   get underwritingRequirements(){
-    return this.productDetailsForm.get('underwritingRequirements');
+    return this.coverageInfoForm.get('underwritingRequirements');
   }
   get riskAssessCriteria(){
-    return this.productDetailsForm.get('riskAssessCriteria');
+    return this.coverageInfoForm.get('riskAssessCriteria');
   }
   get refundablePrem(){
-    return this.productDetailsForm.get('refundablePrem');
+    return this.coverageInfoForm.get('refundablePrem');
   }
   get taxBenefits(){
-    return this.productDetailsForm.get('taxBenefits');
+    return this.coverageInfoForm.get('taxBenefits');
   }
   get renewal(){
-    return this.productDetailsForm.get('renewal');
+    return this.coverageInfoForm.get('renewal');
   }
 
   addRemoveControls(event: any, field: InputField){
     field.isVisible = event;
     if(event){
-      this.productDetailsForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
+      this.coverageInfoForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
     } else {
-      this.productDetailsForm.removeControl(field.formControlName);
+      this.coverageInfoForm.removeControl(field.formControlName);
     }
   }
 

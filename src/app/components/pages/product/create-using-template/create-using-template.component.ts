@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, ViewChild } from '@angular/core';
 import {FormBuilder, Validators, FormsModule, ReactiveFormsModule} from '@angular/forms';
 import {MatInputModule} from '@angular/material/input';
 import {MatFormFieldModule} from '@angular/material/form-field';
@@ -25,5 +25,20 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
   styleUrl: './create-using-template.component.scss'
 })
 export class CreateUsingTemplateComponent {
+  
+  
+  @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
+  @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
+  @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
 
+  get productDetailsForm() {
+    return this.ProductDetailsComponent ? this.ProductDetailsComponent.productDetailsForm : null;
+ }
+ get dynamicForm() {
+  return this.ProdInfoFormComponent ? this.ProdInfoFormComponent.dynamicForm : null;
+}
+
+get coverageInfoForm() {
+  return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
+}
 }

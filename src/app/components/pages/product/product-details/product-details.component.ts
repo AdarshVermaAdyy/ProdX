@@ -8,9 +8,11 @@ import {MatRadioModule} from '@angular/material/radio';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
 import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { MatIconModule } from '@angular/material/icon';
 
 interface InputField{
   label: string;
@@ -94,7 +96,8 @@ export class ProductDetailsComponent implements OnInit{
     'riderCheckbox2',
   ]
 
-  constructor(private _fb: FormBuilder, private shareproductData:ShareproductdataService) {
+  constructor(private _fb: FormBuilder,private dialog : MatDialog ,private shareproductData:ShareproductdataService) {
+    this.productDetailsForm = new FormGroup({});
   }
 
   ngOnInit(): void {
