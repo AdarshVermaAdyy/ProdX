@@ -52,7 +52,9 @@ export class ProdInfoFormComponent implements OnInit {
   selectAllGroupControl = false;
   productDetailsForm: any;
 
-  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr: ChangeDetectorRef) { }
+  constructor(private fb: FormBuilder, private formService: ProductInfoServiceService, private cdr: ChangeDetectorRef) { 
+    this.dynamicForm = new FormGroup({});
+  }
 
 
   ngOnInit() {

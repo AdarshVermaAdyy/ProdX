@@ -19,7 +19,7 @@
           </ng-container>
       </motif-toast> -->
 
-      <form [formGroup]="productDetailsForm">
+      <form [formGroup]="coverageInfoForm">
           <h2>Coverage & Information</h2>
           <div class="row">
               <div class="col-md-6">
@@ -268,9 +268,9 @@
           </ng-container> -->
 
           <div class="form-btn-wrapper">
-              <button  mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as Draft</button>
+              <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button>
               <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
-              <button  mat-flat-button color="primary" class="mt-3" matStepperNext [disabled]="productDetailsForm.invalid">Next</button>
+              <button  mat-flat-button color="primary" class="mt-3" >Next</button>
           </div>
       </form>
   </div>

@@ -183,8 +183,11 @@
                     <div class="row">
                         <div class="col-md-6" *ngIf="optionalFieldsList[0].isVisible">
                             <mat-form-field class="input-fields-height">
-                                <mat-label>Product Name</mat-label>
-                                <input matInput  formControlName="productName"/>
+                                <mat-label id="productName_label">Product Name</mat-label>
+                                <input matInput  formControlName="productName">
+                                <button matSuffix mat-icon-button (click)="editlabel('productName')">
+                                    <mat-icon>edit</mat-icon>
+                                  </button>
                                 <mat-error *ngIf="productName?.invalid && (productName?.dirty || productName?.touched)">
                                     <span *ngIf="productName?.errors?.['required']">This information is required.</span>
                                 </mat-error>
@@ -278,8 +281,8 @@
                 </ng-container>
     
                 <div class="form-btn-wrapper">
-                    <button  mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as Draft</button>
-                    <button  mat-flat-button color="primary" class="mt-3" matStepperNext [disabled]="productDetailsForm.invalid">Next</button>
+                    <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button>
+                    <button  mat-flat-button color="primary" class="mt-3" matStepperNext >Next</button>
                 </div>
             </form>
         </div>

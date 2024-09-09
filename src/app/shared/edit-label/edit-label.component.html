@@ -1,0 +1,19 @@
+
+<h2 mat-dialog-title>Edit Label</h2>
+<mat-dialog-content >
+    <form [formGroup]="editLabelForm">
+        <mat-form-field >
+          <mat-label>New Label</mat-label>
+          <input  matInput formControlName="label" placeholder="Provide New Label">
+        </mat-form-field>
+      </form>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close color="primary">
+        <mat-icon >close</mat-icon>
+        <span>Cancel</span>
+      </button>
+    <button color="primary" mat-flat-button [mat-dialog-close]="true" cdkFocusInitial (click)="changeLabel()">
+    <mat-icon>check</mat-icon><span>Change</span>
+</button>
+  </mat-dialog-actions>
