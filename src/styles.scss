@@ -96,7 +96,7 @@ $prodx-warn: mat.define-palette($custom-warn-palette);
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
-$prodx-theme: mat.define-dark-theme((
+$prodx-theme: mat.define-light-theme((
   color: (
     primary: $prodx-primary,
     accent: $prodx-accent,

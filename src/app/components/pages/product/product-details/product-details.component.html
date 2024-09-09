@@ -1,286 +1,348 @@
 <div class="container-fluid d-flex">
-        <div class="field-list-wrapper">
-            <div *ngFor="let field of optionalFieldsList; let i = index">
-                <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
-                    <h4 class="checkbox-list-heading">Basic Information</h4>
-                </mat-checkbox>
-                
-                <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'" (change)="selectUnselectGroup($event, field)">
-                    <h4 class="checkbox-list-heading">Underwriting  Details</h4>
-                </mat-checkbox>
-
-                <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'" (change)="selectUnselectGroup($event, field)">
-                    <h4 class="checkbox-list-heading">Premium  Details</h4>
-                </mat-checkbox>
-
-                <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)" style="margin-left: 30px;">
-                    {{field.label}}
-                </mat-checkbox>
-            </div>
+    <div class="field-list-wrapper">
+        <div>
+            <form [formGroup]="searchForm">
+                <mat-form-field class="input-fields-height">
+                    <mat-label>Search</mat-label>
+                    <input matInput formControlName="search" (input)="search($event)" />
+                    <button mat-icon-button matSuffix (click)="cancelSearch()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
         </div>
-        <div class="form-wrapper">
-            <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
+        <div *ngFor="let field of searchFilterList; let i = index">
+            <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Basic Information</h4>
+            </mat-checkbox>
+
+            <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'"
+                (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Underwriting Details</h4>
+            </mat-checkbox>
+
+            <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
+                (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Premium Details</h4>
+            </mat-checkbox>
+
+            <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
+                style="margin-left: 30px;">
+                {{field.label}}
+            </mat-checkbox>
+        </div>
+    </div>
+    <div class="form-wrapper" *ngIf="!isPageBlank">
+        <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
                 ariaLabelCloseButton="Close info toast message">
                 <ng-container>
                     Please fill all mandatory fields.
                 </ng-container>
             </motif-toast> -->
-    
-            <form [formGroup]="productDetailsForm">
-                
-                <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Product Code</mat-label>
-                            <input matInput formControlName="productCode"  placeholder="Product Code">
-                            <mat-error *ngIf="productCode?.invalid && (productCode?.dirty || productCode?.touched)">
-                                <span *ngIf="productCode?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                          </mat-form-field>
-    
-                    </div>
-                </div>
-                 <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Product Status</mat-label>
-                            <mat-select placeholder="Product Status" formControlName="productStatus">
-                                <mat-option value="active">Active</mat-option>
-                                <mat-option value="inactive">Inactive</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="productStatus?.invalid && (productStatus?.dirty || productStatus?.touched)">
-                                <span *ngIf="productStatus?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Category</mat-label>
-                            <mat-select placeholder="Category" formControlName="category">
-                                <mat-option value="term">Term</mat-option>
-                                <mat-option value="long">Long</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="category?.invalid && (category?.dirty || category?.touched)">
-                                <span *ngIf="category?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-               <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Coverage Code 1</mat-label>
-                            <input matInput  formControlName="coverageCode1"/>
-                            <mat-error *ngIf="coverageCode1?.invalid && (coverageCode1?.dirty || coverageCode1?.touched)">
-                                <span *ngIf="coverageCode1?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Coverage Name 1</mat-label>
-                            <input matInput formControlName="coverageName1"/>
-                            <mat-error *ngIf="coverageName1?.invalid && (coverageName1?.dirty || coverageName1?.touched)">
-                                <span *ngIf="coverageName1?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-               <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Coverage Code 2</mat-label>
-                            <input matInput formControlName="coverageCode2" />
-                            <mat-error *ngIf="coverageCode2?.invalid && (coverageCode2?.dirty || coverageCode2?.touched)">
-                                <span *ngIf="coverageCode2?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Coverage Name 2</mat-label>
-                            <input matInput formControlName="coverageName2"/>
-                            <mat-error *ngIf="coverageName2?.invalid && (coverageName2?.dirty || coverageName2?.touched)">
-                                <span *ngIf="coverageName2?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Riders Applicable</mat-label>
-                            <mat-select placeholder="Riders Applicable" formControlName="ridersApplicable">
-                                <mat-option value="yes">Yes</mat-option>
-                                <mat-option value="no">No</mat-option>
-                            </mat-select>
-                            <mat-error *ngIf="ridersApplicable?.invalid && (ridersApplicable?.dirty || ridersApplicable?.touched)">
-                                <span *ngIf="ridersApplicable?.errors?.['required']">This information is required.</span>
-                            </mat-error>
-                        </mat-form-field>
-                    </div>
-                </div>
-                  <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-4">
-                                    <mat-checkbox formControlName="riderCheckbox1">
-                                        Rider 1
-                                    </mat-checkbox>
-                                    <mat-error *ngIf="riderCheckbox1?.invalid && (riderCheckbox1?.dirty || riderCheckbox1?.touched)">
-                                        <span *ngIf="riderCheckbox1?.errors?.['required']">This information is required.</span>
-                                    </mat-error>
-                            </div>
-                            <div class="col-md-8" *ngIf="productDetailsForm.get('riderCheckbox1')?.value" style="width: 50%;">
-                                    <mat-radio-group aria-label="undefined" role="radiogroup" id="radio-group-label-1"
-                                        aria-labelledby="radio-group-label-1" aria-describedby="radio-group-label-1"
-                                        formControlName="riderRadio1">
-                                        <mat-radio-button  value="mandatory">
-                                            Mandatory
-                                        </mat-radio-button >
-                                        <mat-radio-button  value="optional">
-                                            Optional
-                                        </mat-radio-button >
-                                    </mat-radio-group>
-                               
-                            </div>
-                        </div>
-                    </div>
-                </div>
-             <div class="row">
-                    <div class="col-md-6">
-                        <div class="row">
-                            <div class="col-md-4">
-                               
-                                    <mat-checkbox formControlName="riderCheckbox2">
-                                        Rider 2
-                                    </mat-checkbox>
-                                    <mat-error *ngIf="riderCheckbox2?.invalid && (riderCheckbox2?.dirty || riderCheckbox2?.touched)">
-                                        <span *ngIf="riderCheckbox2?.errors?.['required']">This information is required.</span>
-                                    </mat-error>
-                               
-                            </div>
-                            <div class="col-md-8" *ngIf="productDetailsForm.get('riderCheckbox2')?.value">
-                                
-                                    <mat-radio-group aria-label="undefined" role="radiogroup" id="radio-group-label-1"
-                                        aria-labelledby="radio-group-label-1" aria-describedby="radio-group-label-1"
-                                        formControlName="riderRadio2">
-                                        <mat-radio-button  value="mandatory">
-                                            Mandatory
-                                        </mat-radio-button >
-                                        <mat-radio-button  value="optional">
-                                            Optional
-                                        </mat-radio-button >
-                                    </mat-radio-group>
-                                
-                            </div>
-                        </div>
-                    </div>
-                </div>
-    
-                <ng-container *ngIf="optionalFieldsList[0].isVisible || optionalFieldsList[1].isVisible || optionalFieldsList[2].isVisible">
-                    <h2 >Basic Information</h2>
-                    <div class="row">
-                        <div class="col-md-6" *ngIf="optionalFieldsList[0].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Product Name</mat-label>
-                                <input matInput  formControlName="productName"/>
-                                <mat-error *ngIf="productName?.invalid && (productName?.dirty || productName?.touched)">
-                                    <span *ngIf="productName?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[1].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Product Description</mat-label>
-                                <input matInput formControlName="productDescription"/>
-                                <mat-error *ngIf="productDescription?.invalid && (productDescription?.dirty || productDescription?.touched)">
-                                    <span *ngIf="productDescription?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[2].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Product Tageline</mat-label>
-                                <input matInput formControlName="productTagline"/>
-                                <mat-error *ngIf="productTagline?.invalid && (productTagline?.dirty || productTagline?.touched)">
-                                    <span *ngIf="productTagline?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </ng-container>
-                
-                <ng-container *ngIf="optionalFieldsList[3].isVisible || optionalFieldsList[4].isVisible || optionalFieldsList[5].isVisible">
-                    <h2 >Underwriting  Details</h2>
-                    <div class="row">
-                        <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Underwriting Guideline</mat-label>
-                                <input matInput  formControlName="underwritingGuidelines"/>
-                                <mat-error *ngIf="underwritingGuidelines?.invalid && (underwritingGuidelines?.dirty || underwritingGuidelines?.touched)">
-                                    <span *ngIf="underwritingGuidelines?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[4].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Underwriting Requirements</mat-label>
-                                <input matInput  formControlName="underwritingRequirements"/>
-                                <mat-error *ngIf="underwritingRequirements?.invalid && (underwritingRequirements?.dirty || underwritingRequirements?.touched)">
-                                    <span *ngIf="underwritingRequirements?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[5].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Risk Assessment Criteria</mat-label>
-                                <input matInput  formControlName="riskAssessCriteria"/>
-                                <mat-error *ngIf="riskAssessCriteria?.invalid && (riskAssessCriteria?.dirty || riskAssessCriteria?.touched)">
-                                    <span *ngIf="riskAssessCriteria?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                </ng-container>
 
-                <ng-container  *ngIf="optionalFieldsList[6].isVisible || optionalFieldsList[7].isVisible || optionalFieldsList[8].isVisible">
-                    <h2>Premium Details</h2>
-                    <div class="row">
-                        <div class="col-md-6" *ngIf="optionalFieldsList[6].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Refundable Premium</mat-label>
-                                <input matInput  formControlName="refundablePrem"/>
-                                <mat-error *ngIf="refundablePrem?.invalid && (refundablePrem?.dirty || refundablePrem?.touched)">
-                                    <span *ngIf="refundablePrem?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
+        <form [formGroup]="productDetailsForm">
+            <ng-container
+                *ngIf="fieldsList[0].isVisible || fieldsList[1].isVisible || fieldsList[2].isVisible
+                || fieldsList[3].isVisible|| fieldsList[4].isVisible|| fieldsList[5].isVisible
+                || fieldsList[6].isVisible|| fieldsList[7].isVisible|| fieldsList[8].isVisible
+                || fieldsList[9].isVisible|| fieldsList[10].isVisible|| fieldsList[11].isVisible|| fieldsList[12].isVisible">
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)"
+                        (closed)="panelOpenState.set(false)" expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Basic Information</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-md-6" *ngIf="fieldsList[0].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Product Name</mat-label>
+                                    <input matInput formControlName="productName" />
+                                    <mat-error
+                                        *ngIf="productName?.invalid && (productName?.dirty || productName?.touched)">
+                                        <span *ngIf="productName?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[1].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Product Description</mat-label>
+                                    <input matInput formControlName="productDescription" />
+                                    <mat-error
+                                        *ngIf="productDescription?.invalid && (productDescription?.dirty || productDescription?.touched)">
+                                        <span *ngIf="productDescription?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[2].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Product Tageline</mat-label>
+                                    <input matInput formControlName="productTagline" />
+                                    <mat-error
+                                        *ngIf="productTagline?.invalid && (productTagline?.dirty || productTagline?.touched)">
+                                        <span *ngIf="productTagline?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[3].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Product Code</mat-label>
+                                    <input matInput formControlName="productCode" placeholder="Product Code">
+                                    <mat-error
+                                        *ngIf="productCode?.invalid && (productCode?.dirty || productCode?.touched)">
+                                        <span *ngIf="productCode?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[4].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Product Status</mat-label>
+                                    <mat-select placeholder="Product Status" formControlName="productStatus">
+                                        <mat-option value="active">Active</mat-option>
+                                        <mat-option value="inactive">Inactive</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="productStatus?.invalid && (productStatus?.dirty || productStatus?.touched)">
+                                        <span *ngIf="productStatus?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[5].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Category</mat-label>
+                                    <mat-select placeholder="Category" formControlName="category">
+                                        <mat-option value="term">Term</mat-option>
+                                        <mat-option value="long">Long</mat-option>
+                                    </mat-select>
+                                    <mat-error *ngIf="category?.invalid && (category?.dirty || category?.touched)">
+                                        <span *ngIf="category?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[6].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Coverage Code 1</mat-label>
+                                    <input matInput formControlName="coverageCode1" />
+                                    <mat-error
+                                        *ngIf="coverageCode1?.invalid && (coverageCode1?.dirty || coverageCode1?.touched)">
+                                        <span *ngIf="coverageCode1?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[7].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Coverage Name 1</mat-label>
+                                    <input matInput formControlName="coverageName1" />
+                                    <mat-error
+                                        *ngIf="coverageName1?.invalid && (coverageName1?.dirty || coverageName1?.touched)">
+                                        <span *ngIf="coverageName1?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[8].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Coverage Code 2</mat-label>
+                                    <input matInput formControlName="coverageCode2" />
+                                    <mat-error
+                                        *ngIf="coverageCode2?.invalid && (coverageCode2?.dirty || coverageCode2?.touched)">
+                                        <span *ngIf="coverageCode2?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[9].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Coverage Name 2</mat-label>
+                                    <input matInput formControlName="coverageName2" />
+                                    <mat-error
+                                        *ngIf="coverageName2?.invalid && (coverageName2?.dirty || coverageName2?.touched)">
+                                        <span *ngIf="coverageName2?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[10].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Riders Applicable</mat-label>
+                                    <mat-select placeholder="Riders Applicable" formControlName="ridersApplicable">
+                                        <mat-option value="yes">Yes</mat-option>
+                                        <mat-option value="no">No</mat-option>
+                                    </mat-select>
+                                    <mat-error
+                                        *ngIf="ridersApplicable?.invalid && (ridersApplicable?.dirty || ridersApplicable?.touched)">
+                                        <span *ngIf="ridersApplicable?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="fieldsList[11].isVisible">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-checkbox formControlName="riderCheckbox1">
+                                                Rider 1
+                                            </mat-checkbox>
+                                            <mat-error
+                                                *ngIf="riderCheckbox1?.invalid && (riderCheckbox1?.dirty || riderCheckbox1?.touched)">
+                                                <span *ngIf="riderCheckbox1?.errors?.['required']">This information is
+                                                    required.</span>
+                                            </mat-error>
+                                        </div>
+                                        <div class="col-md-8" *ngIf="productDetailsForm.get('riderCheckbox1')?.value">
+                                            <mat-radio-group aria-label="undefined" role="radiogroup"
+                                                id="radio-group-label-1" aria-labelledby="radio-group-label-1"
+                                                aria-describedby="radio-group-label-1" formControlName="riderRadio1">
+                                                <mat-radio-button value="mandatory">
+                                                    Mandatory
+                                                </mat-radio-button>
+                                                <mat-radio-button value="optional">
+                                                    Optional
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6" *ngIf="fieldsList[12].isVisible">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                            <mat-checkbox formControlName="riderCheckbox2">
+                                                Rider 2
+                                            </mat-checkbox>
+                                            <mat-error
+                                                *ngIf="riderCheckbox2?.invalid && (riderCheckbox2?.dirty || riderCheckbox2?.touched)">
+                                                <span *ngIf="riderCheckbox2?.errors?.['required']">This information is
+                                                    required.</span>
+                                            </mat-error>
+                                        </div>
+                                        <div class="col-md-8" *ngIf="productDetailsForm.get('riderCheckbox2')?.value">
+                                            <mat-radio-group aria-label="undefined" role="radiogroup"
+                                                id="radio-group-label-1" aria-labelledby="radio-group-label-1"
+                                                aria-describedby="radio-group-label-1" formControlName="riderRadio2">
+                                                <mat-radio-button value="mandatory">
+                                                    Mandatory
+                                                </mat-radio-button>
+                                                <mat-radio-button value="optional">
+                                                    Optional
+                                                </mat-radio-button>
+                                            </mat-radio-group>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                         </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Tax Benefits</mat-label>
-                                <input matInput  formControlName="taxBenefits"/>
-                                <mat-error *ngIf="taxBenefits?.invalid && (taxBenefits?.dirty || taxBenefits?.touched)">
-                                    <span *ngIf="taxBenefits?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+
+            </ng-container>
+            <ng-container *ngIf="fieldsList[13].isVisible || fieldsList[14].isVisible || fieldsList[15].isVisible">
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
+                        class="mt-3" expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Underwriting Details</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Underwriting Guideline</mat-label>
+                                    <input matInput formControlName="underwritingGuidelines" />
+                                    <mat-error
+                                        *ngIf="underwritingGuidelines?.invalid && (underwritingGuidelines?.dirty || underwritingGuidelines?.touched)">
+                                        <span *ngIf="underwritingGuidelines?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Underwriting Requirements</mat-label>
+                                    <input matInput formControlName="underwritingRequirements" />
+                                    <mat-error
+                                        *ngIf="underwritingRequirements?.invalid && (underwritingRequirements?.dirty || underwritingRequirements?.touched)">
+                                        <span *ngIf="underwritingRequirements?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Risk Assessment Criteria</mat-label>
+                                    <input matInput formControlName="riskAssessCriteria" />
+                                    <mat-error
+                                        *ngIf="riskAssessCriteria?.invalid && (riskAssessCriteria?.dirty || riskAssessCriteria?.touched)">
+                                        <span *ngIf="riskAssessCriteria?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
-                        <div class="col-md-6" *ngIf="optionalFieldsList[8].isVisible">
-                            <mat-form-field class="input-fields-height">
-                                <mat-label>Renewal</mat-label>
-                                <input matInput  formControlName="renewal"/>
-                                <mat-error *ngIf="renewal?.invalid && (renewal?.dirty || renewal?.touched)">
-                                    <span *ngIf="renewal?.errors?.['required']">This information is required.</span>
-                                </mat-error>
-                            </mat-form-field>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ng-container>
+
+            <ng-container *ngIf="fieldsList[16].isVisible || fieldsList[17].isVisible || fieldsList[18].isVisible">
+                <mat-accordion>
+                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
+                        class="mt-3" expanded="true">
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>Premium Details</mat-panel-title>
+                        </mat-expansion-panel-header>
+                        <div class="row">
+                            <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Refundable Premium</mat-label>
+                                    <input matInput formControlName="refundablePrem" />
+                                    <mat-error
+                                        *ngIf="refundablePrem?.invalid && (refundablePrem?.dirty || refundablePrem?.touched)">
+                                        <span *ngIf="refundablePrem?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Tax Benefits</mat-label>
+                                    <input matInput formControlName="taxBenefits" />
+                                    <mat-error
+                                        *ngIf="taxBenefits?.invalid && (taxBenefits?.dirty || taxBenefits?.touched)">
+                                        <span *ngIf="taxBenefits?.errors?.['required']">This information is
+                                            required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
+                            <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
+                                <mat-form-field class="input-fields-height">
+                                    <mat-label>Renewal</mat-label>
+                                    <input matInput formControlName="renewal" />
+                                    <mat-error *ngIf="renewal?.invalid && (renewal?.dirty || renewal?.touched)">
+                                        <span *ngIf="renewal?.errors?.['required']">This information is required.</span>
+                                    </mat-error>
+                                </mat-form-field>
+                            </div>
                         </div>
-                    </div>
-                </ng-container>
-    
-                <div class="form-btn-wrapper">
-                    <button  mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as Draft</button>
-                    <button  mat-flat-button color="primary" class="mt-3" matStepperNext [disabled]="productDetailsForm.invalid" (click)="nextdata()">Next</button>
-                </div>
-            </form>
-        </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </ng-container>
+
+            <div class="form-btn-wrapper">
+                <button mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as
+                    Draft</button>
+                <button mat-flat-button color="primary" class="mt-3" matStepperNext
+                    [disabled]="productDetailsForm.invalid" (click)="nextdata()">Next</button>
+            </div>
+        </form>
+    </div>
+    <div class="form-wrapper d-flex justify-content-center mt-5" *ngIf="isPageBlank">
+        Begin crafting your product by selecting fields from the left sidebar to add them to your template.
+    </div>
 </div>

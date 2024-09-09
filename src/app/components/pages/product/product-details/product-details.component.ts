@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -9,6 +9,8 @@ import {MatCheckboxModule} from '@angular/material/checkbox';
 import { RouterModule } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
 import { ShareproductdataService } from '../../../../service/shareproductdata.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import { MatIconModule } from '@angular/material/icon';
 
 interface InputField{
   label: string;
@@ -37,7 +39,9 @@ interface Options {
     MatRadioModule,
     MatCheckboxModule,
     RouterModule,
-    MatStepperModule
+    MatStepperModule,
+    MatExpansionModule,
+    MatIconModule
   ],
   providers: [
     
@@ -48,11 +52,25 @@ interface Options {
 export class ProductDetailsComponent implements OnInit{
 
   productDetailsForm: FormGroup;
+  searchForm: FormGroup;
+  isBlankTemplate = false; // if the template is made from Blank template or not
+  isPageBlank = true; //
+  readonly panelOpenState = signal(true);
 
-  optionalFieldsList: InputField[] = [
+  fieldsList: InputField[] = [
     {label: "Product Name", formControlName: 'productName', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Product Description", formControlName: 'productDescription', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Product Tageline", formControlName: 'productTagline', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Product Code", formControlName: 'productCode', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Product Status", formControlName: 'productStatus', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Category", formControlName: 'category', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Code 1", formControlName: 'coverageCode1', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Name 1", formControlName: 'coverageName1', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Code 2", formControlName: 'coverageCode2', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Name 2", formControlName: 'coverageName2', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Riders Applicable", formControlName: 'ridersApplicable', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Rider 1", formControlName: 'riderCheckbox1', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Rider 2", formControlName: 'riderCheckbox2', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Underwriting Guideline", formControlName: 'underwritingGuidelines', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
     {label: "Underwriting Requirements", formControlName: 'underwritingRequirements', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
     {label: "Risk Assessment Criteria", formControlName: 'riskAssessCriteria', type: 'text', isVisible: false, category: 'underwritingGuidelines'},
@@ -61,28 +79,57 @@ export class ProductDetailsComponent implements OnInit{
     {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false, category: 'refundablePrem'},
   ]
 
+  searchFilterList = this.fieldsList;
+
+  templateFields = [
+    'productCode',
+    'productStatus',
+    'category',
+    'coverageCode1',
+    'coverageName1',
+    'coverageCode2',
+    'coverageName2',
+    'ridersApplicable',
+    'riderCheckbox1',
+    'riderCheckbox2',
+  ]
+
   constructor(private _fb: FormBuilder, private shareproductData:ShareproductdataService) {
   }
 
   ngOnInit(): void {
     this.initialiseForm();
+    this.initializeSearchForm();
+    if(!this.isBlankTemplate){
+      this.fieldsList.forEach(field => {
+        const isFieldExits = this.templateFields.some(tempField => field.formControlName === tempField);
+        if(isFieldExits){
+          this.addRemoveControls(true, field)
+        }
+      })
+    }
   }
 
+  initializeSearchForm(){
+    this.searchForm = this._fb.group({
+      search: ['']
+    });
+  }
 
   initialiseForm(){
     this.productDetailsForm = this._fb.group({
-      productCode: new FormControl('',[Validators.required]),
-      productStatus: new FormControl('',[Validators.required]),
-      category: new FormControl('',[Validators.required]),
-      coverageCode1: new FormControl('',[Validators.required]),
-      coverageName1: new FormControl('',[Validators.required]),
-      coverageCode2:new FormControl('',[Validators.required]),
-      coverageName2:new FormControl('',[Validators.required]),
-      ridersApplicable: new FormControl('yes',[Validators.required]),
-      riderCheckbox1:new FormControl(''),
-      riderRadio1:new FormControl(''),
-      riderCheckbox2: new FormControl(''),
-      riderRadio2: new FormControl('')
+      // productCode: new FormControl('',[Validators.required]),
+      // productStatus: new FormControl('',[Validators.required]),
+      // category: new FormControl('',[Validators.required]),
+      // coverageCode1: new FormControl('',[Validators.required]),
+      // coverageName1: new FormControl('',[Validators.required]),
+      // coverageCode2:new FormControl('',[Validators.required]),
+      // coverageName2:new FormControl('',[Validators.required]),
+      // ridersApplicable: new FormControl('yes',[Validators.required]),
+      // riderCheckbox1:new FormControl(''),
+      // riderRadio1:new FormControl(''),
+      // riderCheckbox2: new FormControl(''),
+      // riderRadio2: new FormControl('')
     })
   }
 
@@ -159,10 +206,17 @@ export class ProductDetailsComponent implements OnInit{
     } else {
       this.productDetailsForm.removeControl(field.formControlName);
     }
+ 
+    const numberOfFields = Object.keys(this.productDetailsForm.controls).length;
+    if(numberOfFields > 0){
+      this.isPageBlank = false;
+    } else {
+      this.isPageBlank = true;
+    }
   }
 
   selectUnselectGroup(event, field){
-    const relFields = this.optionalFieldsList.filter(item => item.category === field.category);
+    const relFields = this.fieldsList.filter(item => item.category === field.category);
     if(event.checked){
       relFields.forEach(item => {
         this.addRemoveControls(true, item);
@@ -173,10 +227,21 @@ export class ProductDetailsComponent implements OnInit{
       })
     }
   }
+
   nextdata(){
     console.log("next method called");
     const data = 'Hello from form details';
   //  this.shareproductData.updateData(data);
-  this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+    this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+  }
+
+  search(event){
+    const value = event.target.value.toLocaleLowerCase();
+    this.searchFilterList = this.fieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
+  }
+
+  cancelSearch(){
+    this.searchForm.reset();
+    this.searchFilterList = this.fieldsList;
   }
 }
