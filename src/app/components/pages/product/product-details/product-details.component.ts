@@ -11,6 +11,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatIconModule } from '@angular/material/icon';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 
 interface InputField{
   label: string;
@@ -65,7 +66,7 @@ export class ProductDetailsComponent implements OnInit{
     {label: "Renewal", formControlName: 'renewal', type: 'text', isVisible: false, category: 'refundablePrem'},
   ]
 
-  constructor(private _fb: FormBuilder,private dialog : MatDialog) {
+  constructor(private _fb: FormBuilder,private dialog : MatDialog ,private shareproductData:ShareproductdataService) {
     this.productDetailsForm = new FormGroup({});
   }
 
@@ -178,7 +179,12 @@ export class ProductDetailsComponent implements OnInit{
       })
     }
   }
-
+  nextdata(){
+    console.log("next method called");
+    const data = 'Hello from form details';
+  //  this.shareproductData.updateData(data);
+  this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+  }
   editlabel(controlname){
     console.log(controlname)
     const dialogRef = this.dialog.open(EditLabelComponent);

@@ -65,8 +65,8 @@ export class ProductInfoServiceService {
   ];
 
  private optionalFieldsList = [
-  { id: 43, label: "Product Start Date", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productBoundary', selected:false },
-  { id: 44, label: "Product End Date", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productBoundary' , selected:false },
+  { id: 43, label: "Product Start Date", type: 'date', group: 'productBoundary', selected:false },
+  { id: 44, label: "Product End Date", type: 'date', group: 'productBoundary' , selected:false },
     // { id: 41, label: "Product Start Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
     // { id: 42, label: "Product End Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
     { id: 45, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration' , selected:false},
@@ -107,6 +107,12 @@ export class ProductInfoServiceService {
     } else if (type === 'radio') {
       controls['options'] = [config.options || []];
       controls['value'] = [config.value || '', Validators.required];
+    }
+    else if (type === 'date') {
+     // controls['value'] = [config.value || '', Validators.required];
+       controls['value'] = [new Date(), Validators.required];
+      // controls['maxDate'] = [new Date(), Validators.required];
+
     }
 
     return this.fb.group(controls);
@@ -196,4 +202,5 @@ const PremiumandPaymentDetailSelected = form.get('optionalOptions')?.value.some(
     PremiumandPaymentDetailOnly.forEach(group=> PremiumandPaymentDetailSelectedArray.push(group));
   }
 
+  
 }
