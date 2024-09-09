@@ -26,17 +26,17 @@ const routes: Routes = [
     component: ProductManagementComponent
   },
   {
-    path:"use-template",
+    path:"create-product",
     component: CreateUsingTemplateComponent
   },
-  {
-    path: 'product-info',
-    component: ProdInfoFormComponent
-  },
-  {
-    path: 'rider-info',
-    component: RiderInformationComponent
-  }
+  // {
+  //   path: 'product-info',
+  //   component: ProdInfoFormComponent
+  // },
+  // {
+  //   path: 'rider-info',
+  //   component: RiderInformationComponent
+  // }
 ];
 
 @NgModule({
