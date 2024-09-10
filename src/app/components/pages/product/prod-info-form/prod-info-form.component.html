@@ -1,53 +1,51 @@
 <!-- <mat-sidenav-container class="sidenav-container"> -->
 <div class="container-fluid d-flex" style="flex-direction: column;">
-
     <div class="mt-3">
-        <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasProductInfo" aria-controls="offcanvasProductInfo">
+        <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCoverageInfo" aria-controls="offcanvasCoverageInfo">
             Add Fields
          </button>
     </div>
-
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasProductInfo" aria-labelledby="offcanvasWithBothOptionsLabel">
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasCoverageInfo" aria-labelledby="offcanvasWithBothOptionsLabel">
         <div class="offcanvas-header">
           <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
           <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
         <div class="offcanvas-body">
-            <div class="field-list-wrapper">
 
-                <!-- <div> -->
-                    <!-- <input type="text" formControlName="searchControl" /> -->
-                    <form [formGroup]="searchForm">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Search</mat-label>
-                            <input matInput formControlName="search" (input)="search($event)" />
-                            <button mat-icon-button matSuffix (click)="cancelSearch()">
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-form-field>
-                    </form>
-                <!-- </div> -->
-                <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
-                    <ng-container *ngIf="searchListByGroup(group).length > 0">
-                   <div class="group-header">
-                    <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
-                        <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
+    <div class="field-list-wrapper">
+    
+        <!-- <div> -->
+            <!-- <input type="text" formControlName="searchControl" /> -->
+            <form [formGroup]="searchForm">
+                <mat-form-field class="input-fields-height">
+                    <mat-label>Search</mat-label>
+                    <input matInput formControlName="search" (input)="search($event)" />
+                    <button mat-icon-button matSuffix (click)="cancelSearch()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
+        <!-- </div> -->
+        <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
+            <ng-container *ngIf="searchListByGroup(group).length > 0">
+           <div class="group-header">
+            <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
+                <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
+            </mat-checkbox>
+        </div>
+       
+            <div *ngFor="let option  of searchFilterList; let i = index">
+                <div *ngIf="option.group === group">
+                    <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
+                        {{option.label}}
                     </mat-checkbox>
                 </div>
-               
-                    <div *ngFor="let option  of optionalFieldsList; let i = index">
-                        <div *ngIf="option.group === group">
-                            <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
-                                {{option.label}}
-                            </mat-checkbox>
-                        </div>
-                    </div>
-                </ng-container>
-                </div>
             </div>
+        </ng-container>
         </div>
-      </div>
-
+    </div>
+</div>
+</div>
     <div class="form-wrapper" *ngIf="!isPageBlank">
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
@@ -490,7 +488,7 @@
     
         </form>
     </div>
-    <div class="form-wrapper d-flex justify-content-center w-100" *ngIf="isPageBlank">
+    <div class="form-wrapper d-flex justify-content-center mt-5" *ngIf="isPageBlank">
         Begin crafting your product by selecting fields from the left sidebar to add them to your template.
     </div>
 </div>
