@@ -20,6 +20,7 @@ import { ShareproductdataService } from '../../../../service/shareproductdata.se
 import { MatDialog } from '@angular/material/dialog';
 import {MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
+import { GetSetService } from '../../../../service/get-set.service';
 @Component({
   selector: 'app-prod-info-form',
   standalone: true,
@@ -39,7 +40,8 @@ import { MatIconModule } from '@angular/material/icon';
   styleUrl: './prod-info-form.component.scss'
 })
 export class ProdInfoFormComponent implements OnInit {
-  isBlankTemplate = false; 
+  isBlankTemplate = ''; 
+  isPageBlank = true;
   fileredOptionalList :any;
   isSubmitted = false;
   dynamicForm!: FormGroup;
@@ -64,7 +66,6 @@ optionalFieldsList = [
   { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
 { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
 { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
-
 { id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected:false },
 { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
 { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5','10', '15', '20'], group: 'productBoundaryCondition', selected:false },
@@ -101,7 +102,7 @@ optionalFieldsList = [
 { id: 32, label: "Revival", type: 'dropdown', options: ['REVIV30', 'REVIV75', 'REVIVTS','REVIVT5', 'REVIVT3', 'REVIVE', 'NA'], group: 'featreandReinsate', selected:false },
 
 { id: 33, label: "Increase/Decrease in Service", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected:false },
-{ id: 34, label: "Change of DOB", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: true },
+{ id: 34, label: "Change of DOB", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: false },
 { id: 35, label: "Change of Gender", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration' ,selected:false},
 { id: 36, label: "Change of PT/FT", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected:false},
 { id: 37, label: "Change of Premium", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration' ,selected:false},
@@ -184,8 +185,10 @@ readonly panelOpenState = signal(true);
      private formService: ProductInfoServiceService,
   
     private shareproductData: ShareproductdataService,
-  public dialog: MatDialog) { 
+  public dialog: MatDialog ,
+  private getSetService: GetSetService) { 
     this.dynamicForm = new FormGroup({});
+    this.isBlankTemplate = this.getSetService.get('createMode');
     
   }
   
@@ -204,7 +207,8 @@ readonly panelOpenState = signal(true);
       this.receivedshareData = data;
     });
  //   this.preselectOption();
- if(!this.isBlankTemplate){
+ if(this.isBlankTemplate === 'create-by-template'){
+  console.log("create-by-template called..");
   this.optionalFieldsList.forEach((field, i) => {
     const isFieldExits = this.templateFields.some(tempField => field.label === tempField);
     if(isFieldExits){
@@ -303,6 +307,7 @@ readonly panelOpenState = signal(true);
     const productBoundaryConditionValues = this.dynamicForm.get(`selectedValues.productBoundaryCondition`) as FormArray;
     return productBoundaryConditionValues.controls.some(control => control.get('value')?.value);
   }
+  
   onSubmit() {
    
     if (this.dynamicForm.invalid) {
@@ -328,7 +333,7 @@ readonly panelOpenState = signal(true);
   }
   toggleSelectAll(event, group, i: any) {
     const relFields = this.optionalFieldsList.filter(item => item.group === group);
-        
+     console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
     if (event.checked) {
       relFields.forEach((item, index) => {
         const actualIndex = this.optionalFieldsList.indexOf(item);
@@ -350,9 +355,9 @@ readonly panelOpenState = signal(true);
 
     if (event) {
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
-
+               console.log("addcOntrol Group ..." + JSON.stringify(option.group + " " + option.label));
       if (option.group === 'productBoundaryCondition') {
-
+          console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
         this.productBoundaryCondition.push(selectedGroup);
 
       } else if (option.group === 'premiumDetails') {
@@ -404,6 +409,13 @@ readonly panelOpenState = signal(true);
           this.PremiumandPaymentDetail.removeAt(selectedIndex);
         }
       }
+    }
+    const numberOfFields = Object.keys(this.dynamicForm.controls).length;
+    console.log("here is form length.."+ numberOfFields);
+    if(numberOfFields > 0){
+      this.isPageBlank = false;
+    } else {
+      this.isPageBlank = true;
     }
 
   }
