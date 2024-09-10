@@ -22,7 +22,7 @@
             </mat-checkbox>
         </div>
        
-            <div *ngFor="let option  of searchListByGroup(group); let i = index">
+            <div *ngFor="let option  of searchFilterList; let i = index">
                 <div *ngIf="option.group === group">
                     <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
                         {{option.label}}
