@@ -72,9 +72,20 @@
                 <ng-container matColumnDef="action">
                     <th mat-header-cell *matHeaderCellDef aria-label="row actions">Action</th>
                     <td mat-cell *matCellDef="let element">
-                          <button mat-raised-button style="font-size: 12px;" (click)="createNewProduct()">
-                            <span>Create a New Product</span>
-                          </button> 
+                        <!-- <button mat-raised-button>
+                            <mat-icon>content_copy</mat-icon>
+                            <span>Clone Product</span>
+                          </button>                     -->
+                          <button mat-icon-button aria-label="Action menu" [matMenuTriggerFor]="menu">
+                            <mat-icon>more_vert</mat-icon>
+                          </button>
+                          <mat-menu #menu="matMenu">
+                            <button  mat-menu-item style="font-size: 12px;" (click)="createNewProduct()">
+                                <mat-icon>add</mat-icon>
+                                <span>Create a New Product using this Template</span>
+                              </button> 
+                           
+                          </mat-menu>
                     </td>
                   </ng-container>
 

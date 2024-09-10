@@ -15,6 +15,7 @@ import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatMenuModule } from '@angular/material/menu';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog/confirmation-dialog.component';
+import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.component';
 @Component({
   selector: 'app-sidenav',
   standalone: true,
@@ -26,7 +27,8 @@ import { ConfirmationDialogComponent } from '../../../shared/confirmation-dialog
     MatBadgeModule,
     MatInputModule,
     MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule,
-    RouterModule
+    RouterModule,
+    BreadcrumbComponent
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
@@ -41,6 +43,8 @@ export class SidenavComponent {
     {title: "Notification",msg: "This is a notification",icon:"edit"},
     {title: "Notification",msg: "This is a notification",icon:"edit"}
   ]
+
+  isRibbonAllowed : boolean=false;
 
   constructor(private matdialog: MatDialog){}
 

@@ -1,37 +1,57 @@
+
 <div class="container-fluid d-flex">
-    <div class="field-list-wrapper">
-        <div>
-            <form [formGroup]="searchForm">
-                <mat-form-field class="input-fields-height">
-                    <mat-label>Search</mat-label>
-                    <input matInput formControlName="search" (input)="search($event)" />
-                    <button mat-icon-button matSuffix (click)="cancelSearch()">
-                        <mat-icon>cancel</mat-icon>
-                    </button>
-                </mat-form-field>
-            </form>
+    
+
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
         </div>
-        <div *ngFor="let field of searchFilterList; let i = index">
-            <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
-                <h4 class="checkbox-list-heading">Basic Information</h4>
-            </mat-checkbox>
-
-            <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'"
-                (change)="selectUnselectGroup($event, field)">
-                <h4 class="checkbox-list-heading">Underwriting Details</h4>
-            </mat-checkbox>
-
-            <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
-                (change)="selectUnselectGroup($event, field)">
-                <h4 class="checkbox-list-heading">Premium Details</h4>
-            </mat-checkbox>
-
-            <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
-                style="margin-left: 30px;">
-                {{field.label}}
-            </mat-checkbox>
+        <div class="offcanvas-body">
+            <div class="field-list-wrapper">
+                <div>
+                    <form [formGroup]="searchForm">
+                        <mat-form-field class="input-fields-height">
+                            <mat-label>Search</mat-label>
+                            <input matInput formControlName="search" (input)="search($event)" />
+                            <button mat-icon-button matSuffix (click)="cancelSearch()">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </mat-form-field>
+                    </form>
+                </div>
+                <div *ngFor="let field of searchFilterList; let i = index">
+                    <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
+                        <h4 class="checkbox-list-heading">Basic Information</h4>
+                    </mat-checkbox>
+        
+                    <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'"
+                        (change)="selectUnselectGroup($event, field)">
+                        <h4 class="checkbox-list-heading">Underwriting Details</h4>
+                    </mat-checkbox>
+        
+                    <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
+                        (change)="selectUnselectGroup($event, field)">
+                        <h4 class="checkbox-list-heading">Premium Details</h4>
+                    </mat-checkbox>
+        
+                    <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
+                        style="margin-left: 30px;">
+                        {{field.label}}
+                    </mat-checkbox>
+                </div>
+            </div>
         </div>
-    </div>
+      </div>
+
+   
+            <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
+        Add Fields
+        <mat-icon>arrow_right_alt</mat-icon> 
+     </button>
+   
+     
+  
     <div class="form-wrapper" *ngIf="!isPageBlank">
         <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
                 ariaLabelCloseButton="Close info toast message">
@@ -343,5 +363,6 @@
     </div>
     <div class="form-wrapper d-flex justify-content-center mt-5" *ngIf="isPageBlank">
         Begin crafting your product by selecting fields from the left sidebar to add them to your template.
+        
     </div>
 </div>

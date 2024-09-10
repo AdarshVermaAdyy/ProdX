@@ -1,5 +1,12 @@
 <div class="container-fluid d-flex">
 
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasCoverageInfo" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+           
   <div class="field-list-wrapper">
     <div>
       <form [formGroup]="searchForm">
@@ -24,6 +31,15 @@
 
 
   </div>
+        </div>
+      </div>
+
+   
+            <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCoverageInfo" aria-controls="offcanvasCoverageInfo">
+        Add Fields
+        <mat-icon>arrow_right_alt</mat-icon> 
+     </button>
+
   <div class="form-wrapper" *ngIf="!isPageBlank">
       <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
           ariaLabelCloseButton="Close info toast message">
