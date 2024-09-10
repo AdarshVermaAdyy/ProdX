@@ -13,7 +13,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
-
+import { GetSetService } from '../../../../service/get-set.service';
 interface InputField{
   label: string;
   formControlName: string;
@@ -55,7 +55,7 @@ interface Options {
 export class CoverageInfoComponent {
   searchForm: FormGroup;
   coverageInfoForm: FormGroup;
-   isBlankTemplete: boolean=false;
+   isBlankTemplete='';
    isPageBlank = true; //
 
   optionalFieldsList: InputField[] =
@@ -94,15 +94,15 @@ export class CoverageInfoComponent {
 
   ]
 
-  constructor(private _fb: FormBuilder,) {
+  constructor(private _fb: FormBuilder,private getSetService: GetSetService) {
     this.coverageInfoForm = new FormGroup({});
-
+    this.isBlankTemplete = this.getSetService.get('createMode');
   }
 
   ngOnInit(): void {
     this.initialiseForm();
 this.initializeSearchForm();
-    if(!this.isBlankTemplete ){
+if(this.isBlankTemplete === 'create-by-template'){
       this.optionalFieldsList.forEach(feild=>{
         const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
         if(isFeildExist){
