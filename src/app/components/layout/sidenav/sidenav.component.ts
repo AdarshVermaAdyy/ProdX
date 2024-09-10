@@ -56,17 +56,17 @@ export class SidenavComponent {
     });
   }
 
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
+  // mouseenter() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = true;
+  //   }
+  // }
 
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
-  }
+  // mouseleave() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = false;
+  //   }
+  // }
   @ViewChild('sidenav') sidenav:any= MatSidenav;
 
   toggleSidenav() {
