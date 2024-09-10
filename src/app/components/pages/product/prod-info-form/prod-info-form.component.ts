@@ -303,9 +303,19 @@ readonly panelOpenState = signal(true);
     return productServicNonoFinancialAleration.controls.some(control => control.get('value')?.value);
   }
 
+  // isproductBoundaryCondition(): boolean {
+  //   const productBoundaryConditionValues = this.dynamicForm.get(`selectedValues.productBoundaryCondition`) as FormArray;
+  //   return productBoundaryConditionValues.controls.some(control => control.get('value')?.value);
+  // }
+  
   isproductBoundaryCondition(): boolean {
     const productBoundaryConditionValues = this.dynamicForm.get(`selectedValues.productBoundaryCondition`) as FormArray;
-    return productBoundaryConditionValues.controls.some(control => control.get('value')?.value);
+   if(!productBoundaryConditionValues || productBoundaryConditionValues.length === 0){
+    return false;
+   }
+   else{
+    return true;
+   }
   }
   
   onSubmit() {
