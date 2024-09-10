@@ -15,28 +15,20 @@
     justify-content: center;
 }
 
-// .field-list-wrapper{
-//     border: 1px solid grey;
-//     padding: 20px;
-//     width: 20%;
-//     border-radius: 5px;
-//     min-height: 100vh;
-//     overflow: hidden;
-// }
 
 .field-list-wrapper{
     border-right: 1px solid grey;
-    padding: 20px !important;
+    padding: 20px;
     width: 20%;
-    overflow: hidden;
     // border-radius: 5px;
 }
-// .form-wrapper {
-//     border: 1px solid grey;
-//     padding: 20px;
-//     width: 60%;
-//     border-radius: 5px;
-// }
+.field-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
 .form-wrapper{
     // border: 1px solid grey;
     padding: 20px;
@@ -86,6 +78,7 @@ mat-grid-list {
     display: flex;
     align-items: center;
     width: 100%;
+    overflow: hidden;
 
 }
 
@@ -114,10 +107,7 @@ mat-grid-list {
     width: 100%;
     margin-bottom: 1rem !important;
 }
-// .radioContainer{
-//     border: 1px  grey;
-//     padding: 10px;
-// }
+
 .checkbox-list-heading{
     margin-bottom: 0;
     margin-top: 10px;
@@ -146,13 +136,15 @@ mat-grid-list {
 }
 .group-option{
     margin-left: 30px;
+    display: block;
+    overflow: hidden;
 }
 .group-container{
   //  margin-bottom: 0px !important;
   margin: 12px;
 }
 
-// .group-container mat-checkbox{
-//   //  display: block;
-//     margin-bottom: 10px;
-// }
+.input-fields-height{
+    width: 100%;
+
+}

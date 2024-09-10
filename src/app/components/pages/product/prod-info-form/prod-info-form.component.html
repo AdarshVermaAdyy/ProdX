@@ -2,22 +2,34 @@
 <div class="container-fluid d-flex">
     <div class="field-list-wrapper">
 
-        <h4>Available Option</h4>
+        <!-- <div> -->
+            <!-- <input type="text" formControlName="searchControl" /> -->
+            <form [formGroup]="searchForm">
+                <mat-form-field class="input-fields-height">
+                    <mat-label>Search</mat-label>
+                    <input matInput formControlName="search" (input)="search($event)" />
+                    <button mat-icon-button matSuffix (click)="cancelSearch()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
+        <!-- </div> -->
         <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
+            <ng-container *ngIf="searchListByGroup(group).length > 0">
            <div class="group-header">
             <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
                 <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
             </mat-checkbox>
         </div>
        
-            <div *ngFor="let option  of optionalFieldsList; let i = index">
+            <div *ngFor="let option  of searchListByGroup(group); let i = index">
                 <div *ngIf="option.group === group">
                     <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
                         {{option.label}}
                     </mat-checkbox>
                 </div>
             </div>
-       
+        </ng-container>
         </div>
     </div>
 
@@ -26,13 +38,21 @@
 
             <!-- Dynamic Form Fields -->
             <div class="row">
-                <mat-accordion>
+               
                 <!-- Product Boundary Condition -->
                 <div *ngIf="isproductBoundaryCondition()">
-                <h2>Product Boundary Condition</h2>
+                   
+                   
+                <!-- <h2>Product Boundary Condition</h2> -->
                 <!-- <p> Recived data : {{receivedshareData}}</p> -->
                 <div formArrayName="selectedValues">
                     <div formArrayName="productBoundaryCondition">
+                        <mat-accordion>
+                            <mat-expansion-panel (opened)="panelOpenState.set(true)"
+                                (closed)="panelOpenState.set(false)" expanded="true">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>Product Boundary Condition</mat-panel-title>
+                                </mat-expansion-panel-header>
                         <div class="row">
                             <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
                                 [formGroupName]="i" class="col-6">
@@ -117,9 +137,12 @@
                                 </div>
                             </div>
                         </div>
+                    </mat-expansion-panel>
+                </mat-accordion>
                     </div>
                 </div>
                 </div>
+         
 
                 <!-- Premium Details -->
                 <!-- <div class="custom-divider mt-4"></div> -->
@@ -382,7 +405,7 @@
                     </div>
 
 
-                </mat-accordion>
+              
                 </div>
                 <div *ngIf="isPremiumandPaymentDetailSelect() || isProducBoundarySelect() || terminationCancellationSelect() || productServicingMajorAlterationsSelect() || isProductServicNonoFinancialAleration() || isproductBoundaryCondition()">
             <div class="form-btn-wrapper">
