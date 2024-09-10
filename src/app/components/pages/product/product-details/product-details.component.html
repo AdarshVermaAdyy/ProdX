@@ -12,7 +12,7 @@
             </form>
         </div>
         <div *ngFor="let field of searchFilterList; let i = index">
-            <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
+            <!-- <mat-checkbox *ngIf="field.formControlName === 'productName'" (change)="selectUnselectGroup($event, field)">
                 <h4 class="checkbox-list-heading">Basic Information</h4>
             </mat-checkbox>
 
@@ -24,7 +24,7 @@
             <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
                 (change)="selectUnselectGroup($event, field)">
                 <h4 class="checkbox-list-heading">Premium Details</h4>
-            </mat-checkbox>
+            </mat-checkbox> -->
 
             <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
                 style="margin-left: 30px;">

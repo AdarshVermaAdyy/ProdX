@@ -48,7 +48,7 @@ interface Options {
     MatDialogModule
   ],
   providers: [
-    
+
   ],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
@@ -178,7 +178,7 @@ export class ProductDetailsComponent implements OnInit{
   get riderCheckbox2(){
     return this.productDetailsForm.get('riderCheckbox2');
   }
-  
+
   get riderRadio2(){
     return this.productDetailsForm.get('riderRadio2');
   }
@@ -209,7 +209,7 @@ export class ProductDetailsComponent implements OnInit{
   get renewal(){
     return this.productDetailsForm.get('renewal');
   }
-  
+
   addRemoveControls(event: any, field: InputField){
     field.isVisible = event;
     if(event){
@@ -217,7 +217,7 @@ export class ProductDetailsComponent implements OnInit{
     } else {
       this.productDetailsForm.removeControl(field.formControlName);
     }
- 
+
     const numberOfFields = Object.keys(this.productDetailsForm.controls).length;
     if(numberOfFields > 0){
       this.isPageBlank = false;
@@ -248,7 +248,10 @@ export class ProductDetailsComponent implements OnInit{
 
   search(event){
     const value = event.target.value.toLocaleLowerCase();
+
     this.searchFilterList = this.fieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
+    console.log("filters",this.searchFilterList)
+
   }
 
   cancelSearch(){
