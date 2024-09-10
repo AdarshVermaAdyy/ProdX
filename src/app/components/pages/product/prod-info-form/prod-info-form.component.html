@@ -22,7 +22,7 @@
             </mat-checkbox>
         </div>
        
-            <div *ngFor="let option  of optionalFieldsList; let i = index">
+            <div *ngFor="let option  of searchListByGroup(group); let i = index">
                 <div *ngIf="option.group === group">
                     <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
                         {{option.label}}
@@ -192,7 +192,7 @@
         </mat-accordion>
                  </ng-container>
 
-              
+                <!-- <div class="custom-divider mt-4"></div> -->
                 <ng-container *ngIf="isfeatureandReinstatement()" >
                 <!-- <h2> Forefeature/Reinstatement</h2> -->
                 <mat-accordion class="dynamic-formngContainer">

@@ -332,16 +332,16 @@ readonly panelOpenState = signal(true);
     this.PremiumandPaymentDetail.controls.forEach(control => control.markAsTouched());
   }
   toggleSelectAll(event, group, i: any) {
-    const relFields = this.optionalFieldsList.filter(item => item.group === group);
+    const relFields = this.searchFilterList.filter(item => item.group === group);
      console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
     if (event.checked) {
       relFields.forEach((item, index) => {
-        const actualIndex = this.optionalFieldsList.indexOf(item);
+        const actualIndex = this.searchFilterList.indexOf(item);
         this.addRemoveControls(true, item, actualIndex);
       })
     } else {
       relFields.forEach(item => {
-        const actualIndex = this.optionalFieldsList.indexOf(item);
+        const actualIndex = this.searchFilterList.indexOf(item);
         this.addRemoveControls(false, item, actualIndex);
 
       })
@@ -351,7 +351,8 @@ readonly panelOpenState = signal(true);
     
      field.selected = event;
    
-    const option = this.optionalFieldsList[i];
+    const option = this.searchFilterList[i];
+  //  const option = this.optionalFieldsList[i];
 
     if (event) {
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
@@ -452,9 +453,10 @@ readonly panelOpenState = signal(true);
   }
   search(event){
     const value = event.target.value.toLocaleLowerCase();
-    this.searchFilterList = this.optionalFieldsList.filter(field => {
-    return   field.label.toLocaleLowerCase().includes(value) 
-    });
+    this.searchFilterList = this.optionalFieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
+    // this.searchFilterList = this.optionalFieldsList.filter(field => {
+    // return   field.label.toLocaleLowerCase().includes(value) 
+    // });
     
   }
   searchListByGroup(group: any){
