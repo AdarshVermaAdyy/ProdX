@@ -25,8 +25,11 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
   styleUrl: './create-using-template.component.scss'
 })
 export class CreateUsingTemplateComponent {
-  
-  
+
+  ngOnInit(): void {
+
+
+    }
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
