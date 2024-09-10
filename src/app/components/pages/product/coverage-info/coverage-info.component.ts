@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit ,signal} from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -14,6 +14,7 @@ import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/mate
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { GetSetService } from '../../../../service/get-set.service';
+import { MatExpansionModule } from '@angular/material/expansion';
 interface InputField{
   label: string;
   formControlName: string;
@@ -36,6 +37,7 @@ interface Options {
     ReactiveFormsModule,
     FormsModule,
     MatButtonModule,
+    MatExpansionModule,
     MatSelectModule,
     MatRadioModule,
     MatCheckboxModule,
@@ -71,13 +73,14 @@ export class CoverageInfoComponent {
     {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
 
-    {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc'},
+    {label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc'},
+    {label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc'},
 
   ]
 
   // filteredFields = this.optionalFieldsList;
+  readonly panelOpenState = signal(true);
   searchFilterList = this.optionalFieldsList;
   templeteFeilds=[
       'coverageCode',
