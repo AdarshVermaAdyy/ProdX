@@ -1,7 +1,19 @@
 <!-- <mat-sidenav-container class="sidenav-container"> -->
-<div class="container-fluid d-flex">
-    <div class="field-list-wrapper">
+<div class="container-fluid d-flex" style="flex-direction: column;">
+    <div class="mt-3">
+        <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasCoverageInfo" aria-controls="offcanvasCoverageInfo">
+            Add Fields
+         </button>
+    </div>
+    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasCoverageInfo" aria-labelledby="offcanvasWithBothOptionsLabel">
+        <div class="offcanvas-header">
+          <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+          <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
 
+    <div class="field-list-wrapper">
+    
         <!-- <div> -->
             <!-- <input type="text" formControlName="searchControl" /> -->
             <form [formGroup]="searchForm">
@@ -32,7 +44,8 @@
         </ng-container>
         </div>
     </div>
-
+</div>
+</div>
     <div class="form-wrapper" *ngIf="!isPageBlank">
         <form [formGroup]="dynamicForm" (ngSubmit)="onSubmit()">
 
