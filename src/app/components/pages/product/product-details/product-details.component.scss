@@ -5,15 +5,15 @@
 }
 
 .field-list-wrapper{
-    border-right: 1px solid grey;
+    // border-right: 1px solid grey;
     padding: 20px;
-    width: 20%;
+    // width: 20%;
     // border-radius: 5px;
 }
 
 .form-wrapper{
     padding: 20px;
-    width: 80%;
+    width: 100%;
     border-radius: 5px;
 }
 
@@ -56,4 +56,9 @@ mat-form-field{
 .checkbox-list-heading{
     margin-bottom: 0;
     margin-top: 10px;
+}
+
+.offcanvas{
+    position: absolute !important;
+
 }

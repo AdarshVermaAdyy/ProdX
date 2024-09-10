@@ -10,37 +10,32 @@ import { CreateUsingTemplateComponent } from './create-using-template/create-usi
 
 const routes: Routes = [
   {
-    path:'template-management',
-    component: TemplateManagementComponent
+    path : '',
+    
+    children : [
+      {
+        path:'template-management',
+        component: TemplateManagementComponent,
+        data : {breadcrumb : 'Template Management'},
+      },
+      {
+        path : '',
+        redirectTo : 'template-management',
+        pathMatch: 'full'
+      },
+      {
+        path: "product-management",
+        component: ProductManagementComponent,
+        data : {breadcrumb : 'Product Management'}
+      },
+      {
+        path:"create-product",
+        component: CreateUsingTemplateComponent,
+        data : {breadcrumb : 'Create product using template'}
+      }
+    ]
   },
-  {
-    path:'product-details',
-    component: ProductDetailsComponent
-  },
-  {
-    path:'coverage-details',
-    component:CoverageInfoComponent
-  },
-  {
-    path: "product-management",
-    component: ProductManagementComponent
-  },
-  {
-    path:"create-product",
-    component: CreateUsingTemplateComponent
-  },
-  {
-    path:'rider-info',
-    component:RiderInformationComponent
-  }
-  // {
-  //   path: 'product-info',
-  //   component: ProdInfoFormComponent
-  // },
-  // {
-  //   path: 'rider-info',
-  //   component: RiderInformationComponent
-  // }
+ 
 ];
 
 @NgModule({

@@ -4,26 +4,40 @@
        
     </div>
     <div class="templateName">
-        <mat-chip>
+        <!-- <mat-chip>
             Dog one
             <button  aria-label="'remove ' + keyword">
                 <mat-icon>edit</mat-icon>
               </button>
-          </mat-chip>
+          </mat-chip> -->
           
     </div>
         <div class="ribbon-btn">
-        <button mat-flat-button class="preview-btn">
+        <button mat-flat-button class="preview-btn" >
             Preview
         </button>
         <button mat-flat-button class="share-btn">
             Share
         </button>
-        <button mat-flat-button class="submit-btn">
+        <button mat-flat-button class="submit-btn" [matMenuTriggerFor]="submitMenu">
             Submit
         </button>
         
     </div>
+
+    <mat-menu #submitMenu="matMenu">
+        <button mat-menu-item>
+          <span>Save as draft</span>
+        </button>
+        <button mat-menu-item>
+      
+          <span>Delete draft</span>
+        </button>
+        <button mat-menu-item>
+          
+          <span>Submit</span>
+        </button>
+      </mat-menu>
     
 	
 
