@@ -15,6 +15,8 @@ import { MatSelectModule } from '@angular/material/select';
 import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
+import { Router } from '@angular/router';
+import { GetSetService } from '../../../../service/get-set.service';
 
 export interface productElement {
   productName: string;
@@ -87,7 +89,11 @@ status:''
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private fb : FormBuilder){}
+  constructor(
+    private fb : FormBuilder, 
+    private route: Router, 
+    private getSetService: GetSetService
+  ){}
 
   ngOnInit(): void {
     this.filterForm = this.fb.group({
@@ -178,6 +184,11 @@ status:''
     this.subCategory.updateValueAndValidity();
     this.status.setValue('');
     this.status.updateValueAndValidity();
+  }
+
+  createNewProduct(){
+    this.getSetService.set('createMode', 'create-by-blank');
+    this.route.navigate(['/main/product/create-product']);
   }
 
 }

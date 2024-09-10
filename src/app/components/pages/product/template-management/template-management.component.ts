@@ -6,8 +6,9 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import {MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
-import { RouterModule } from '@angular/router';
+import { Router, RouterModule } from '@angular/router';
 import { MatPaginator } from '@angular/material/paginator';
+import { GetSetService } from '../../../../service/get-set.service';
 
 export interface TemplateElement {
   thumbnail: string;
@@ -64,7 +65,7 @@ export class TemplateManagementComponent implements OnInit{
     {category : 'Unit Linked Insurance Plans (ULIPs)', subCategory : ['Regular Premium ULIPs','Single Premium ULIPs','Flexible Premium ULIPs','Equity Linked ULIPs','Debt Linked ULIPs']},
   ];
 
-  constructor() {
+  constructor(private route: Router, private getSetService: GetSetService) {
   }
 
   ngOnInit(): void {
@@ -75,5 +76,10 @@ export class TemplateManagementComponent implements OnInit{
     this.subCategories = this.subcategoryList.filter(x =>{
       return x.category == event.value
     })
+  }
+
+  createNewProduct(){
+    this.getSetService.set('createMode','create-by-template');
+    this.route.navigate(['/main/product/create-product']);
   }
 }
