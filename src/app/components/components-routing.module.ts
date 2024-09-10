@@ -12,17 +12,20 @@ const routes: Routes = [
 
       {
         path : 'dashboard',
-        component: DashboardComponent
+        component: DashboardComponent,
+        data : {breadcrumb : 'Dashboard'}
       },
       {
         path : '',
         redirectTo : 'dashboard',
-        pathMatch: 'full'
+        pathMatch: 'full',
+        data : {breadcrumb : 'Dashboard'}
       },
 
       {
         path : 'product',
-        loadChildren : () => import('../components/pages/product/product.module').then(m=>m.ProductModule)
+        loadChildren : () => import('../components/pages/product/product.module').then(m=>m.ProductModule),
+        data : {breadcrumb : 'Product'}
       }
     ]
   },

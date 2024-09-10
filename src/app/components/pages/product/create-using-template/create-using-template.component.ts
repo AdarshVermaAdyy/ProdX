@@ -7,6 +7,9 @@ import {MatButtonModule} from '@angular/material/button';
 import { ProductDetailsComponent } from '../product-details/product-details.component';
 import { CoverageInfoComponent } from '../coverage-info/coverage-info.component';
 import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.component';
+import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-ribbon.component';
+import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatIconModule } from '@angular/material/icon';
 
 @Component({
   selector: 'app-create-using-template',
@@ -19,7 +22,9 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
     ReactiveFormsModule,
     ProductDetailsComponent,
   CoverageInfoComponent,
-  ProdInfoFormComponent
+  ProdInfoFormComponent,
+  HeaderRibbonComponent,
+  MatSidenavModule,MatIconModule
 ],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'

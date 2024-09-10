@@ -1,8 +1,11 @@
+<app-header-ribbon></app-header-ribbon>
 <div class="container">
     <div class="row">
         <div class="col">
             <mat-stepper linear #stepper>
-
+              <ng-template matStepperIcon="edit">
+                <mat-icon>check</mat-icon>
+              </ng-template>
               <!-- Product details step -->
                 <mat-step [stepControl]="step1.productDetailsForm">
                     <ng-template matStepLabel>Product Details</ng-template>
