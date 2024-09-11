@@ -7,6 +7,7 @@ import { ProductManagementComponent } from './product-management/product-managem
 import { ProdInfoFormComponent } from './prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
 import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
+import { ReviewDocumentComponent } from './review-document/review-document.component';
 
 const routes: Routes = [
   {
@@ -32,6 +33,10 @@ const routes: Routes = [
         path:"create-product",
         component: CreateUsingTemplateComponent,
         data : {breadcrumb : 'Create product using template'}
+      },
+      {
+        path: 'review-document',
+        component: ReviewDocumentComponent
       }
     ]
   },
