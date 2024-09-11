@@ -286,6 +286,7 @@ export class RiderInformationComponent implements OnInit {
     console.log("next method called");
     const data = 'Hello from form details';
   //  this.shareproductData.updateData(data);
+
     this.shareproductData.updateData(this.riderDetailsForm.value.riderTpye);
   }
 

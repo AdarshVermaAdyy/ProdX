@@ -10,6 +10,7 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
 import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-ribbon.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import { RiderInformationComponent } from "../../../rider-information/rider-information.component";
 
 @Component({
   selector: 'app-create-using-template',
@@ -21,11 +22,10 @@ import { MatIconModule } from '@angular/material/icon';
     FormsModule,
     ReactiveFormsModule,
     ProductDetailsComponent,
-  CoverageInfoComponent,
-  ProdInfoFormComponent,
-  HeaderRibbonComponent,
-  MatSidenavModule,MatIconModule
-],
+    CoverageInfoComponent,
+    ProdInfoFormComponent,
+    HeaderRibbonComponent,
+    MatSidenavModule, MatIconModule, RiderInformationComponent],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'
 })
@@ -38,6 +38,7 @@ export class CreateUsingTemplateComponent {
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
+  @ViewChild(RiderInformationComponent)RiderInformationComponent:RiderInformationComponent;
 
   get productDetailsForm() {
     return this.ProductDetailsComponent ? this.ProductDetailsComponent.productDetailsForm : null;
@@ -48,5 +49,9 @@ export class CreateUsingTemplateComponent {
 
 get coverageInfoForm() {
   return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
+}
+get riderDetailsForm(){
+  return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
+
 }
 }

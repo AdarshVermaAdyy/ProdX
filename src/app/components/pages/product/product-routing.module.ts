@@ -1,4 +1,3 @@
-import { RiderInformationComponent } from './../../rider-information/rider-information.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TemplateManagementComponent } from './template-management/template-management.component';
@@ -11,7 +10,7 @@ import { CreateUsingTemplateComponent } from './create-using-template/create-usi
 const routes: Routes = [
   {
     path : '',
-    
+
     children : [
       {
         path:'template-management',
@@ -35,7 +34,7 @@ const routes: Routes = [
       }
     ]
   },
- 
+
 ];
 
 @NgModule({
