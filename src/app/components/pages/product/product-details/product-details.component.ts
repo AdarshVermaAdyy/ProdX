@@ -14,6 +14,7 @@ import { ShareproductdataService } from '../../../../service/shareproductdata.se
 import {MatExpansionModule} from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { GetSetService } from '../../../../service/get-set.service';
+import { FormDataService } from '../../../../service/form-data.service';
 
 interface InputField{
   label: string;
@@ -102,7 +103,8 @@ export class ProductDetailsComponent implements OnInit{
     private _fb: FormBuilder,
     private dialog : MatDialog,
     private shareproductData:ShareproductdataService,
-    private getSetService: GetSetService
+    private getSetService: GetSetService,
+    private formDataService: FormDataService
   ) {
     this.productDetailsForm = new FormGroup({});
     this.isBlankTemplate = this.getSetService.get('createMode');
@@ -240,9 +242,7 @@ export class ProductDetailsComponent implements OnInit{
   }
 
   nextdata(){
-    console.log("next method called");
-    const data = 'Hello from form details';
-  //  this.shareproductData.updateData(data);
+    this.formDataService.setFormData('product-details', this.productDetailsForm.value);
     this.shareproductData.updateData(this.productDetailsForm.value.productCode);
   }
 
