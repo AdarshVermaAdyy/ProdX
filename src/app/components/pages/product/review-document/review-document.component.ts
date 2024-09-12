@@ -140,12 +140,6 @@ export class ReviewDocumentComponent implements OnInit {
     this.dataSource.sort = this.sort;
   }
 
-  onCategoryChange(filter: any,event: any){
-    // this.subCategories = this.subcategoryList.filter(x =>{
-    //   return x.category == event.value
-    // })
-  console.log("onCategoryChange...");
-   }
   resetFilter(){
     this.filterValues['category'] = '';
     this.filterValues['search'] = '';

@@ -65,12 +65,12 @@ export class ProductInfoServiceService {
     
 //////////////////////
 
-  { id: 43, label: "Product Start Date", type: 'date', group: 'productBoundary', selected:false },
-  { id: 44, label: "Product End Date", type: 'date', group: 'productBoundary' , selected:false },
+  { id: 43, label: "Product Start Date", type: 'date', group: 'productBoundaryCondition', selected:false },
+  { id: 44, label: "Product End Date", type: 'date', group: 'productBoundaryCondition' , selected:false },
     // { id: 41, label: "Product Start Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
     // { id: 42, label: "Product End Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
-    { id: 45, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration' , selected:false},
-    { id: 46, label: "Beneficiary Update Process", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected:false},
+    { id: 45, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'premiumDetails' , selected:false},
+    { id: 46, label: "Beneficiary Update Process", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'premiumDetails', selected:false},
     { id: 47, label: "Termination Reason Code", type: 'dropdown', options: ['TERM1', 'TERM2'], group: 'terminationCancellation', selected:false },
     { id: 48, label: "Premium Adjustment Option", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected:false},
     { id: 49, label: "Premium Loading", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected:false },
@@ -97,12 +97,12 @@ export class ProductInfoServiceService {
      console.log("here is a dynamic form group label creation : " + label);
     if (type === 'range') {
       if(label === 'Entity Age') {
-        controls['min'] = [config.min, [Validators.required, Validators.min(18)]];
-        controls['max'] = [config.max, [Validators.required, Validators.max(65)]];
+        controls['min'] = [config.min, [Validators.required, Validators.min(18), Validators.pattern(/^\d+$/)]];
+        controls['max'] = [config.max, [Validators.required, Validators.max(65), Validators.pattern(/^\d+$/)]];
       } 
       else{
-      controls['min'] = [config.min, Validators.required];
-      controls['max'] = [config.max, Validators.required];
+      controls['min'] = [config.min,[ Validators.required, Validators.pattern(/^\d+$/)]];
+      controls['max'] = [config.max, [Validators.required, Validators.pattern(/^\d+$/)]];
       }
     } else if (type === 'dropdown') {
       const defaultValue = config.defaultValue || (config.options && config.options[0]) || '';

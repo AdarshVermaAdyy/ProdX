@@ -83,6 +83,8 @@
                                                             *ngIf="field.get('min').invalid && (field.get('min')?.dirty || field.get('min').touched)">
                                                             <span *ngIf="field.get('min').errors?.['required']">This
                                                                 information is required.</span>
+                                                                <span *ngIf="field.get('min').errors?.['pattern']">Please enter
+                                                            number only.</span>
                                                             <span *ngIf="field.get('min').errors?.['min']">Minimum value
                                                                 should be 18 or more</span>
                                                         </mat-error>
@@ -98,12 +100,26 @@
                                                             *ngIf="field.get('max').invalid && (field.get('max')?.dirty || field.get('max').touched)">
                                                             <span *ngIf="field.get('max').errors?.['required']">This
                                                                 information is required.</span>
-                                                            <span *ngIf="field.get('max').errors?.['min']">Maxmum value
+                                                                <span *ngIf="field.get('max').errors?.['pattern']">Please enter
+                                                                    number only.</span>
+                                                            <span *ngIf="field.get('max').errors?.['max']">Maxmum value
                                                                 should be 65 or less</span>
                                                         </mat-error>
                                                     </mat-form-field>
                                                     <!-- </div> -->
                                                 </div>
+                                            </div>
+                                            <div *ngSwitchCase="'date'">
+                                                <mat-form-field class="dropdowidth">
+                                                    <mat-label>{{field.get('label')?.value}}</mat-label>
+                                                    <input matInput [matDatepicker]="pickers" formControlName="value">
+                                                    <mat-datepicker-toggle matSuffix
+                                                        [for]="pickers"></mat-datepicker-toggle>
+                                                    <mat-datepicker #pickers></mat-datepicker>
+                                                    <!-- <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
+                                            <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
+                                        </mat-error> -->
+                                                </mat-form-field>
                                             </div>
                                             <div *ngSwitchCase="'dropdown'">
                                                 <mat-form-field class="dropdowidth">
@@ -359,62 +375,7 @@
                 </mat-accordion>
             </ng-container>
 
-            <ng-container *ngIf="isProducBoundarySelect()">
-                <mat-accordion class="dynamic-formngContainer">
-                    <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
-                        expanded="true">
-                        <mat-expansion-panel-header>
-                            <mat-panel-title>prodcut Boundary</mat-panel-title>
-                        </mat-expansion-panel-header>
-                        <div formArrayName="selectedValues">
-                            <div formArrayName="productBoundary">
-                                <div class="row">
-                                    <div *ngFor="let field of productBoundary.controls; let i = index"
-                                        [formGroupName]="i" class="col-6">
-                                        <div [ngSwitch]="field.get('type')?.value">
-                                            <div *ngSwitchCase="'dropdown'">
-                                                <mat-form-field class="dropdowidth">
-                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                                    <mat-select formControlName="value">
-                                                        <mat-option *ngFor="let option of field.get('options')?.value"
-                                                            [value]="option">{{ option }}</mat-option>
-                                                    </mat-select>
-                                                </mat-form-field>
-                                            </div>
-                                            <div *ngSwitchCase="'date'">
-                                                <mat-form-field class="dropdowidth">
-                                                    <mat-label>{{field.get('label')?.value}}</mat-label>
-                                                    <input matInput [matDatepicker]="pickers" formControlName="value">
-                                                    <mat-datepicker-toggle matSuffix
-                                                        [for]="pickers"></mat-datepicker-toggle>
-                                                    <mat-datepicker #pickers></mat-datepicker>
-                                                    <!-- <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
-                                            <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
-                                        </mat-error> -->
-                                                </mat-form-field>
-                                            </div>
-                                            <div *ngSwitchCase="'radio'">
-                                                <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                                <div *ngFor="let option of field.get('options')?.value">
-                                                    <input matInput type="radio" [formControlName]="'value'"
-                                                        [value]="option" />
-                                                    {{ option }}
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)"
-                                            class="text-danger">
-                                            <div *ngIf="field.get('value')?.errors?.['required']">This field is required
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-
-                            </div>
-                        </div>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </ng-container>
+           
 
             <ng-container *ngIf="isPremiumandPaymentDetailSelect()">
                 <!-- <h2>Premium And Payment Detail</h2> -->
@@ -464,7 +425,7 @@
             </ng-container>
 
             <div
-                *ngIf="isPremiumandPaymentDetailSelect() || isProducBoundarySelect() || terminationCancellationSelect() || productServicingMajorAlterationsSelect() || isProductServicNonoFinancialAleration() || isproductBoundaryCondition()">
+                *ngIf="isPremiumandPaymentDetailSelect()  || terminationCancellationSelect() || productServicingMajorAlterationsSelect() || isProductServicNonoFinancialAleration() || isproductBoundaryCondition()">
                 <div class="form-btn-wrapper">
                     <button mat-flat-button color="primary" class="mt-3">Save as Draft</button>
                     <button mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
