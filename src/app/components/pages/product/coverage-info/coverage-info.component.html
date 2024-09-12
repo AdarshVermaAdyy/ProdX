@@ -76,7 +76,7 @@
           </div> -->
       </div>
 
-          <div class="row" >
+<div class="row" >
               <div class="col-md-6"  *ngIf="optionalFieldsList[0].isVisible">
                   <mat-form-field class="input-fields-height">
                       <mat-label>Coverage Code 1</mat-label>
@@ -123,7 +123,7 @@
           <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
             <mat-form-field class="input-fields-height">
                 <mat-label>Coverage Amount</mat-label>
-                <input matInput formControlName="coverageAmount"  placeholder="Product Code">
+                <input matInput type="number" formControlName="coverageAmount"  placeholder="Product Code">
 
                 <mat-error *ngIf="coverageAmount?.invalid && (coverageAmount?.dirty || coverageAmount?.touched)">
                     <span *ngIf="coverageAmount?.errors?.['required']">This information is required.</span>
@@ -146,7 +146,7 @@
                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                  <mat-datepicker #picker></mat-datepicker>
               <mat-error *ngIf="coverageEffectiveDate?.invalid && (coverageEffectiveDate?.dirty || coverageEffectiveDate?.touched)">
-                  <span *ngIf="coverageEffectiveDate?.errors?.['required']">This information is required.</span>
+                  <span *ngIf="coverageEffectiveDate?.errors?.['required']">Please enter date </span>
               </mat-error>
           </mat-form-field>
       </div>
@@ -158,7 +158,7 @@
               <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                <mat-datepicker #pickers></mat-datepicker>
             <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
-                <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
+                <span *ngIf="coverageExpiryDate?.errors?.['required']">Please enter date .</span>
             </mat-error>
         </mat-form-field>
     </div>
@@ -166,7 +166,7 @@
     <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
       <mat-form-field class="input-fields-height">
           <mat-label>Coverage Premium</mat-label>
-          <input matInput  formControlName="coveragePremium"  placeholder=" Coverage Premium"/>
+          <input matInput type="number" formControlName="coveragePremium"  placeholder=" Coverage Premium"/>
           <mat-error *ngIf="coveragePremium?.invalid && (coveragePremium?.dirty || coveragePremium?.touched)">
               <span *ngIf="coveragePremium?.errors?.['required']">This information is required.</span>
           </mat-error>
@@ -193,23 +193,28 @@
         </mat-error>
     </mat-form-field>
 </div>
-<div class="col-md-6" *ngIf="optionalFieldsList[9].isVisible">
-  <mat-form-field class="input-fields-height">
-    <mat-label>Coverage Condition</mat-label>
-    <textarea matInput matTextareaAutosize formControlName="coverage_condition"  placeholder="Coverage Condition"></textarea>
-    <mat-error *ngIf="coverage_condition?.invalid && (coverage_condition?.dirty || coverage_condition?.touched)">
-        <span *ngIf="coverage_condition?.errors?.['required']">This information is required.</span>
-    </mat-error>
-  </mat-form-field>
 
 
-</div>
 
+          </div>
+          <div class="row">
+            <div class="col-md-6" *ngIf="optionalFieldsList[9].isVisible">
+              <mat-form-field class="input-fields-height">
+                <mat-label>Coverage Condition</mat-label>
+                <textarea matInput matTextareaAutosize formControlName="coverage_condition"  placeholder="Coverage Condition"></textarea>
+                <mat-error *ngIf="coverage_condition?.invalid && (coverage_condition?.dirty || coverage_condition?.touched)">
+                    <span *ngIf="coverage_condition?.errors?.['required']">This information is required.</span>
+                </mat-error>
+              </mat-form-field>
+
+
+            </div>
           </div>
 
 
 
-          </mat-expansion-panel></mat-accordion>
+        </mat-expansion-panel>
+        </mat-accordion>
 
         </ng-container>
 
