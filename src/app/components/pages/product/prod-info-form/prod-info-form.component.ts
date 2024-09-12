@@ -188,7 +188,7 @@ readonly panelOpenState = signal(true);
   public dialog: MatDialog ,
   private getSetService: GetSetService) { 
     this.dynamicForm = new FormGroup({});
-    this.isBlankTemplate = this.getSetService.get('createMode');
+    this.isBlankTemplate = localStorage.getItem('createMode');
     
   }
   
