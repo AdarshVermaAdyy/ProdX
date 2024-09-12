@@ -91,8 +91,7 @@ status:''
 
   constructor(
     private fb : FormBuilder, 
-    private route: Router, 
-    private getSetService: GetSetService
+    private route: Router
   ){}
 
   ngOnInit(): void {
@@ -187,7 +186,7 @@ status:''
   }
 
   createNewProduct(){
-    this.getSetService.set('createMode', 'create-by-blank');
+    localStorage.setItem('createMode', 'create-by-blank');
     this.route.navigate(['/main/product/create-product']);
   }
 
