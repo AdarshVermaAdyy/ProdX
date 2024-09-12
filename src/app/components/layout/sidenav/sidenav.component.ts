@@ -34,7 +34,7 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
-  isExpanded = true;
+  isExpanded = false;
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
