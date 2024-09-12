@@ -99,7 +99,7 @@ export class CoverageInfoComponent {
 
   constructor(private _fb: FormBuilder,private getSetService: GetSetService) {
     this.coverageInfoForm = new FormGroup({});
-    this.isBlankTemplete = this.getSetService.get('createMode');
+    this.isBlankTemplete = localStorage.getItem('createMode');
   }
 
   ngOnInit(): void {
