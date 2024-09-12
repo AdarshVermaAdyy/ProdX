@@ -13,6 +13,9 @@
           
     </div>
         <div class="ribbon-btn">
+          <button mat-flat-button class="doc-btn" (click)="docUpload()">
+            Upload Document
+        </button>
         <button mat-flat-button class="preview-btn" >
             Preview
         </button>
@@ -26,6 +29,7 @@
     </div>
 
     <mat-menu #submitMenu="matMenu">
+      
         <button mat-menu-item>
           <span>Save as draft</span>
         </button>

@@ -1,0 +1,82 @@
+<h2 mat-dialog-title>{{title}}</h2>
+<mat-dialog-content >
+    <mat-tab-group>
+        <mat-tab label="Create New Document Category"> 
+            
+                   
+          <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+                        <div class="col-9">
+                          <mat-form-field class="categorytext-field">
+                            <mat-label>Enter Category Name</mat-label>
+                            <input matInput placeholder="Category Name" [formControl]="categoryNameText">
+                            @if (categoryNameText.hasError('required')) {
+                              <mat-error>Category name is <strong>required</strong></mat-error>
+                            }
+                          </mat-form-field>
+                        </div>
+                        <div class="col-3">
+                          <button style="height: auto;" mat-flat-button class="example-delete-tab-button"  color="primary">
+                            Create Category
+                          </button>
+                        </div>
+                      </div>
+        </mat-tab>
+        <mat-tab label="Select from Existing Categories"> 
+          <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+            <div class="col-9">
+              <mat-form-field style="width: 100%;">
+                <mat-label>Select category</mat-label>
+                <mat-select [formControl]="categorySelect" required>
+                  <mat-option>--</mat-option>
+                  @for (category of categoryList; track category) {
+                    <mat-option [value]="category">{{category}}</mat-option>
+                  }
+                </mat-select>
+                @if (categorySelect.hasError('required')) {
+                  <mat-error>Please choose a category</mat-error>
+                }
+                
+              </mat-form-field>
+            </div>
+          </div>
+        </mat-tab>
+        
+      </mat-tab-group>
+
+      <mat-divider></mat-divider>
+
+
+      <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+        <div class="col-12">
+          <mat-form-field style="width: 100%;">
+            <mat-label>Select File</mat-label>
+            <button mat-icon-button matPrefix (click)="f_input.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <input type="text" readonly matInput [formControl]="display" />
+            <input
+              type="file"
+              multiple
+              hidden
+              #f_input
+              (change)="handleFileInputChange(f_input.files,$event)"
+            />
+            <mat-error>this field is required</mat-error>
+          </mat-form-field>
+        </div>
+        <!-- <div class="col-3">
+          <button mat-flat-button  color="primary">
+            <mat-icon>upload</mat-icon>
+            Upload
+          </button>
+        </div> -->
+      </div>
+     
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button color="primary" cdkFocusInitial mat-flat-button mat-dialog-close>
+      <mat-icon >upload</mat-icon>
+      <span>Upload</span>
+    </button>
+    <button mat-flat-button color="primary" [mat-dialog-close]="true"  ><mat-icon>close</mat-icon><span>Cancel</span></button>
+  </mat-dialog-actions>
