@@ -6,6 +6,7 @@ import { ProductManagementComponent } from './product-management/product-managem
 import { ProdInfoFormComponent } from './prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
 import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
+import { MydraftsComponent } from './mydrafts/mydrafts.component';
 
 const routes: Routes = [
   {
@@ -26,6 +27,11 @@ const routes: Routes = [
         path: "product-management",
         component: ProductManagementComponent,
         data : {breadcrumb : 'Product Management'}
+      },
+      {
+        path:"mydrafts",
+        component:MydraftsComponent,
+        data:{breadcrumb:'My Drafts'}
       },
       {
         path:"create-product",
