@@ -147,7 +147,8 @@ mat-grid-list {
     width: 100%;
 
 }
-.offcanvas{
-    position: absolute !important;
 
+.offcanvas{
+    position: fixed !important;
+    left: 4rem;
 }
