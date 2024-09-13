@@ -53,8 +53,7 @@
             <ng-container
                 *ngIf="fieldsList[0].isVisible || fieldsList[1].isVisible || fieldsList[2].isVisible
                 || fieldsList[3].isVisible|| fieldsList[4].isVisible|| fieldsList[5].isVisible
-                || fieldsList[6].isVisible|| fieldsList[7].isVisible|| fieldsList[8].isVisible
-                || fieldsList[9].isVisible|| fieldsList[10].isVisible|| fieldsList[11].isVisible|| fieldsList[12].isVisible">
+                || fieldsList[6].isVisible|| fieldsList[7].isVisible|| fieldsList[8].isVisible">
                 <mat-accordion>
                     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
                         expanded="true">
@@ -134,51 +133,40 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" *ngIf="fieldsList[6].isVisible">
-                                <mat-form-field class="input-fields-height">
-                                    <mat-label>Coverage Code 1</mat-label>
-                                    <input matInput formControlName="coverageCode1" />
-                                    <mat-error
-                                        *ngIf="coverageCode1?.invalid && (coverageCode1?.dirty || coverageCode1?.touched)">
-                                        <span *ngIf="coverageCode1?.errors?.['required']">This information is
-                                            required.</span>
-                                    </mat-error>
-                                </mat-form-field>
+                            
+                            <div formArrayName="coverage" *ngIf="fieldsList[6].isVisible">
+                                <mat-divider></mat-divider>
+                                <div class="row mt-4" style="margin-bottom: 0px !important;" *ngFor="let coverageGrp of coverage.controls; let i = index;" [formGroupName]="i">
+                                    <div class="col-md-5">
+                                        <mat-form-field class="input-fields-height">
+                                            <mat-label>Coverage Code {{i + 1}}</mat-label>
+                                            <input matInput formControlName="coverageCode" />
+                                            <mat-error
+                                                *ngIf="coverage.at(i).get('coverageCode')?.invalid && (coverage.at(i).get('coverageCode')?.dirty || coverage.at(i).get('coverageCode')?.touched)">
+                                                <span *ngIf="coverage.at(i).get('coverageCode')?.errors?.['required']">This information is
+                                                    required.</span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-5">
+                                        <mat-form-field class="input-fields-height">
+                                            <mat-label>Coverage Name {{i + 1}}</mat-label>
+                                            <input matInput formControlName="coverageName" />
+                                            <mat-error
+                                                *ngIf="coverage.at(i).get('coverageName')?.invalid && (coverage.at(i).get('coverageName')?.dirty || coverage.at(i).get('coverageName')?.touched)">
+                                                <span *ngIf="coverage.at(i).get('coverageName')?.errors?.['required']">This information is
+                                                    required.</span>
+                                            </mat-error>
+                                        </mat-form-field>
+                                    </div>
+                                    <div class="col-md-2">
+                                        <button mat-icon-button (click)="removeCoverage(i)" *ngIf="coverage?.controls?.length > 1"><mat-icon>cancel</mat-icon></button>
+                                    </div>
+                                </div>
+                                <button class="mb-4" mat-stroked-button (click)="addCoverage()" type="button">Add Coverage</button>
+                                <mat-divider class="mb-4"></mat-divider>
                             </div>
                             <div class="col-md-6" *ngIf="fieldsList[7].isVisible">
-                                <mat-form-field class="input-fields-height">
-                                    <mat-label>Coverage Name 1</mat-label>
-                                    <input matInput formControlName="coverageName1" />
-                                    <mat-error
-                                        *ngIf="coverageName1?.invalid && (coverageName1?.dirty || coverageName1?.touched)">
-                                        <span *ngIf="coverageName1?.errors?.['required']">This information is
-                                            required.</span>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6" *ngIf="fieldsList[8].isVisible">
-                                <mat-form-field class="input-fields-height">
-                                    <mat-label>Coverage Code 2</mat-label>
-                                    <input matInput formControlName="coverageCode2" />
-                                    <mat-error
-                                        *ngIf="coverageCode2?.invalid && (coverageCode2?.dirty || coverageCode2?.touched)">
-                                        <span *ngIf="coverageCode2?.errors?.['required']">This information is
-                                            required.</span>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6" *ngIf="fieldsList[9].isVisible">
-                                <mat-form-field class="input-fields-height">
-                                    <mat-label>Coverage Name 2</mat-label>
-                                    <input matInput formControlName="coverageName2" />
-                                    <mat-error
-                                        *ngIf="coverageName2?.invalid && (coverageName2?.dirty || coverageName2?.touched)">
-                                        <span *ngIf="coverageName2?.errors?.['required']">This information is
-                                            required.</span>
-                                    </mat-error>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-md-6" *ngIf="fieldsList[10].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Riders Applicable</mat-label>
                                     <mat-select placeholder="Riders Applicable" formControlName="ridersApplicable">
@@ -193,7 +181,7 @@
                                 </mat-form-field>
                             </div>
                             <div class="row">
-                                <div class="col-md-6" *ngIf="fieldsList[11].isVisible">
+                                <div class="col-md-6" *ngIf="fieldsList[8].isVisible">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <mat-checkbox formControlName="riderCheckbox1" (change)="riderCheckBox($event, 'riderCheckbox1')">
@@ -221,7 +209,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-md-6" *ngIf="fieldsList[12].isVisible">
+                                <div class="col-md-6" *ngIf="fieldsList[9].isVisible">
                                     <div class="row">
                                         <div class="col-md-4">
                                             <mat-checkbox formControlName="riderCheckbox2" (change)="riderCheckBox($event, 'riderCheckbox2')">
@@ -253,7 +241,7 @@
                 </mat-accordion>
 
             </ng-container>
-            <ng-container *ngIf="fieldsList[13].isVisible || fieldsList[14].isVisible || fieldsList[15].isVisible">
+            <ng-container *ngIf="fieldsList[10].isVisible || fieldsList[11].isVisible || fieldsList[12].isVisible">
                 <mat-accordion>
                     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
                         class="mt-3" expanded="true">
@@ -261,7 +249,7 @@
                             <mat-panel-title>Underwriting Details</mat-panel-title>
                         </mat-expansion-panel-header>
                         <div class="row">
-                            <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[10].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Underwriting Guideline</mat-label>
                                     <textarea matInput formControlName="underwritingGuidelines"></textarea>
@@ -272,7 +260,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[11].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Underwriting Requirements</mat-label>
                                     <mat-select placeholder="Product Status" formControlName="underwritingRequirements" multiple>
@@ -288,7 +276,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[12].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Risk Assessment Criteria</mat-label>
                                     <textarea matInput formControlName="riskAssessCriteria"></textarea>
@@ -304,7 +292,7 @@
                 </mat-accordion>
             </ng-container>
 
-            <ng-container *ngIf="fieldsList[16].isVisible || fieldsList[17].isVisible || fieldsList[18].isVisible">
+            <ng-container *ngIf="fieldsList[13].isVisible || fieldsList[14].isVisible || fieldsList[15].isVisible">
                 <mat-accordion>
                     <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
                         class="mt-3" expanded="true">
@@ -312,7 +300,7 @@
                             <mat-panel-title>Premium Details</mat-panel-title>
                         </mat-expansion-panel-header>
                         <div class="row">
-                            <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Refundable Premium</mat-label>
                                     <mat-select placeholder="Product Status" formControlName="refundablePrem">
@@ -326,7 +314,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Tax Benefits</mat-label>
                                     <mat-select placeholder="Product Status" formControlName="taxBenefits">
@@ -340,7 +328,7 @@
                                     </mat-error>
                                 </mat-form-field>
                             </div>
-                            <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
+                            <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
                                 <mat-form-field class="input-fields-height">
                                     <mat-label>Renewal</mat-label>
                                     <mat-select placeholder="Product Status" formControlName="renewal">
@@ -359,8 +347,8 @@
             </ng-container>
 
             <div class="form-btn-wrapper">
-                <button mat-flat-button color="primary" class="mt-3" [disabled]="productDetailsForm.invalid">Save as
-                    Draft</button>
+                <!-- <button mat-flat-button color="primary" class="mt-3">Save as
+                    Draft</button> -->
                 <button mat-flat-button color="primary" class="mt-3" matStepperNext>Next</button>
             </div>
         </form>
