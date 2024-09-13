@@ -10,12 +10,13 @@ export class ProductInfoServiceService {
   private availableOptions = [ ];
 
  private optionalFieldsList = [
+  { id: 5, label: "Premium Payment Frequency", type: 'checkbox', options: [ 'Single','Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
   { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
     { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
     { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
    
     { id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected:false },
-    { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
+    // { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
     { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5','10', '15', '20'], group: 'productBoundaryCondition', selected:false },
     { id: 7, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' , selected:false},
     { id: 8, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition', selected:false },
@@ -120,6 +121,16 @@ export class ProductInfoServiceService {
       // controls['maxDate'] = [new Date(), Validators.required];
 
     }
+    else if (type === 'checkbox') {
+      const optionControls = {};
+    config.options.forEach((option, index) => {
+      optionControls[option] = [false];
+      //controls[option] = false;
+    });
+    controls['options'] = [config.options || []];
+    controls['optionControls'] = this.fb.group(optionControls);
+     
+    }
 
     return this.fb.group(controls);
   }
@@ -201,7 +212,7 @@ const PremiumandPaymentDetailSelected = form.get('optionalOptions')?.value.some(
    
     productBoundaryConditions.forEach(group => productBoundaryFormArray.push(group));
     productServiceNonfinancialAlterations.forEach(group => productServiceNonfinancialAlterationsFormArray.push(group));
-   featreandReinsate.forEach(group => featreandReinsateFormArray.push(group));
+    featreandReinsate.forEach(group => featreandReinsateFormArray.push(group));
     productServicingAlteration.forEach(group => productServicingAlterationArray.push(group));
     terminationCancellation.forEach(group=> terminationCancellationArray.push(group));
     productBoundaryOnly.forEach(group=> productBoundaryFormArrayOnly.push(group));

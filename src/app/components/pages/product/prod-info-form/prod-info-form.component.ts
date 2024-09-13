@@ -62,13 +62,17 @@ export class ProdInfoFormComponent implements OnInit {
   //formValue = 'templatated';
   isTeamplateValue = 'true';
   searchForm: FormGroup;
+  selectedFrequency: string []= [];
+  isSingleSelected: boolean = false;
+  isOtherSelected: boolean = false;
 //  searchFilterList : any;
 optionalFieldsList = [
+  { id: 5, label: "Premium Payment Frequency", type: 'checkbox', options: ['Single','Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
   { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
 { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
 { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
 { id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected:false },
-{ id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
+// { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
 { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5','10', '15', '20'], group: 'productBoundaryCondition', selected:false },
 { id: 7, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' , selected:false},
 { id: 8, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition', selected:false },
@@ -346,23 +350,33 @@ readonly panelOpenState = signal(true);
   toggleSelectAll(event, group, i: any) {
     const relFields = this.searchFilterList.filter(item => item.group === group);
      console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
-    if (event.checked) {
-      relFields.forEach((item, index) => {
-        const actualIndex = this.searchFilterList.indexOf(item);
-        this.addRemoveControls(true, item, actualIndex);
-      })
-    } else {
-      relFields.forEach(item => {
-        const actualIndex = this.searchFilterList.indexOf(item);
-        this.addRemoveControls(false, item, actualIndex);
 
-      })
-    }
+     relFields.forEach((item, index) =>{
+      const actualIndex = this.searchFilterList.indexOf(item);
+      if(event.checked  && !item.selected){
+        this.addRemoveControls(true, item, actualIndex);
+      }
+      else if(!event.checked && item.selected){
+        this.addRemoveControls(false, item, actualIndex);
+      }
+     });
+    // if (event.checked) {
+    //   relFields.forEach((item, index) => {
+    //     const actualIndex = this.searchFilterList.indexOf(item);
+    //     this.addRemoveControls(true, item, actualIndex);
+    //   })
+    // } else {
+    //   relFields.forEach(item => {
+    //     const actualIndex = this.searchFilterList.indexOf(item);
+    //     this.addRemoveControls(false, item, actualIndex);
+
+    //   })
+    // }
   }
   addRemoveControls(event: any, field: any, i) {
     
      field.selected = event;
-   
+   console.log("field selected.."+ field.selected);
     const option = this.searchFilterList[i];
   //  const option = this.optionalFieldsList[i];
 
@@ -482,6 +496,48 @@ readonly panelOpenState = signal(true);
     this.searchForm.reset();
     this.searchFilterList = this.optionalFieldsList;
   }
-  
-  
+  onChangeFrequency(option: string){
+    const index = this.selectedFrequency.indexOf(option);
+    
+    if(index === -1){
+    this.selectedFrequency.push(option);
+    this.isOtherSelected = true;
+    }
+     else{
+     
+      this.selectedFrequency.splice(index, 1);
+      if(this.selectedFrequency.length  === 0) {
+                this.isOtherSelected = false;
+              }
+      
+
+     }
+   
+  }
+
+  onSingleChange(isChecked: boolean){
+    this.isSingleSelected = isChecked;
+    if(isChecked){
+      this.selectedFrequency = [];
+      this.isOtherSelected = false;
+    }
+    
+  }
+  // onCheckboxChange(event: any){
+  //   if(event.checked){
+  //     selectedValues.push(this.fb.control(event.source.value));
+  //   }
+  //   else{
+  //     const index = selectedValues.controls.findIndex(control => control.value === event.source.value);
+  //     if(index >= 0){
+  //       selectedValues.removeAt(index);
+  //     }
+  //   }
+
+  // }
+  // showFrequencyField(frequency: string): boolean {
+  //   return this.isSingleSelected || this.selectedFrequency.includes(frequency);
+
+
+  // }
 }

@@ -67,6 +67,43 @@
                         </mat-expansion-panel-header>
                         <div formArrayName="selectedValues">
                             <div formArrayName="productBoundaryCondition">
+                            <div class="row" *ngIf="productBoundaryCondition.controls?.length">
+                                <div  *ngFor="let field of productBoundaryCondition.controls; let i = index"
+                                [formGroupName]="i" class="col-12" >
+                                <div *ngIf="field.get('type')?.value === 'checkbox' && field.get('label')?.value === 'Premium Payment Frequency'">
+                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                    <div formGroupName="optionControls">
+                                        
+                                        <div *ngFor="let option of field.get('options')?.value;">
+                                            <mat-checkbox
+                                            *ngIf ="option === 'Single'"
+                                             [formControlName]="option"
+                                            (change)="onSingleChange($event.checked)"
+                                            [disabled]="isOtherSelected">
+                                           
+                                               {{ option}}
+                                           </mat-checkbox>
+                                        <mat-checkbox 
+                                        *ngIf="option != 'Single'"
+                                        [formControlName]="option"
+                                         (change)="onChangeFrequency(option)"
+                                         [disabled]="isSingleSelected"
+                                         [checked]="selectedFrequency.includes(option)">
+                                        
+                                            {{ option}}
+                                        </mat-checkbox>
+                                    </div>
+                                    </div>
+                                
+                                </div>
+
+                                </div>
+
+                            </div>
+                            </div>
+                            <div *ngIf="isSingleSelected">
+                                <h3> Single Selected  </h3>
+                            <div formArrayName="productBoundaryCondition">
 
                                 <div class="row">
                                     <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
@@ -130,6 +167,17 @@
                                                     </mat-select>
                                                 </mat-form-field>
                                             </div>
+                                            <!-- <div *ngSwitchCase="'checkbox'">
+                                                   <div formGroupName="optionControls">
+                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                    <div *ngFor="let option of field.get('options')?.value; let i = index">
+                                                    <mat-checkbox [formControlName]="option">
+                                                    
+                                                        {{ option}}
+                                                    </mat-checkbox>
+                                                </div>
+                                                </div>
+                                            </div> -->
                                             <div *ngSwitchCase="'text'">
                                                 <mat-form-field>
                                                     <mat-label>{{ field.get('label')?.value }}:</mat-label>
@@ -165,6 +213,120 @@
                                 </div>
 
                             </div>
+                        </div>
+                            <div *ngFor="let frequency of selectedFrequency">
+                                <h3> For Premium Payment Frequency: {{frequency}} </h3>
+                            <div formArrayName="productBoundaryCondition">
+
+                                <div class="row">
+                                    <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
+                                        [formGroupName]="i" class="col-6">
+                                        <div [ngSwitch]="field.get('type')?.value">
+                                            <div *ngSwitchCase="'range'">
+                                                <div class="row">
+                                                    <mat-form-field class="col-md-6">
+                                                        <mat-label>Min {{ field.get('label')?.value }}:</mat-label>
+                                                        <input matInput id="min{{i}}" type="number"
+                                                            formControlName="min" />
+
+                                                        <mat-error
+                                                            *ngIf="field.get('min').invalid && (field.get('min')?.dirty || field.get('min').touched)">
+                                                            <span *ngIf="field.get('min').errors?.['required']">This
+                                                                information is required.</span>
+                                                                <span *ngIf="field.get('min').errors?.['pattern']">Please enter
+                                                            number only.</span>
+                                                            <span *ngIf="field.get('min').errors?.['min']">Minimum value
+                                                                should be 18 or more</span>
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                    <mat-form-field class="col-md-6">
+
+                                                        <mat-label>Max {{ field.get('label')?.value }}:</mat-label>
+
+                                                        <input matInput id="max{{i}}" type="number"
+                                                            formControlName="max" />
+
+                                                        <mat-error
+                                                            *ngIf="field.get('max').invalid && (field.get('max')?.dirty || field.get('max').touched)">
+                                                            <span *ngIf="field.get('max').errors?.['required']">This
+                                                                information is required.</span>
+                                                                <span *ngIf="field.get('max').errors?.['pattern']">Please enter
+                                                                    number only.</span>
+                                                            <span *ngIf="field.get('max').errors?.['max']">Maxmum value
+                                                                should be 65 or less</span>
+                                                        </mat-error>
+                                                    </mat-form-field>
+                                                    <!-- </div> -->
+                                                </div>
+                                            </div>
+                                            <div *ngSwitchCase="'date'">
+                                                <mat-form-field class="dropdowidth">
+                                                    <mat-label>{{field.get('label')?.value}}</mat-label>
+                                                    <input matInput [matDatepicker]="pickers" formControlName="value">
+                                                    <mat-datepicker-toggle matSuffix
+                                                        [for]="pickers"></mat-datepicker-toggle>
+                                                    <mat-datepicker #pickers></mat-datepicker>
+                                                    <!-- <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
+                                            <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
+                                        </mat-error> -->
+                                                </mat-form-field>
+                                            </div>
+                                            <div *ngSwitchCase="'dropdown'">
+                                                <mat-form-field class="dropdowidth">
+                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                    <mat-select formControlName="value">
+                                                        <mat-option *ngFor="let option of field.get('options')?.value"
+                                                            [value]="option">{{ option }}</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+                                            </div>
+                                            <!-- <div *ngSwitchCase="'checkbox'">
+                                                   <div formGroupName="optionControls">
+                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                    <div *ngFor="let option of field.get('options')?.value; let i = index">
+                                                    <mat-checkbox [formControlName]="option">
+                                                    
+                                                        {{ option}}
+                                                    </mat-checkbox>
+                                                </div>
+                                                </div>
+                                            </div> -->
+                                            <div *ngSwitchCase="'text'">
+                                                <mat-form-field>
+                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                    <input matInput type="text" formControlName="value" />
+                                                </mat-form-field>
+                                            </div>
+                                            <div *ngSwitchCase="'radio'">
+                                                <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                <mat-radio-group formControlName="value" class="radiobtgroup"
+                                                [ngClass]="{'is-invalid': field.get('value')?.touched && !field.get('value')?.value }">
+                                                    <div *ngFor="let option of field.get('options')?.value">
+                                                        <mat-radio-button type="radio" [value]="option"> {{ option }}
+                                                        </mat-radio-button>
+                                                    </div>
+                                                </mat-radio-group>
+                                                <mat-error *ngIf="field.get('value')?.touched && !field.get('value')?.value || isMarkedRadioTouched">
+                                                    <span>Please select an option.</span>
+                                                </mat-error>
+                                                <!-- <mat-error
+                                                *ngIf="field.get('value').invalid && (field.get('value')?.dirty || field.get('value').touched)">
+                                                <span *ngIf="field.get('value').errors?.['required']">This
+                                                    information is required.</span>
+                                            </mat-error> -->
+                                            </div>
+                                        </div>
+                                        <div
+                                            *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)">
+                                            <div *ngIf="field.get('value')?.errors?.['required']">
+                                                <span>This field is required</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                            </div>
+                        </div>
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>
