@@ -46,6 +46,7 @@ export class ProdInfoFormComponent implements OnInit {
   isSubmitted = false;
   dynamicForm!: FormGroup;
   availableOptions!: any[];
+  numberInputArray : number[] = [];
  // optionalFieldsList!: any[];
   toastType = '';
   showErrorToast = false;
@@ -67,13 +68,14 @@ export class ProdInfoFormComponent implements OnInit {
   isOtherSelected: boolean = false;
 //  searchFilterList : any;
 optionalFieldsList = [
-  { id: 5, label: "Premium Payment Frequency", type: 'checkbox', options: ['Single','Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
-  { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
-{ id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
-{ id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
-{ id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected:false },
+  { id: 1, label: "Premium Payment Frequency", type: 'checkbox', options: ['Single','Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
+  { id: 2, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition' , selected:false},
+{ id: 3, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected:false },
+{ id: 4, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected:false },
+{ id: 5, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected:false },
 // { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
 { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5','10', '15', '20'], group: 'productBoundaryCondition', selected:false },
+
 { id: 7, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' , selected:false},
 { id: 8, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition', selected:false },
 { id: 9, label: "Sum Assured", type: "range", min: 100000, max: 300000, group: 'productBoundaryCondition', selected:false },
@@ -82,7 +84,7 @@ optionalFieldsList = [
 // { id: 6, label: "Username", type: "text", value: "ahakal", group: 'productBoundaryCondition' },
 { id: 11, label: "Grace Period", type: 'dropdown', options: ['15', '30', '60'], group: 'productBoundaryCondition' , selected:false},
 { id: 12, label: "BackDating", type: 'dropdown', options: ['Yes', 'No'], group: 'productBoundaryCondition', selected:false },
-
+//{ id: 54, label: "Add PPT Combination With Comma", type: 'text', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' , selected:false},
 
 { id: 13, label: "Change of Name", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations' ,  selected:false},
 { id: 14, label: "Appointee Change", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations'  , selected:false},
@@ -137,7 +139,8 @@ optionalFieldsList = [
 { id: 53, label: "Payment Reschedulting", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail' , selected:false },
 ]
 searchResults:any;
-
+commaSeparatedInput: string = '';
+commaValueArray : string[] = [];
 
 templateFields = [
   'Entity Age',
@@ -335,6 +338,7 @@ readonly panelOpenState = signal(true);
   }
   next() {
     this.isMarkedRadioTouched = true;
+    this.processComaInput();
     console.log("Next click");
   }
 
@@ -347,105 +351,9 @@ readonly panelOpenState = signal(true);
     this.productBoundary.controls.forEach(control => control.markAsTouched());
     this.PremiumandPaymentDetail.controls.forEach(control => control.markAsTouched());
   }
-  toggleSelectAll(event, group, i: any) {
-    const relFields = this.searchFilterList.filter(item => item.group === group);
-     console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
+  
 
-     relFields.forEach((item, index) =>{
-      const actualIndex = this.searchFilterList.indexOf(item);
-      if(event.checked  && !item.selected){
-        this.addRemoveControls(true, item, actualIndex);
-      }
-      else if(!event.checked && item.selected){
-        this.addRemoveControls(false, item, actualIndex);
-      }
-     });
-    // if (event.checked) {
-    //   relFields.forEach((item, index) => {
-    //     const actualIndex = this.searchFilterList.indexOf(item);
-    //     this.addRemoveControls(true, item, actualIndex);
-    //   })
-    // } else {
-    //   relFields.forEach(item => {
-    //     const actualIndex = this.searchFilterList.indexOf(item);
-    //     this.addRemoveControls(false, item, actualIndex);
-
-    //   })
-    // }
-  }
-  addRemoveControls(event: any, field: any, i) {
-    
-     field.selected = event;
-   console.log("field selected.."+ field.selected);
-    const option = this.searchFilterList[i];
-  //  const option = this.optionalFieldsList[i];
-
-    if (event) {
-      const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
-               console.log("addcOntrol Group ..." + JSON.stringify(option.group + " " + option.label));
-      if (option.group === 'productBoundaryCondition') {
-          console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
-        this.productBoundaryCondition.push(selectedGroup);
-
-      } else if (option.group === 'productServiceNonfinancialAlterations') {
-        this.productServiceNonfinancialAlterations.push(selectedGroup);
-      }
-      else if (option.group === 'featreandReinsate') {
-        this.featreandReinsate.push(selectedGroup);
-      }
-      else if (option.group === 'productServicingAlteration') {
-        this.productServicingAlteration.push(selectedGroup);
-      }
-      else if (option.group === 'terminationCancellation') {
-        this.terminationCancellation.push(selectedGroup);
-      }
-      else if (option.group === 'productBoundary') {
-        this.isProductBoundarySelected = true;
-        this.productBoundary.push(selectedGroup);
-      }
-      
-      else if (option.group === 'PremiumandPaymentDetail') {
-        this.isPremiumandPaymentDetail = true;
-        this.PremiumandPaymentDetail.push(selectedGroup);
-      }
-
-    } else {
-
-      const selectedIndex = this.findOptionIndex(option.label, option.group);
-      if (selectedIndex > -1) {
-        if (option.group === 'productBoundaryCondition') {
-          this.productBoundaryCondition.removeAt(selectedIndex);
-        } else if (option.group === 'productServiceNonfinancialAlterations') {
-          this.productServiceNonfinancialAlterations.removeAt(selectedIndex);
-        }
-        else if (option.group === 'featreandReinsate') {
-          this.featreandReinsate.removeAt(selectedIndex);
-        }
-        else if (option.group === 'productServicingAlteration') {
-          this.productServicingAlteration.removeAt(selectedIndex);
-        }
-        else if (option.group === 'terminationCancellation') {
-          this.terminationCancellation.removeAt(selectedIndex);
-        }
-        else if (option.group === 'productBoundary') {
-          // this.isProductBoundarySelected = false;
-          this.productBoundary.removeAt(selectedIndex);
-        }
-        else if (option.group === 'PremiumandPaymentDetail') {
-          // this.isProductBoundarySelected = false;
-          this.PremiumandPaymentDetail.removeAt(selectedIndex);
-        }
-      }
-    }
-    const numberOfFields = Object.keys(this.dynamicForm.controls).length;
-    console.log("here is form length.."+ numberOfFields);
-    if(numberOfFields > 0){
-      this.isPageBlank = false;
-    } else {
-      this.isPageBlank = true;
-    }
-
-  }
+ 
   onSelectedOpend(isOpened: boolean){
     if(isOpened){
    
@@ -496,48 +404,188 @@ readonly panelOpenState = signal(true);
     this.searchForm.reset();
     this.searchFilterList = this.optionalFieldsList;
   }
-  onChangeFrequency(option: string){
-    const index = this.selectedFrequency.indexOf(option);
-    
-    if(index === -1){
+  
+
+///////////////
+
+
+toggleSelectAll(event, group, i: any) {
+  const relFields = this.searchFilterList.filter(item => item.group === group);
+   console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
+
+   relFields.forEach((item, index) =>{
+    const actualIndex = this.searchFilterList.indexOf(item);
+    if(event.checked  && !item.selected){
+      this.addRemoveControls(true, item, actualIndex);
+    }
+    else if(!event.checked && item.selected){
+      this.addRemoveControls(false, item, actualIndex);
+    }
+   });
+ 
+}
+
+addRemoveControls(event: boolean, field: any, i: number) {
+  field.selected = event;
+  const option = this.searchFilterList[i];
+
+  // Use 'productBoundaryCondition' as groupName for both single and other selections
+  const groupName = 'productBoundaryCondition';
+
+  if (event) {
+    const selectedControl = this.formService.createDynamicFormGroup(option.label, option.type, option);
+    this.addControlToGroup(groupName, selectedControl);
+  } else {
+    this.removeControlFromGroup(groupName, option.label);
+  }
+
+  // Update page blank status
+  const numberOfFields = Object.keys(this.dynamicForm.controls).length;
+  this.isPageBlank = numberOfFields === 0;
+}
+
+// Add control to form group using a switch case
+addControlToGroup(groupName: string, control: FormGroup) {
+  switch (groupName) {
+    case 'productBoundaryCondition':
+      this.productBoundaryCondition.push(control);
+      break;
+    case 'PremiumandPaymentDetail':
+      this.PremiumandPaymentDetail.push(control);
+      break;
+    case 'productServiceNonfinancialAlterations':  
+      this.productServiceNonfinancialAlterations.push(control);
+      break;
+    case 'featreandReinsate':
+      this.featreandReinsate.push(control);
+      break;
+    case 'productServicingAlteration':
+      this.productServicingAlteration.push(control);
+      break;
+    case 'terminationCancellation':
+      this.terminationCancellation.push(control);
+      break;
+    case 'defaultGroup':
+    default:
+      this.dynamicForm.addControl(control.get('label')?.value, control);
+      break;
+  }
+}
+
+// Remove control from form group using a switch case
+removeControlFromGroup(groupName: string, label: string) {
+  switch (groupName) {
+    case 'productBoundaryCondition': {
+      const index = this.findOptionIndex(label, 'productBoundaryCondition');
+      if (index > -1) this.productBoundaryCondition.removeAt(index);
+      break;
+    }
+    case 'PremiumandPaymentDetail': {
+      const index = this.findOptionIndex(label, 'PremiumandPaymentDetail');
+      if (index > -1) this.PremiumandPaymentDetail.removeAt(index);
+      break;
+    }
+    case 'productServiceNonfinancialAlterations': {
+      const index = this.findOptionIndex(label, 'productServiceNonfinancialAlterations');
+      if (index > -1) this.productServiceNonfinancialAlterations.removeAt(index);
+      break;
+    }
+    case 'featreandReinsate': {
+      const index = this.findOptionIndex(label, 'featreandReinsate');
+      if (index > -1) this.featreandReinsate.removeAt(index);
+      break;
+    }
+    case 'productServicingAlteration': {
+      const index = this.findOptionIndex(label, 'productServicingAlteration');
+      if (index > -1) this.productServicingAlteration.removeAt(index);
+      break;
+    }
+    case 'terminationCancellation': {
+      const index = this.findOptionIndex(label, 'terminationCancellation');
+      if (index > -1) this.terminationCancellation.removeAt(index);
+      break;
+    }
+    case 'defaultGroup':
+    default:
+      this.dynamicForm.removeControl(label);
+      break;
+  }
+}
+
+onSingleChange(isChecked: boolean) {
+  console.log("onSingleChange called");
+  this.isSingleSelected = isChecked;
+
+  if (isChecked) {
+    this.selectedFrequency = []; // Clear other frequencies if "Single" is selected
+    this.isOtherSelected = false;
+
+    // Add all controls for the group 'productBoundaryCondition'
+    this.addAllControlsForGroup('productBoundaryCondition', true);
+  } else {
+    // Remove all controls for 'productBoundaryCondition' if "Single" is unchecked
+    this.addAllControlsForGroup('productBoundaryCondition', false);
+  }
+
+  this.updateControlsForSingle();
+}
+
+onChangeFrequency(option: string) {
+  console.log("onChangeFrequency called for option: " + option);
+  const index = this.selectedFrequency.indexOf(option);
+
+  if (index === -1) {
+    // Option was not previously selected, add it and all controls in 'productBoundaryCondition'
     this.selectedFrequency.push(option);
     this.isOtherSelected = true;
-    }
-     else{
-     
-      this.selectedFrequency.splice(index, 1);
-      if(this.selectedFrequency.length  === 0) {
-                this.isOtherSelected = false;
-              }
-      
 
-     }
-   
-  }
-
-  onSingleChange(isChecked: boolean){
-    this.isSingleSelected = isChecked;
-    if(isChecked){
-      this.selectedFrequency = [];
+    // Add all controls for the group 'productBoundaryCondition'
+    this.addAllControlsForGroup('productBoundaryCondition', true);
+  } else {
+    // Remove the frequency and check if any others are still selected
+    this.selectedFrequency.splice(index, 1);
+    if (this.selectedFrequency.length === 0) {
       this.isOtherSelected = false;
     }
-    
+
+    // Remove all controls for 'productBoundaryCondition' if no options are selected
+    this.addAllControlsForGroup('productBoundaryCondition', false);
   }
-  // onCheckboxChange(event: any){
-  //   if(event.checked){
-  //     selectedValues.push(this.fb.control(event.source.value));
-  //   }
-  //   else{
-  //     const index = selectedValues.controls.findIndex(control => control.value === event.source.value);
-  //     if(index >= 0){
-  //       selectedValues.removeAt(index);
-  //     }
-  //   }
 
-  // }
-  // showFrequencyField(frequency: string): boolean {
-  //   return this.isSingleSelected || this.selectedFrequency.includes(frequency);
+  this.updateControlsForFrequency();
+}
+
+addAllControlsForGroup(groupName: string, isAdding: boolean) {
+  const groupOptions = this.searchFilterList.filter(option => option.group === groupName);
+
+  // Add or remove all controls for the given group
+  groupOptions.forEach(option => {
+    const optionIndex = this.searchFilterList.indexOf(option);
+    this.addRemoveControls(isAdding, option, optionIndex);
+  });
+}
+
+updateControlsForSingle() {
+  if (this.isSingleSelected) {
+    console.log("Updating controls for single selection");
+    // Additional logic for "Single" if needed
+  }
+}
+
+updateControlsForFrequency() {
+  this.selectedFrequency.forEach(frequency => {
+    console.log("Updating controls for frequency: " + frequency);
+    // Additional logic for frequency options if needed
+  });
+}
 
 
-  // }
+/////////////////////////
+  processComaInput(){
+this.numberInputArray = this.commaSeparatedInput
+.split(',').map(value=>value.trim()).filter(value=> !isNaN(Number(value)))
+ .map(value=> Number(value));
+  console.log("here is a number Array"+ this.numberInputArray);
+}
+  
 }
