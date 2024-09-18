@@ -229,7 +229,18 @@ export class ProductDetailsComponent implements OnInit{
           this.productDetailsForm.addControl(field.formControlName, new FormControl(field.defaultVal || '', [Validators.required]));
       }
     } else {
-      this.productDetailsForm.removeControl(field.formControlName);
+      switch(field.formControlName){
+        case 'riderCheckbox1':
+          this.productDetailsForm.removeControl(field.formControlName);
+          this.productDetailsForm.removeControl('riderRadio1');
+          break;
+        case 'riderCheckbox2':
+          this.productDetailsForm.removeControl(field.formControlName);
+          this.productDetailsForm.removeControl('riderRadio2');
+          break;
+        default:
+          this.productDetailsForm.removeControl(field.formControlName);
+      }
     }
 
     // Check product detail form has any field created
@@ -243,7 +254,7 @@ export class ProductDetailsComponent implements OnInit{
 
   // Add/remove fields on checkout selection
   selectUnselectGroup(event, field){
-    const relFields = this.fieldsList.filter(item => item.category === field.category);
+    const relFields = this.searchFilterList.filter(item => item.category === field.category);
     if(event.checked){
       relFields.forEach(item => {
         this.addRemoveControls(true, item);
