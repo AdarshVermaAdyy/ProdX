@@ -19,41 +19,7 @@
 					</div>
 				</div>
 			</div>
-
-
-
-
-			<!-- <div class="noti-item" mat-menu-item>
-				<div class="noti-content">
-					<div class="noti-title">
-						{{noti.title}}
-					</div>
-					<div class="noti-msg">
-						{{noti.msg}}
-					</div>
-
-				</div>
-			</div> -->
-			<mat-divider></mat-divider>
-
-			<!-- <ng-container *ngIf="notificationArray.length>0">
-				<button *ngFor="let noti of notificationArray;let i = index" class="noti-item" mat-menu-item>
-
-					<div class="noti-content">
-						<div class="noti-title">
-							{{noti.title}}
-						</div>
-						<div class="noti-msg">
-							{{noti.msg}}
-						</div>
-
-					</div>
-					<button mat-icon-button>
-						<mat-icon>delete</mat-icon>
-					</button>
-
-				</button>
-			</ng-container> -->
+			<mat-divider></mat-divider>	
 		</ng-container>
 
 	</mat-menu>
@@ -83,8 +49,8 @@
 
 </mat-toolbar>
 <mat-sidenav-container class="wrapper" autosize>
-	<mat-sidenav #sidenav class="sidenav" mode="side" opened="true" (mouseenter)="mouseenter()"
-		(mouseleave)="mouseleave()">
+	<mat-sidenav #sidenav class="sidenav" mode="side" opened="true" 
+		>
 		<div class="link-wrapper" routerLink="/main/dashboard" [routerLinkActive]="'is-active'">
 			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
 				<mat-icon fontIcon="home">design_services</mat-icon>

@@ -26,7 +26,7 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule,
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,MatMenuModule,MatDialogModule,
     RouterModule,
     BreadcrumbComponent
   ],
@@ -34,7 +34,7 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
   styleUrl: './sidenav.component.scss'
 })
 export class SidenavComponent {
-  isExpanded = true;
+  isExpanded = false;
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
@@ -45,7 +45,7 @@ export class SidenavComponent {
   ]
 
   isRibbonAllowed : boolean=false;
-
+  
   constructor(private matdialog: MatDialog){}
 
   openDialog(){
@@ -56,17 +56,17 @@ export class SidenavComponent {
     });
   }
 
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
+  // mouseenter() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = true;
+  //   }
+  // }
 
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
-  }
+  // mouseleave() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = false;
+  //   }
+  // }
   @ViewChild('sidenav') sidenav:any= MatSidenav;
 
   toggleSidenav() {
