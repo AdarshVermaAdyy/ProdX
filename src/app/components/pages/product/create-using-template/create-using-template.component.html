@@ -1,0 +1,34 @@
+<app-header-ribbon></app-header-ribbon>
+<div class="container">
+    <div class="row">
+        <div class="col">
+            <mat-stepper linear #stepper>
+              <ng-template matStepperIcon="edit">
+                <mat-icon>check</mat-icon>
+              </ng-template>
+              <!-- Product details step -->
+                <mat-step [stepControl]="step1.productDetailsForm">
+                    <ng-template matStepLabel>Product Details</ng-template>
+                        <app-product-details #step1></app-product-details>
+                </mat-step>
+
+                <!-- Product Info step -->
+                <mat-step [stepControl]="step2.dynamicForm">
+                  <ng-template matStepLabel>Product Info</ng-template>
+                  <app-prod-info-form #step2></app-prod-info-form>
+                    <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+                </mat-step>
+
+                <!-- coverage Info step  -->
+                <mat-step [stepControl]="step3.coverageInfoForm">
+                  <ng-template matStepLabel>Coverage Info</ng-template>
+                   <app-coverage-info #step3></app-coverage-info>
+                    <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+                </mat-step>
+              </mat-stepper>
+        </div>
+    </div>
+</div>
+

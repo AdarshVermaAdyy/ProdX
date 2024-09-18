@@ -1,0 +1,163 @@
+.wrapper{
+  height: 100%;
+}
+
+.sidenav {
+   user-select: none;
+   position: fixed;
+   top: 4rem;
+}
+
+.toolbar{
+  position: fixed;
+  z-index: 100;
+}
+
+.main-content{
+  padding-top: 4.2rem;
+}
+
+.full-width {
+  width: 100%;
+}
+.menu-button {
+  transition: 300ms ease-in-out;
+  transform: rotate(0deg);
+}
+.menu-button.rotated {
+  transform: rotate(180deg);
+}
+.submenu {
+  overflow-y: hidden;
+  transition: transform 300ms ease;
+  transform: scaleY(0);
+  transform-origin: top;
+  padding-left: 30px;
+}
+.submenu.expanded {
+  transform: scaleY(1);
+}
+.mat-toolbar.mat-primary{
+  --mat-toolbar-container-background-color: #15161f;
+    --mat-toolbar-container-text-color: white;
+}
+.mat-toolbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.product-name {
+  margin-left: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.spacer {
+  flex: 1 1 auto;
+}
+
+// .search-bar {
+//   width: 200px;
+
+// }
+.search-bar {
+  margin-top: 20px;
+  height: 70px;
+  margin-right: 20px
+}
+
+.menuButtonCollapse {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  margin: 0.7rem 0rem;
+}
+.menuButtonExpanded{
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  font-size: 1rem;
+  padding-left: 1.2rem !important;
+  margin: 0.7rem 0rem;
+}
+.sidenav-divider {
+  margin-top: 16px;
+  
+  background-color: rgb(14 14 13 / 26%)
+}
+
+
+.noti-time {
+  font-size: 12px;
+}
+
+.noti-msg {
+  font-size: 14px;
+}
+
+.noti-body{
+  display: flex;
+  justify-content: space-between;
+}
+
+.noti-heading{
+  font-weight: 500;
+  font-size: 14px;
+}
+button[mat-icon-button]{
+  margin-left: auto;
+}
+
+::ng-deep .noti-menu{
+  min-width: 300px !important;
+  max-width: 300px !important;
+}
+::ng-deep .profile-menu{
+  min-width: 150px !important;
+  max-width: 150px !important;
+}
+button[mat-icon-button]{
+  $large-size-button: 60px;
+  $large-size-icon: 30px;
+  
+      &.icon-button-large {
+        width: $large-size-button;
+        height: $large-size-button;
+       
+      .mat-icon {
+        font-size: $large-size-icon;
+        width: $large-size-icon;
+        height: $large-size-icon;
+        line-height: $large-size-icon;
+      }
+      .mat-button-ripple {
+        font-size: inherit;
+        width: inherit;
+        height: inherit;
+        line-height: inherit;
+      }
+    }
+  }
+
+.is-active{
+  background-color: rgba(255, 230, 0, 0.1);
+  border-bottom: 4px solid #FFE600;
+}
+
+.link-wrapper{
+  padding: 5px;
+  // pointer-events: ;
+  cursor: pointer;
+}
+
+.link-wrapper:hover{
+  background-color: rgba(255, 230, 0, 0.05);
+}
+
+.link-wrapper button {
+  pointer-events: none;
+}

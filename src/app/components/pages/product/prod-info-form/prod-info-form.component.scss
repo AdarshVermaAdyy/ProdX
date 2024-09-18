@@ -1,0 +1,154 @@
+.main-content {
+    margin-left: 20px;
+    padding: 20px;
+}
+
+.form-btn-wrapper {
+    display: flex;
+    justify-content: flex-end;
+    gap: 10px;
+}
+
+.wrapper-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+
+.field-list-wrapper{
+    // border-right: 1px solid grey;
+    padding: 20px;
+    // width: 20%;
+    // border-radius: 5px;
+}
+
+.form-wrapper{
+    padding: 20px;
+    width: 100%;
+    border-radius: 5px;
+}
+.dynamic-formngContainer{
+    
+    padding: 20px !important;
+}
+
+.radio-bt-group {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 40px;
+}
+
+.radio-item {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.custom-divider {
+    //height: 1px;
+    // background-color: black;
+   // border-bottom: 1px solid black;
+  //  margin: 20px 0;
+    width: 100%;
+    padding: 10px;
+}
+
+.mat-grid-container {
+    display: flex;
+    gap: 16px;
+
+}
+
+.mat-form-field {
+    flex: 1;
+}
+
+mat-grid-list {
+    width: 100%;
+}
+
+.mat-form-field {
+    width: 100%;
+}
+
+
+.form-field-container {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+
+.toggle-btn {
+    position: absolute;
+    // top: 8px;
+    // left: 16px;
+    z-index: 1000;
+    margin-bottom: 16px;
+}
+
+
+.fromDropdown mat-label{
+    display: block;
+   
+    
+}
+
+.radiobtgroup{
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+.dropdowidth{
+    width: 100%;
+    margin-bottom: 1rem !important;
+}
+
+.checkbox-list-heading{
+    margin-bottom: 0;
+    margin-top: 10px;
+}
+.field-wrapper{
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 1rem;
+}
+
+.field-div{
+    width: 32.5%;
+}
+
+.add-field{
+    width: 49.3% !important;
+}
+.row{
+    margin-bottom: 1rem !important;
+}
+.group-header{
+  //  display: flex;
+    align-items: left;
+    margin-bottom: 5px !important;
+}
+.group-option{
+    margin-left: 30px;
+    display: block;
+    overflow: hidden;
+}
+.group-container{
+  //  margin-bottom: 0px !important;
+  margin: 12px;
+}
+
+.input-fields-height{
+    width: 100%;
+
+}
+
+.offcanvas{
+    position: fixed !important;
+    left: 4rem;
+}
