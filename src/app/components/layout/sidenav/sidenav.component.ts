@@ -26,7 +26,7 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule,
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,MatMenuModule,MatDialogModule,
     RouterModule,
     BreadcrumbComponent
   ],
@@ -45,7 +45,7 @@ export class SidenavComponent {
   ]
 
   isRibbonAllowed : boolean=false;
-
+  
   constructor(private matdialog: MatDialog){}
 
   openDialog(){

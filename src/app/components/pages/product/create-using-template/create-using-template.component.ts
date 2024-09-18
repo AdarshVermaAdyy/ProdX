@@ -31,13 +31,14 @@ import { MatIconModule } from '@angular/material/icon';
 })
 export class CreateUsingTemplateComponent {
 
-  ngOnInit(): void {
+  selectedStep: any;
+  currentStep;
 
-
-    }
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
+
+  ngOnInit(): void {}
 
   get productDetailsForm() {
     return this.ProductDetailsComponent ? this.ProductDetailsComponent.productDetailsForm : null;
@@ -49,4 +50,9 @@ export class CreateUsingTemplateComponent {
 get coverageInfoForm() {
   return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
 }
+
+onStepChange(event,stepper){
+  this.currentStep = stepper;
+}
+
 }

@@ -1,6 +1,6 @@
 <mat-toolbar class="ribbon mb-1">
     <div class="hamburger-menu">
-        <button mat-icon-button ><mat-icon>menu</mat-icon></button>
+        <button mat-icon-button ><mat-icon>widgets</mat-icon></button>
        
     </div>
     <div class="templateName">
@@ -13,31 +13,35 @@
           
     </div>
         <div class="ribbon-btn">
-          <button mat-flat-button class="doc-btn" (click)="docUpload()">
-            Upload Document
+          <button mat-icon-button  matTooltip="Add Documents" class="doc-btn"  (click)="docUpload()">
+          <mat-icon>upload_file</mat-icon>
         </button>
-        <button mat-flat-button class="preview-btn" >
-            Preview
+        <button mat-icon-button class="preview-btn"  matTooltip="Preview" >
+          <mat-icon>
+            visibility
+          </mat-icon>
+            
         </button>
-        <button mat-flat-button class="share-btn">
-            Share
+        <button mat-icon-button class="share-btn"  matTooltip="Share">
+            
+            <mat-icon>share</mat-icon>
         </button>
-        <button mat-flat-button class="submit-btn" [matMenuTriggerFor]="submitMenu">
-            Submit
+        <button mat-icon-button class="submit-btn"  [matMenuTriggerFor]="submitMenu"  matTooltip="More">
+            <mat-icon>more_vert</mat-icon>
         </button>
         
     </div>
 
     <mat-menu #submitMenu="matMenu">
       
-        <button mat-menu-item>
+        <button mat-menu-item (click)="saveDraft()">
           <span>Save as draft</span>
         </button>
         <button mat-menu-item>
       
           <span>Delete draft</span>
         </button>
-        <button mat-menu-item>
+        <button *ngIf="stepper?.selectedIndex === stepper?.steps?.length -1" mat-menu-item (click)="submitProduct()">
           
           <span>Submit</span>
         </button>

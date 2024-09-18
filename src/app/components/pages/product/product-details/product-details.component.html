@@ -1,49 +1,51 @@
-<div class="container-fluid d-flex" style="flex-direction: column;">
-    <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptions"
-        aria-labelledby="offcanvasWithBothOptionsLabel">
-        <div class="offcanvas-header">
-            <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
-            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+
+<div class="offcanvas offcanvas-end"  tabindex="-1" id="offcanvasWithBothOptions"
+aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
+    <div class="field-list-wrapper">
+        <div>
+            <form [formGroup]="searchForm">
+                <mat-form-field class="input-fields-height">
+                    <mat-label>Search</mat-label>
+                    <input matInput formControlName="search" (input)="search($event)" />
+                    <button mat-icon-button matSuffix (click)="cancelSearch()">
+                        <mat-icon>cancel</mat-icon>
+                    </button>
+                </mat-form-field>
+            </form>
         </div>
-        <div class="offcanvas-body">
-            <div class="field-list-wrapper">
-                <div>
-                    <form [formGroup]="searchForm">
-                        <mat-form-field class="input-fields-height">
-                            <mat-label>Search</mat-label>
-                            <input matInput formControlName="search" (input)="search($event)" />
-                            <button mat-icon-button matSuffix (click)="cancelSearch()">
-                                <mat-icon>cancel</mat-icon>
-                            </button>
-                        </mat-form-field>
-                    </form>
-                </div>
-                <div *ngFor="let field of searchFilterList; let i = index">
-                    <mat-checkbox *ngIf="field.formControlName === 'productName'"
-                        (change)="selectUnselectGroup($event, field)">
-                        <h4 class="checkbox-list-heading">Basic Information</h4>
-                    </mat-checkbox>
+        <div *ngFor="let field of searchFilterList; let i = index">
+            <mat-checkbox *ngIf="field.formControlName === 'productName'"
+                (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Basic Information</h4>
+            </mat-checkbox>
 
-                    <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'"
-                        (change)="selectUnselectGroup($event, field)">
-                        <h4 class="checkbox-list-heading">Underwriting Details</h4>
-                    </mat-checkbox>
+            <mat-checkbox *ngIf="field.formControlName === 'underwritingGuidelines'"
+                (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Underwriting Details</h4>
+            </mat-checkbox>
 
-                    <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
-                        (change)="selectUnselectGroup($event, field)">
-                        <h4 class="checkbox-list-heading">Premium Details</h4>
-                    </mat-checkbox>
+            <mat-checkbox *ngIf="field.formControlName === 'refundablePrem'"
+                (change)="selectUnselectGroup($event, field)">
+                <h4 class="checkbox-list-heading">Premium Details</h4>
+            </mat-checkbox>
 
-                    <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
-                        style="margin-left: 30px;">
-                        {{field.label}}
-                    </mat-checkbox>
-                </div>
-            </div>
+            <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
+                style="margin-left: 30px;">
+                {{field.label}}
+            </mat-checkbox>
         </div>
     </div>
+</div>
+</div>
+<div class="container-fluid d-flex" style="flex-direction: column;">
+   
 
-    <div class="mt-3">
+    <div class="mt-3 me-3 d-flex justify-content-end">
         <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptions" aria-controls="offcanvasWithBothOptions">
             Add Fields
          </button>
