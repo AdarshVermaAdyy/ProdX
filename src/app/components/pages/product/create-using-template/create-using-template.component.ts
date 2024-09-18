@@ -31,14 +31,15 @@ import { RiderInformationComponent } from "../../../rider-information/rider-info
 })
 export class CreateUsingTemplateComponent {
 
-  ngOnInit(): void {
+  selectedStep: any;
+  currentStep;
 
-
-    }
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
   @ViewChild(RiderInformationComponent)RiderInformationComponent:RiderInformationComponent;
+
+  ngOnInit(): void {}
 
   get productDetailsForm() {
     return this.ProductDetailsComponent ? this.ProductDetailsComponent.productDetailsForm : null;
@@ -54,4 +55,9 @@ get riderDetailsForm(){
   return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
 
 }
+
+onStepChange(event,stepper){
+  this.currentStep = stepper;
+}
+
 }

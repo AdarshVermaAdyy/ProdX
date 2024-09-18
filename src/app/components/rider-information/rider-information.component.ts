@@ -120,7 +120,7 @@ export class RiderInformationComponent implements OnInit {
     private getSetService: GetSetService
   ) {
     this.riderDetailsForm = new FormGroup({});
-    this.isBlankTemplate = this.getSetService.get('createMode');
+    this.isBlankTemplate = localStorage.getItem('createMode');
 
   }
 

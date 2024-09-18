@@ -1,0 +1,40 @@
+
+<h2 mat-dialog-title style="padding-right: 0px;border-bottom: 1px solid #00000026;">{{title}}
+    <button mat-icon-button class="float-end" [mat-dialog-close]="true">
+        <mat-icon>close</mat-icon>
+      </button>
+</h2>
+
+<mat-dialog-content >
+    <div class="d-flex flex-column">
+        <div>
+            <span><b> Do you want to save this draft as :</b></span>
+        </div>
+        <div class="w-100 mt-2">
+            <mat-form-field class="categorytext-field w-100">
+                <mat-label>Enter Draft Name</mat-label>
+                <input matInput placeholder="Draft Name" [formControl]="draftName">
+                @if (draftName.hasError('required')) {
+                  <mat-error>Draft name is <strong>required</strong></mat-error>
+                }
+              </mat-form-field>
+        </div>
+        <div class="mt-3">
+            <span class="text-danger">*Your draft will be saved with this name and can be accessed through thr home page drafts section</span>
+        </div>
+    </div>
+   
+    
+  </mat-dialog-content>
+
+
+  <mat-dialog-actions align="end">
+    <button mat-flat-button mat-dialog-close color="primary">
+        <mat-icon >close</mat-icon>
+        <span>Cancel</span>
+      </button>
+    <button color="primary" mat-flat-button>
+    <mat-icon>check</mat-icon><span>Save as Draft</span>
+</button>
+
+  </mat-dialog-actions>
