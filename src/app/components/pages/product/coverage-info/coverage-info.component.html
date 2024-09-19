@@ -348,9 +348,9 @@ aria-labelledby="offcanvasWithBothOptionLabel">
           </ng-container> -->
 
           <div class="form-btn-wrapper" *ngIf="optionalFieldsList[0].isVisible||optionalFieldsList[1].isVisible ||optionalFieldsList[2].isVisible||optionalFieldsList[3].isVisible||optionalFieldsList[4].isVisible||optionalFieldsList[5].isVisible||optionalFieldsList[6].isVisible||optionalFieldsList[7].isVisible||optionalFieldsList[8].isVisible||optionalFieldsList[9].isVisible||optionalFieldsList[10].isVisible||optionalFieldsList[11].isVisible||optionalFieldsList[12].isVisible">
-              <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button>
+              <!-- <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button> -->
               <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
-              <button  mat-flat-button color="primary" class="mt-3" matStepperNext  >Next</button>
+              <button  mat-flat-button color="primary" class="mt-3" matStepperNext (click)="nextData()"matStepperNext  >Next</button>
           </div>
       </form>
   </div>

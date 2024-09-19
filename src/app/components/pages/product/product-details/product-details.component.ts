@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, signal } from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -16,6 +16,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { GetSetService } from '../../../../service/get-set.service';
 import { MatDividerModule } from '@angular/material/divider';
 import { FormDataService } from '../../../../service/form-data.service';
+import { Subscription } from 'rxjs';
 
 interface InputField{
   label: string;
@@ -57,13 +58,14 @@ interface Options {
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss'
 })
-export class ProductDetailsComponent implements OnInit{
+export class ProductDetailsComponent implements OnInit, OnDestroy{
 
   productDetailsForm: FormGroup;
   searchForm: FormGroup;
   isBlankTemplate = ''; // if the template is made from Blank template or not
   isPageBlank = true; //
   readonly panelOpenState = signal(true);
+  private formService$ = new Subscription();
 
   fieldsList: InputField[] = [
     {label: "Product Name", formControlName: 'productName', type: 'text', isVisible: false, category: 'basicInformation', defaultVal: 'Premium Life Secure Plan'},
@@ -111,6 +113,11 @@ export class ProductDetailsComponent implements OnInit{
   ngOnInit(): void {
     this.initialiseForm(); //Initialise the product details form
     this.initializeSearchForm(); //Initialise the search form
+    this.formService$ = this.formDataService.callSaveFunction$.subscribe(data => {
+      if(data === '0'){
+        this.saveData();
+      }
+    })
 
     if(this.isBlankTemplate === 'create-by-template'){ // checking if the created from template or from scratch
       // Taking only those fields which are not mandatory
@@ -266,8 +273,12 @@ export class ProductDetailsComponent implements OnInit{
     }
   }
 
-  nextdata(){
+  saveData(){
     this.formDataService.setFormData('product-details', this.productDetailsForm.value);
+  }
+
+  nextData(){
+    this.saveData()
     this.shareproductData.updateData(this.productDetailsForm.value.productCode);
   }
 
@@ -286,7 +297,6 @@ export class ProductDetailsComponent implements OnInit{
   }
 
   editlabel(controlname){
-    console.log(controlname)
     const dialogRef = this.dialog.open(EditLabelComponent);
     dialogRef.afterClosed().subscribe(result => {
 
@@ -319,4 +329,9 @@ export class ProductDetailsComponent implements OnInit{
     this.riderRadio1.updateValueAndValidity();
     this.riderRadio2.updateValueAndValidity();
   }
+
+  ngOnDestroy(): void {
+    this.formService$.unsubscribe()
+  }
+
 }

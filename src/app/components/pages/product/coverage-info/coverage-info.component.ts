@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit ,signal} from '@angular/core';
+import { Component, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLineModule, MatNativeDateModule } from '@angular/material/core';
@@ -15,7 +15,9 @@ import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { GetSetService } from '../../../../service/get-set.service';
 import { MatExpansionModule } from '@angular/material/expansion';
-interface InputField{
+import { FormDataService } from '../../../../service/form-data.service';
+import { Subscription } from 'rxjs';
+interface InputField {
   label: string;
   formControlName: string;
   type: 'select' | 'text' | 'radio' | 'checkbox';
@@ -49,16 +51,17 @@ interface Options {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-  MatStepperModule],
+    MatStepperModule],
   templateUrl: './coverage-info.component.html',
   styleUrl: './coverage-info.component.scss'
 })
 
-export class CoverageInfoComponent {
+export class CoverageInfoComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   coverageInfoForm: FormGroup;
-   isBlankTemplete='';
-   isPageBlank = true; //
+  isBlankTemplete = '';
+  isPageBlank = true; //
+  private formService$ = new Subscription();
 
   optionalFieldsList: InputField[] =
   [
@@ -76,11 +79,11 @@ export class CoverageInfoComponent {
     {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
 
-    {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc'},
-    {label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc'},
-    {label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc'},
+      { label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc' },
+      { label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc' },
+      { label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc' },
 
-  ]
+    ]
 
   // filteredFields = this.optionalFieldsList;
   readonly panelOpenState = signal(true);
@@ -102,32 +105,41 @@ export class CoverageInfoComponent {
 
   ]
 
-  constructor(private _fb: FormBuilder,private getSetService: GetSetService) {
+  constructor(private _fb: FormBuilder, private getSetService: GetSetService, private formDataService: FormDataService) {
     this.coverageInfoForm = new FormGroup({});
     this.isBlankTemplete = localStorage.getItem('createMode');
   }
 
   ngOnInit(): void {
     this.initialiseForm();
-this.initializeSearchForm();
-if(this.isBlankTemplete === 'create-by-template'){
+    this.initializeSearchForm();
+
+    this.formService$ = this.formDataService.callSaveFunction$.subscribe(data => {
+      if(data === '2'){
+        this.saveData();
+      }
+    })
+
+
+    if (this.isBlankTemplete === 'create-by-template') {
   this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName))
-      this.optionalFieldsList.forEach(feild=>{
+      this.optionalFieldsList.forEach(feild => {
         const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
-        if(isFeildExist){
-          this.addRemoveControls(true,feild)
+        if (isFeildExist) {
+          this.addRemoveControls(true, feild)
         }
       })
     }
   }
 
 
-  initialiseForm(){
+  initialiseForm() {
     this.coverageInfoForm = this._fb.group({
+
 
     })
   }
-  initializeSearchForm(){
+  initializeSearchForm() {
     this.searchForm = this._fb.group({
       search: ['']
     });
@@ -139,14 +151,14 @@ if(this.isBlankTemplete === 'create-by-template'){
 
   // }
 
-  search(event){
+  search(event) {
 
     const value = event.target.value.toLocaleLowerCase();
     this.searchFilterList = this.optionalFieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
-  console.log("filter",this.searchFilterList)
+    console.log("filter", this.searchFilterList)
   }
 
-  cancelSearch(){
+  cancelSearch() {
     this.searchForm.reset();
     if(this.isBlankTemplete === 'create-by-template'){
       this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName));
@@ -157,13 +169,13 @@ if(this.isBlankTemplete === 'create-by-template'){
 
 
   //getters
-  get coverageCode(){
+  get coverageCode() {
     return this.coverageInfoForm.get('coverageCode');
   }
-  get cover_name1(){
+  get cover_name1() {
     return this.coverageInfoForm.get('cover_name1');
   }
-  get cover_type(){
+  get cover_type() {
     return this.coverageInfoForm.get('cover_type');
   }
   get min(){
@@ -175,71 +187,71 @@ if(this.isBlankTemplete === 'create-by-template'){
   get coverageAmount(){
     return this.coverageInfoForm.get('coverageAmount');
   }
-  get coverageTerm(){
+  get coverageTerm() {
     return this.coverageInfoForm.get('coverageTerm');
   }
-  get coverageEffectiveDate(){
+  get coverageEffectiveDate() {
     return this.coverageInfoForm.get('coverageEffectiveDate');
   }
-  get coverageExpiryDate(){
+  get coverageExpiryDate() {
     return this.coverageInfoForm.get('coverageExpiryDate');
   }
-  get coveragePremium(){
+  get coveragePremium() {
     return this.coverageInfoForm.get('coveragePremium');
   }
-  get waiting_period(){
+  get waiting_period() {
     return this.coverageInfoForm.get('waiting_period');
   }
-  get coverage_condition(){
+  get coverage_condition() {
     return this.coverageInfoForm.get('coverage_condition');
   }
 
-  get coverage_struc(){
+  get coverage_struc() {
     return this.coverageInfoForm.get('coverage_struc');
   }
-  get Beneficiary(){
+  get Beneficiary() {
     return this.coverageInfoForm.get('Beneficiary');
   }
-  get Death_benefit(){
+  get Death_benefit() {
     return this.coverageInfoForm.get('Death_benefit');
   }
-  get underwritingGuidelines(){
+  get underwritingGuidelines() {
     return this.coverageInfoForm.get('underwritingGuidelines');
   }
-  get underwritingRequirements(){
+  get underwritingRequirements() {
     return this.coverageInfoForm.get('underwritingRequirements');
   }
-  get riskAssessCriteria(){
+  get riskAssessCriteria() {
     return this.coverageInfoForm.get('riskAssessCriteria');
   }
-  get refundablePrem(){
+  get refundablePrem() {
     return this.coverageInfoForm.get('refundablePrem');
   }
-  get taxBenefits(){
+  get taxBenefits() {
     return this.coverageInfoForm.get('taxBenefits');
   }
-  get renewal(){
+  get renewal() {
     return this.coverageInfoForm.get('renewal');
   }
 
-  addRemoveControls(event: any, field: InputField){
+  addRemoveControls(event: any, field: InputField) {
     field.isVisible = event;
-    if(event){
+    if (event) {
       this.coverageInfoForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
     } else {
       this.coverageInfoForm.removeControl(field.formControlName);
     }
     const numberOfFields = Object.keys(this.coverageInfoForm.controls).length;
-    if(numberOfFields > 0){
+    if (numberOfFields > 0) {
       this.isPageBlank = false;
     } else {
       this.isPageBlank = true;
     }
   }
 
-  selectUnselectGroup(event, field){
+  selectUnselectGroup(event, field) {
     const relFields = this.optionalFieldsList.filter(item => item.category === field.category);
-    if(event.checked){
+    if (event.checked) {
       relFields.forEach(item => {
         this.addRemoveControls(true, item);
       })
@@ -248,6 +260,20 @@ if(this.isBlankTemplete === 'create-by-template'){
         this.addRemoveControls(false, item);
       })
     }
+  }
+
+
+  saveData(){
+    this.formDataService.setFormData('coverage-info', this.coverageInfoForm.value);
+  }
+
+  nextData(){
+    this.saveData()
+    // this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+  }
+
+  ngOnDestroy(): void {
+    this.formService$.unsubscribe()
   }
 
 
