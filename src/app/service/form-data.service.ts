@@ -10,6 +10,8 @@ export class FormDataService {
 
   private callSaveFunction = new Subject<string>();
   callSaveFunction$ = this.callSaveFunction.asObservable();
+  private callAddDocument = new Subject();
+  callAddDocument$ = this.callAddDocument.asObservable();
   private formData = {};
   private docList = [];
 
@@ -18,6 +20,10 @@ export class FormDataService {
   saveData() {
     const currentForm = localStorage.getItem('currentForm');
     this.callSaveFunction.next(currentForm);
+  }
+
+  updateDocument(){
+    this.callAddDocument.next('add')
   }
 
   setFormData(page: string, data: any){

@@ -73,7 +73,15 @@ export class DocUploadDialogComponent {
   uploadDoc(files){
     if(files.length){
       for(let i=0;i<files.length;i++){
-        this.docList.push({category:this.selectedCategory,documentName:files[i].name})
+        this.docList.push(
+          {
+            category:this.selectedCategory,
+            documentName:files[i].name,
+            uploadDate: files[i].lastModifiedDate,
+            size: (files[i].size/1048576).toFixed(2).toString(),
+            fileType: files[i].name.split('.')[1].toUpperCase()
+          }
+        )
       }
       this.table.renderRows();
       this.display.patchValue("");
@@ -122,5 +130,6 @@ export class DocUploadDialogComponent {
       return;
     }
     this.formDataService.addDocument(this.docList);
+    this.formDataService.updateDocument();
   }
 }
