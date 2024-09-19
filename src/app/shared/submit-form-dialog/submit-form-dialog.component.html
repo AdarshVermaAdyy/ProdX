@@ -1,0 +1,85 @@
+<h2 mat-dialog-title style="padding-right: 0px;border-bottom: 1px solid #00000026;">{{title}}
+  <button mat-icon-button class="float-end" [mat-dialog-close]="true">
+    <mat-icon>close</mat-icon>
+  </button>
+</h2>
+
+<mat-dialog-content *ngIf="allowSubmitForm">
+  <div>
+    <form [formGroup]="submitForm" class="d-flex flex-column justify-content-center align-items-center">
+      <mat-form-field class="w-75 mb-2">
+        <mat-label>Product Name</mat-label>
+        <input matInput formControlName="productName" placeholder="Product Name">
+        @if (submitForm.get('productName').hasError('required')) {
+        <mat-error>Product name is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+      <mat-form-field class="w-75 mb-2">
+        <mat-label>Choose start Date</mat-label>
+        <input matInput formControlName="startDate" [min]="yesterday" [matDatepicker]="startdatepicker" />
+        @if (submitForm.get('startDate').hasError('required')) {
+        <mat-error>Date is <strong>required</strong></mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="startdatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #startdatepicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="w-75 mb-2">
+        <mat-label>Choose effective Date</mat-label>
+        <input matInput formControlName="effectiveDate" [min]="yesterday" [matDatepicker]="effectivedatepicker" />
+        @if (submitForm.get('effectiveDate').hasError('required')) {
+        <mat-error>Date is <strong>required</strong></mat-error>
+        }
+        <mat-datepicker-toggle matIconSuffix [for]="effectivedatepicker"></mat-datepicker-toggle>
+        <mat-datepicker #effectivedatepicker></mat-datepicker>
+      </mat-form-field>
+      <mat-form-field class="w-75 mb-2">
+        <mat-label>Comments</mat-label>
+        <textarea matInput formControlName="comments" placeholder="Comments"></textarea>
+        @if (submitForm.get('comments').hasError('required')) {
+        <mat-error>Comments is <strong>required</strong></mat-error>
+        }
+      </mat-form-field>
+    </form>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-content *ngIf="!allowSubmitForm">
+  <div *ngIf="isSubmitiSuccess" class="d-flex flex-column justify-content-center align-items-center">
+    <div class="text-success">
+      <h2>Product Submission Successful</h2>
+    </div>
+    <div class="d-flex flex-column">
+      <span><b>Product Name :</b> "Premium Secure Plan"</span>
+      <span><b>Status :</b> Pending for Review</span>
+      <span><b>Assigned To :</b> Madhavi Rao</span>
+    </div>
+  </div>
+  <div *ngIf="!isSubmitiSuccess">
+    <div class="d-flex flex-column justify-content-center align-items-center text-danger">
+      <h2>Product Submission Failure</h2>
+    </div>
+    <div>
+      <span><b>Error Name :</b> "Error"</span>
+    </div>
+    <div class="d-flex flex-column justify-content-center align-items-center text-danger mt-3">
+      Validation failed : Please the errors and resubmit
+    </div>
+  </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-flat-button mat-dialog-close color="primary" *ngIf="allowSubmitForm">
+    <mat-icon>close</mat-icon>
+    <span>Cancel</span>
+  </button>
+  <button color="primary" mat-flat-button *ngIf="allowSubmitForm" (click)="submit()">
+    <mat-icon>check</mat-icon><span>Submit</span>
+  </button>
+
+  <button color="primary" mat-dialog-close mat-flat-button *ngIf="!allowSubmitForm && !isSubmitiSuccess">
+    <mat-icon>edit</mat-icon><span>Edit and Resubmit</span>
+  </button>
+  <button color="primary" mat-flat-button *ngIf="!allowSubmitForm">
+    <mat-icon>close</mat-icon><span>Close</span>
+  </button>
+</mat-dialog-actions>

@@ -1,301 +1,385 @@
 <div class="container-fluid d-flex">
-
   <div class="field-list-wrapper">
-    <div>
-      <form [formGroup]="searchForm">
-          <mat-form-field class="input-fields-height">
-              <mat-label>Search</mat-label>
-              <input matInput formControlName="search" (input)="search($event)" />
-              <button mat-icon-button matSuffix (click)="cancelSearch()">
-                  <mat-icon>cancel</mat-icon>
-              </button>
-          </mat-form-field>
-      </form>
-  </div>
+      <div>
+          <form [formGroup]="searchForm">
+              <mat-form-field class="input-fields-height">
+                  <mat-label>Search</mat-label>
+                  <input matInput formControlName="search" (input)="search($event)" />
+                  <button mat-icon-button matSuffix (click)="cancelSearch()">
+                      <mat-icon>cancel</mat-icon>
+                  </button>
+              </mat-form-field>
+          </form>
+      </div>
       <div *ngFor="let field of searchFilterList; let i = index">
-          <!-- <mat-checkbox *ngIf="field.formControlName === 'coverage_struc'" (change)="selectUnselectGroup($event, field)">
-              <h4 class="checkbox-list-heading">Coverage Details</h4>
-          </mat-checkbox> -->
+          <mat-checkbox *ngIf="field.formControlName === 'ridercode1'" (change)="selectUnselectGroup($event, field)">
+              <h4 class="checkbox-list-heading">Rider details & Info</h4>
+          </mat-checkbox>
 
-          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)" style="margin-left: 30px;">
+          <mat-checkbox *ngIf="field.formControlName === 'rider_age_res'"
+              (change)="selectUnselectGroup($event, field)">
+              <h4 class="checkbox-list-heading">Rider Details</h4>
+          </mat-checkbox>
+
+          <mat-checkbox *ngIf="field.formControlName === 'rider_payout_freq'"
+              (change)="selectUnselectGroup($event, field)">
+              <h4 class="checkbox-list-heading">Premium and Payments</h4>
+          </mat-checkbox>
+
+          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
+              style="margin-left: 30px;">
               {{field.label}}
           </mat-checkbox>
       </div>
-
-
   </div>
   <div class="form-wrapper" *ngIf="!isPageBlank">
       <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
-          ariaLabelCloseButton="Close info toast message">
-          <ng-container>
-              Please fill all mandatory fields.
-          </ng-container>
-      </motif-toast> -->
+              ariaLabelCloseButton="Close info toast message">
+              <ng-container>
+                  Please fill all mandatory fields.
+              </ng-container>
+          </motif-toast> -->
 
-      <form [formGroup]="coverageInfoForm">
-        <div class="row">
-          <div class="col" style="align-content: center;">
-            <h2>Coverage & Information</h2>
-          </div>
-          <!-- <div class="col">
-              <mat-form-field style="float: right;">
+      <form [formGroup]="riderDetailsForm">
+          <ng-container
+              *ngIf="fieldsList[0].isVisible || fieldsList[1].isVisible || fieldsList[2].isVisible
+              || fieldsList[3].isVisible|| fieldsList[4].isVisible|| fieldsList[5].isVisible
+              || fieldsList[6].isVisible|| fieldsList[7].isVisible|| fieldsList[8].isVisible
+              || fieldsList[9].isVisible|| fieldsList[10].isVisible|| fieldsList[11].isVisible|| fieldsList[12].isVisible|| fieldsList[13].isVisible|| fieldsList[14].isVisible|| fieldsList[15].isVisible">
+              <mat-accordion>
+                  <mat-expansion-panel (opened)="panelOpenState.set(true)"
+                      (closed)="panelOpenState.set(false)" expanded="true">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>Rider and Information</mat-panel-title>
+                      </mat-expansion-panel-header>
+                      <div class="row">
+                          <div class="col-md-6" *ngIf="fieldsList[0].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Code 1</mat-label>
+                                  <input matInput formControlName="ridercode1" />
+                                  <mat-error
+                                      *ngIf="ridercode1?.invalid && (ridercode1?.dirty || ridercode1?.touched)">
+                                      <span *ngIf="ridercode1?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[1].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Name 1</mat-label>
+                                  <input matInput formControlName="riderName1" />
+                                  <mat-error
+                                      *ngIf="riderName1?.invalid && (riderName1?.dirty || riderName1?.touched)">
+                                      <span *ngIf="riderName1?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[2].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Option</mat-label>
+                                  <input matInput formControlName="riderOption" />
+                                  <mat-error
+                                      *ngIf="riderOption?.invalid && (riderOption?.dirty || riderOption?.touched)">
+                                      <span *ngIf="riderOption?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[3].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Type</mat-label>
+                                  <mat-select placeholder="Rider Type" formControlName="riderTpye">
+                                    <mat-option value="active">Child Rider</mat-option>
+                                    <mat-option value="inactive">Spouse Rider</mat-option>
+                                </mat-select>
+                                  <mat-error
+                                      *ngIf="riderTpye?.invalid && (riderTpye?.dirty || riderTpye?.touched)">
+                                      <span *ngIf="riderTpye?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
 
-                  <mat-label>Filter</mat-label>
-                  <input matInput (keyup)="applyFilter($event)" placeholder="Seach Here" #input>
-                </mat-form-field>
-          </div> -->
-      </div>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[4].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Coverage Amount</mat-label>
+                                  <input matInput formControlName="riderCoverAmount" />
 
-          <div class="row"  *ngIf="optionalFieldsList[0].isVisible || optionalFieldsList[1].isVisible" >
-              <div class="col-md-6"  *ngIf="optionalFieldsList[0].isVisible">
-                  <mat-form-field class="input-fields-height">
-                      <mat-label>Coverage Code 1</mat-label>
-                      <input matInput formControlName="coverageCode"  placeholder="Product Code">
-                      <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
-                          <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
-                      </mat-error>
+                                  <mat-error
+                                      *ngIf="riderCoverAmount?.invalid && (riderCoverAmount?.dirty || riderCoverAmount?.touched)">
+                                      <span *ngIf="riderCoverAmount?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[5].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Term</mat-label>
+                                  <input matInput formControlName="riderTerm" />
+                                  <mat-error *ngIf="riderTerm?.invalid && (riderTerm?.dirty || riderTerm?.touched)">
+                                      <span *ngIf="riderTerm?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[6].isVisible">
+                            <mat-form-field class="input-fields-height">
+                              <mat-label>Rider Effective Date</mat-label>
+                              <input matInput [matDatepicker]="picker" formControlName="riderEffectiveDate">
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                 <mat-datepicker #picker></mat-datepicker>
+                              <mat-error *ngIf="riderEffectiveDate?.invalid && (riderEffectiveDate?.dirty || riderEffectiveDate?.touched)">
+                                  <span *ngIf="riderEffectiveDate?.errors?.['required']">This information is required.</span>
+                              </mat-error>
+                          </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[7].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Expiry Date</mat-label>
+                                  <input matInput [matDatepicker]="pickers" formControlName="riderEffectiveDate">
+                                  <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+                                   <mat-datepicker #pickers></mat-datepicker>                                  <mat-error
+                                      *ngIf="riderExpiryDate?.invalid && (riderExpiryDate?.dirty || riderExpiryDate?.touched)">
+                                      <span *ngIf="riderExpiryDate?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[8].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Premium</mat-label>
+                                  <input matInput formControlName="riderPremium" />
+                                  <mat-error
+                                      *ngIf="riderPremium?.invalid && (riderPremium?.dirty || riderPremium?.touched)">
+                                      <span *ngIf="riderPremium?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+                          <div class="col-md-6" *ngIf="fieldsList[9].isVisible">
+                              <mat-form-field class="input-fields-height">
+                                  <mat-label>Rider Waiting Period</mat-label>
+                                  <mat-select placeholder="Rider Waiting Period" formControlName="riderWaitPeriod">
+                                    <mat-option value="active">30 Days</mat-option>
+                                    <mat-option value="inactive">120 Days</mat-option>
+                                </mat-select>                                  <mat-error
+                                      *ngIf="riderWaitPeriod?.invalid && (riderWaitPeriod?.dirty || riderWaitPeriod?.touched)">
+                                      <span *ngIf="riderWaitPeriod?.errors?.['required']">This information is
+                                          required.</span>
+                                  </mat-error>
+                              </mat-form-field>
+                          </div>
+
+                          <div class="col-md-6" *ngIf="fieldsList[10].isVisible">
+                            <mat-form-field class="input-fields-height">
+                                <mat-label>Riders Renewal Option</mat-label>
+                                <mat-select placeholder="Riders Applicable" formControlName="riderRenewal">
+                                    <mat-option value="yes">Yes</mat-option>
+                                    <mat-option value="no">No</mat-option>
+                                </mat-select>
+                                <mat-error
+                                    *ngIf="riderRenewal?.invalid && (riderRenewal?.dirty || riderRenewal?.touched)">
+                                    <span *ngIf="riderRenewal?.errors?.['required']">This information is
+                                        required.</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="fieldsList[11].isVisible">
+                          <mat-form-field class="input-fields-height">
+                              <mat-label>Riders Converion Option</mat-label>
+                              <mat-select placeholder="Riders Converion Option" formControlName="ridersCoverOption">
+                                  <mat-option value="yes">Yes</mat-option>
+                                  <mat-option value="no">No</mat-option>
+                              </mat-select>
+                              <mat-error
+                                  *ngIf="ridersCoverOption?.invalid && (ridersCoverOption?.dirty || ridersCoverOption?.touched)">
+                                  <span *ngIf="ridersCoverOption?.errors?.['required']">This information is
+                                      required.</span>
+                              </mat-error>
+                          </mat-form-field>
+                      </div>
+
+
+
+                      <div class="col-md-6" *ngIf="fieldsList[12].isVisible">
+                        <mat-form-field class="input-fields-height">
+                            <mat-label>Rider Condition</mat-label>
+                          <textarea matInput matTextareaAutosize formControlName="riderCondition"  placeholder="Rider Condition"></textarea>
+
+                            <mat-error
+                                *ngIf="riderCondition?.invalid && (riderCondition?.dirty || riderCondition?.touched)">
+                                <span *ngIf="riderCondition?.errors?.['required']">This information is
+                                    required.</span>
+                            </mat-error>
+                        </mat-form-field>
+                    </div>
+
+                    <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
+                      <mat-form-field class="input-fields-height">
+                          <mat-label>Rider Benefits</mat-label>
+                          <textarea matInput matTextareaAutosize formControlName="rider_benefits"  placeholder="Rider Benefits"></textarea>
+
+                          <mat-error
+                              *ngIf="rider_benefits?.invalid && (rider_benefits?.dirty || rider_benefits?.touched)">
+                              <span *ngIf="rider_benefits?.errors?.['required']">This information is
+                                  required.</span>
+                          </mat-error>
+                      </mat-form-field>
+                  </div>
+
+                  <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
+                    <mat-form-field class="input-fields-height">
+                        <mat-label>Rider Limitation</mat-label>
+                        <textarea matInput matTextareaAutosize formControlName="rider_limitation"  placeholder="Rider Limitation"></textarea>
+
+                        <mat-error
+                            *ngIf="rider_limitation?.invalid && (rider_limitation?.dirty || rider_limitation?.touched)">
+                            <span *ngIf="rider_limitation?.errors?.['required']">This information is
+                                required.</span>
+                        </mat-error>
                     </mat-form-field>
+                </div>
 
-              </div>
-              <div class="col-md-6"  *ngIf="optionalFieldsList[1].isVisible">
-                <mat-form-field class="input-fields-height" >
-                    <mat-label>Coverage Name 1</mat-label>
-                    <input matInput formControlName="cover_name1"  placeholder="Coverage Name ">
-
-                    <mat-error *ngIf="cover_name1?.invalid && (cover_name1?.dirty || cover_name1?.touched)">
-                        <span *ngIf="cover_name1?.errors?.['required']">This information is required.</span>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-          </div>
-           <div class="row" *ngIf="optionalFieldsList[2].isVisible || optionalFieldsList[3].isVisible">
-
-              <div class="col-md-6" *ngIf="optionalFieldsList[2].isVisible">
+                <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
                   <mat-form-field class="input-fields-height">
-                      <mat-label>Coverage Type</mat-label>
-                      <mat-select placeholder="Coverage Type" formControlName="cover_type">
-                          <mat-option value="Death_benefits">Death Benefit
-                          </mat-option>
-                          <mat-option value="Accidental_benefit">Accidental Death Benefitt</mat-option>
-                          <mat-option value="Waiver_benefit"> Waiver of Premium</mat-option>
-                          <mat-option value="Illness_benefits">Critical Illness Benefit</mat-option>
-                          <mat-option value="renewal_options">Renewal Option</mat-option>
-                          <mat-option value="coversion_options">Conversion Option</mat-option>
-                          <mat-option value="family_benefit">Family Income Benefit</mat-option>
-                          <mat-option value="premium_benifts">Return of Premium</mat-option>
-                          <mat-option value="term_benifts">Flexible Term Option</mat-option>
-                          <mat-option value="Income_protection_benifts"> Income Protection Benefit</mat-option>
+                      <mat-label>Rider Cancellation Term</mat-label>
+                      <textarea matInput matTextareaAutosize formControlName="rider_cancellation_term"  placeholder="Rider Cancellation Term"></textarea>
 
-                      </mat-select>
-                      <mat-error *ngIf="cover_type?.invalid && (cover_type?.dirty || cover_type?.touched)">
-                          <span *ngIf="cover_type?.errors?.['required']">This information is required.</span>
+                      <mat-error
+                          *ngIf="rider_cancellation_term?.invalid && (rider_cancellation_term?.dirty || rider_cancellation_term?.touched)">
+                          <span *ngIf="rider_cancellation_term?.errors?.['required']">This information is
+                              required.</span>
                       </mat-error>
                   </mat-form-field>
               </div>
 
-              <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
-                <mat-form-field class="input-fields-height">
-                    <mat-label>Coverage Amount</mat-label>
-                    <input matInput formControlName="coverageAmount"  placeholder="Product Code">
 
-                    <mat-error *ngIf="coverageAmount?.invalid && (coverageAmount?.dirty || coverageAmount?.touched)">
-                        <span *ngIf="coverageAmount?.errors?.['required']">This information is required.</span>
-                    </mat-error>
-                </mat-form-field>
-            </div>
+                      </div>
+                  </mat-expansion-panel>
+              </mat-accordion>
 
-          </div>
-         <div class="row"*ngIf="optionalFieldsList[4].isVisible || optionalFieldsList[5].isVisible">
-              <div class="col-md-6" *ngIf="optionalFieldsList[4].isVisible">
-                  <mat-form-field class="input-fields-height" >
-                      <mat-label>Coverage Term</mat-label>
-                      <input matInput  formControlName="coverageTerm"/>
-                      <mat-error *ngIf="coverageTerm?.invalid && (coverageTerm?.dirty || coverageTerm?.touched)">
-                          <span *ngIf="coverageTerm?.errors?.['required']">This information is required.</span>
-                      </mat-error>
-                  </mat-form-field>
-              </div>
-              <div class="col-md-6" *ngIf="optionalFieldsList[5].isVisible">
-                  <mat-form-field class="input-fields-height">
-                      <mat-label>Coverage Effective Date</mat-label>
-                      <input matInput [matDatepicker]="picker" formControlName="coverageEffectiveDate">
-                        <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                         <mat-datepicker #picker></mat-datepicker>
-                      <mat-error *ngIf="coverageEffectiveDate?.invalid && (coverageEffectiveDate?.dirty || coverageEffectiveDate?.touched)">
-                          <span *ngIf="coverageEffectiveDate?.errors?.['required']">This information is required.</span>
-                      </mat-error>
-                  </mat-form-field>
-              </div>
-          </div>
-         <div class="row" *ngIf="optionalFieldsList[6].isVisible || optionalFieldsList[7].isVisible">
-
-          <div class="col-md-6" *ngIf="optionalFieldsList[6].isVisible">
-            <mat-form-field class="input-fields-height">
-                <mat-label>Coverage Expiry Date</mat-label>
-                <input matInput [matDatepicker]="pickers" formControlName="coverageExpiryDate">
-                  <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-                   <mat-datepicker #pickers></mat-datepicker>
-                <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
-                    <span *ngIf="coverageExpiryDate?.errors?.['required']">This information is required.</span>
-                </mat-error>
-            </mat-form-field>
-        </div>
-
-        <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
-          <mat-form-field class="input-fields-height">
-              <mat-label>Coverage Premium</mat-label>
-              <input matInput  formControlName="coveragePremium"  placeholder=" Coverage Premium"/>
-              <mat-error *ngIf="coveragePremium?.invalid && (coveragePremium?.dirty || coveragePremium?.touched)">
-                  <span *ngIf="coveragePremium?.errors?.['required']">This information is required.</span>
-              </mat-error>
-          </mat-form-field>
-
-
-
-      </div>
-
-
-          </div>
-            <div class="row" *ngIf="optionalFieldsList[8].isVisible">
-              <div class="col-md-6" *ngIf="optionalFieldsList[8].isVisible">
-                <mat-form-field class="input-fields-height">
-                    <mat-label>Waiting Period</mat-label>
-                    <mat-select placeholder="Waiting Period" formControlName="waiting_period">
-                        <mat-option value="Death_benefits">No Waiting Period</mat-option>
-                        <mat-option value="Accidental_benefit">30 Days</mat-option>
-                        <mat-option value="Waiver_benefit"> 60 Days</mat-option>
-                        <mat-option value="Illness_benefits">90 Days</mat-option>
-                        <mat-option value="renewal_options">180 Days</mat-option>
-                        <mat-option value="coversion_options">1 Year</mat-option>
-
-
-                    </mat-select>
-                    <mat-error *ngIf="waiting_period?.invalid && (waiting_period?.dirty || waiting_period?.touched)">
-                        <span *ngIf="waiting_period?.errors?.['required']">This information is required.</span>
-                    </mat-error>
-                </mat-form-field>
-            </div>
-
-
-          </div>
-            <div class="row" *ngIf="optionalFieldsList[9].isVisible">
-              <div class="col-md-6">
-                <mat-form-field class="input-fields-height">
-                  <mat-label>Coverage Condition</mat-label>
-                  <textarea matInput matTextareaAutosize formControlName="coverage_condition"  placeholder="Coverage Condition"></textarea>
-                  <mat-error *ngIf="coverage_condition?.invalid && (coverage_condition?.dirty || coverage_condition?.touched)">
-                      <span *ngIf="coverage_condition?.errors?.['required']">This information is required.</span>
-                  </mat-error>
-                </mat-form-field>
-
-
-              </div>
-          </div>
-
-          <ng-container *ngIf="optionalFieldsList[10].isVisible || optionalFieldsList[11].isVisible || optionalFieldsList[12].isVisible">
-              <h2 >Coverage details </h2>
-              <div class="row">
-                  <div class="col-md-6" *ngIf="optionalFieldsList[10].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Coverage Structure</mat-label>
-                          <input matInput  formControlName="coverage_struc"/>
-                          <mat-error *ngIf="coverage_struc?.invalid && (coverage_struc?.dirty || coverage_struc?.touched)">
-                              <span *ngIf="coverage_struc?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[11].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Beneficiary Details</mat-label>
-                          <input matInput formControlName="Beneficiary"/>
-                          <mat-error *ngIf="Beneficiary?.invalid && (Beneficiary?.dirty || Beneficiary?.touched)">
-                              <span *ngIf="Beneficiary?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[12].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Product Tageline</mat-label>
-                          <input matInput formControlName="Death_benefit"/>
-                          <mat-error *ngIf="Death_benefit?.invalid && (Death_benefit?.dirty || Death_benefit?.touched)">
-                              <span *ngIf="Death_benefit?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-              </div>
           </ng-container>
 
-          <!-- <ng-container *ngIf="optionalFieldsList[3].isVisible || optionalFieldsList[4].isVisible || optionalFieldsList[5].isVisible">
-              <h2 >Underwriting  Details</h2>
-              <div class="row">
-                  <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Underwriting Guideline</mat-label>
-                          <input matInput  formControlName="underwritingGuidelines"/>
-                          <mat-error *ngIf="underwritingGuidelines?.invalid && (underwritingGuidelines?.dirty || underwritingGuidelines?.touched)">
-                              <span *ngIf="underwritingGuidelines?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[4].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Underwriting Requirements</mat-label>
-                          <input matInput  formControlName="underwritingRequirements"/>
-                          <mat-error *ngIf="underwritingRequirements?.invalid && (underwritingRequirements?.dirty || underwritingRequirements?.touched)">
-                              <span *ngIf="underwritingRequirements?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[5].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Risk Assessment Criteria</mat-label>
-                          <input matInput  formControlName="riskAssessCriteria"/>
-                          <mat-error *ngIf="riskAssessCriteria?.invalid && (riskAssessCriteria?.dirty || riskAssessCriteria?.touched)">
-                              <span *ngIf="riskAssessCriteria?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-              </div>
+
+          <ng-container *ngIf="fieldsList[16].isVisible || fieldsList[17].isVisible || fieldsList[18].isVisible">
+              <mat-accordion>
+                  <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
+                      class="mt-3" expanded="true">
+                      <mat-expansion-panel-header>
+                          <mat-panel-title>Rider Details</mat-panel-title>
+                      </mat-expansion-panel-header>
+
+
+                      <div class="row">
+                        <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
+                            <mat-form-field class="input-fields-height">
+                                <mat-label>Rider Age Restriction</mat-label>
+                                <input matInput  formControlName="rider_age_res"/>
+                                <mat-error *ngIf="rider_age_res?.invalid && (rider_age_res?.dirty || rider_age_res?.touched)">
+                                    <span *ngIf="rider_age_res?.errors?.['required']">This information is required.</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
+                            <mat-form-field class="input-fields-height">
+                                <mat-label>Rider Coverage Trigger</mat-label>
+                                <input matInput formControlName="rider_cover_trigger"/>
+                                <mat-error *ngIf="rider_cover_trigger?.invalid && (rider_cover_trigger?.dirty || rider_cover_trigger?.touched)">
+                                    <span *ngIf="rider_cover_trigger?.errors?.['required']">This information is required.</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                        <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
+                            <mat-form-field class="input-fields-height">
+                                <mat-label>Rider Coverage Reductions</mat-label>
+                                <input matInput formControlName="rider_cover_red"/>
+                                <mat-error *ngIf="rider_cover_red?.invalid && (rider_cover_red?.dirty || rider_cover_red?.touched)">
+                                    <span *ngIf="rider_cover_red?.errors?.['required']">This information is required.</span>
+                                </mat-error>
+                            </mat-form-field>
+                        </div>
+                    </div>
+
+
+
+
+                  </mat-expansion-panel>
+              </mat-accordion>
           </ng-container>
 
-          <ng-container  *ngIf="optionalFieldsList[6].isVisible || optionalFieldsList[7].isVisible || optionalFieldsList[8].isVisible">
-              <h2>Premium Details</h2>
-              <div class="row">
-                  <div class="col-md-6" *ngIf="optionalFieldsList[6].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Refundable Premium</mat-label>
-                          <input matInput  formControlName="refundablePrem"/>
-                          <mat-error *ngIf="refundablePrem?.invalid && (refundablePrem?.dirty || refundablePrem?.touched)">
-                              <span *ngIf="refundablePrem?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Tax Benefits</mat-label>
-                          <input matInput  formControlName="taxBenefits"/>
-                          <mat-error *ngIf="taxBenefits?.invalid && (taxBenefits?.dirty || taxBenefits?.touched)">
-                              <span *ngIf="taxBenefits?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[8].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Renewal</mat-label>
-                          <input matInput  formControlName="renewal"/>
-                          <mat-error *ngIf="renewal?.invalid && (renewal?.dirty || renewal?.touched)">
-                              <span *ngIf="renewal?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-              </div>
-          </ng-container> -->
+          <ng-container *ngIf="fieldsList[19].isVisible || fieldsList[20].isVisible || fieldsList[21].isVisible || fieldsList[22].isVisible || fieldsList[23].isVisible">
+            <mat-accordion>
+                <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
+                    class="mt-3" expanded="true">
+                    <mat-expansion-panel-header>
+                        <mat-panel-title>Premium and Payments</mat-panel-title>
+                    </mat-expansion-panel-header>
 
-          <div class="form-btn-wrapper" *ngIf="optionalFieldsList[0].isVisible||optionalFieldsList[1].isVisible ||optionalFieldsList[2].isVisible||optionalFieldsList[3].isVisible||optionalFieldsList[4].isVisible||optionalFieldsList[5].isVisible||optionalFieldsList[6].isVisible||optionalFieldsList[7].isVisible||optionalFieldsList[8].isVisible||optionalFieldsList[9].isVisible||optionalFieldsList[10].isVisible||optionalFieldsList[11].isVisible||optionalFieldsList[12].isVisible">
-              <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button>
-              <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
-              <button  mat-flat-button color="primary" class="mt-3" >Next</button>
+
+                    <div class="row">
+                      <div class="col-md-6" *ngIf="fieldsList[19].isVisible">
+                          <mat-form-field class="input-fields-height">
+                              <mat-label>Rider Payout Frequency</mat-label>
+                              <input matInput  formControlName="rider_payout_freq"/>
+                              <mat-error *ngIf="rider_payout_freq?.invalid && (rider_payout_freq?.dirty || rider_payout_freq?.touched)">
+                                  <span *ngIf="rider_payout_freq?.errors?.['required']">This information is required.</span>
+                              </mat-error>
+                          </mat-form-field>
+                      </div>
+                      <div class="col-md-6" *ngIf="fieldsList[20].isVisible">
+                          <mat-form-field class="input-fields-height">
+                              <mat-label>Rider Premium Waiver Clause</mat-label>
+                              <input matInput formControlName="rider_prem_waiver"/>
+                              <mat-error *ngIf="rider_prem_waiver?.invalid && (rider_prem_waiver?.dirty || rider_prem_waiver?.touched)">
+                                  <span *ngIf="rider_prem_waiver?.errors?.['required']">This information is required.</span>
+                              </mat-error>
+                          </mat-form-field>
+                      </div>
+                      <div class="col-md-6" *ngIf="fieldsList[21].isVisible">
+                          <mat-form-field class="input-fields-height">
+                              <mat-label>Rider Automatic Increase</mat-label>
+                              <input matInput formControlName="rider_auto_inc"/>
+                              <mat-error *ngIf="rider_auto_inc?.invalid && (rider_auto_inc?.dirty || rider_auto_inc?.touched)">
+                                  <span *ngIf="rider_auto_inc?.errors?.['required']">This information is required.</span>
+                              </mat-error>
+                          </mat-form-field>
+                      </div>
+                  </div>
+                  <div class="col-md-6" *ngIf="fieldsList[22].isVisible">
+                    <mat-form-field class="input-fields-height">
+                        <mat-label>Rider Settlement Options</mat-label>
+                        <input matInput formControlName="rider_settle_option"/>
+                        <mat-error *ngIf="rider_settle_option?.invalid && (rider_settle_option?.dirty || rider_settle_option?.touched)">
+                            <span *ngIf="rider_settle_option?.errors?.['required']">This information is required.</span>
+                        </mat-error>
+                    </mat-form-field>
+                </div>
+                <div class="col-md-6" *ngIf="fieldsList[23].isVisible">
+                  <mat-form-field class="input-fields-height">
+                      <mat-label>Rider Contribution Type</mat-label>
+                      <input matInput formControlName="rider_contri_type"/>
+                      <mat-error *ngIf="rider_contri_type?.invalid && (rider_contri_type?.dirty || rider_contri_type?.touched)">
+                          <span *ngIf="rider_contri_type?.errors?.['required']">This information is required.</span>
+                      </mat-error>
+                  </mat-form-field>
+              </div>
+
+
+
+
+                </mat-expansion-panel>
+            </mat-accordion>
+        </ng-container>
+
+          <div class="form-btn-wrapper">
+              <button mat-flat-button color="primary" class="mt-3" [disabled]="riderDetailsForm.invalid">Save as
+                  Draft</button>
+              <button mat-flat-button color="primary" class="mt-3" matStepperNext>Next</button>
           </div>
       </form>
+  </div>
+  <div class="form-wrapper d-flex justify-content-center mt-5" *ngIf="isPageBlank">
+      Begin crafting your product by selecting fields from the left sidebar to add them to your template.
   </div>
 </div>
