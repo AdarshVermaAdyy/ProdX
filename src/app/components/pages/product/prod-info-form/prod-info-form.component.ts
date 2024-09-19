@@ -608,7 +608,7 @@ onSingleChange(isChecked: boolean) {
   this.isSingleSelected = isChecked;
   this.isNotSelectedFromToggle = false
   if (isChecked) {
-    this.selectedFrequency = []; // Clear other frequencies if "Single" is selected
+    this.selectedFrequency = []; 
     this.isOtherSelected = false;
 
     // Add all controls for the group 'productBoundaryCondition'
