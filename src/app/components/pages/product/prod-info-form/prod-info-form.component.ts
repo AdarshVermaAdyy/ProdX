@@ -400,8 +400,8 @@ readonly innerPanelOpenState = signal(true);
         console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
         this.productBoundaryCondition.push(selectedGroup);
 
-      } else if (option.group === 'premiumDetails') {
-        this.premiumDetails.push(selectedGroup);
+      } else if (option.group === 'productServiceNonfinancialAlterations') {
+        this.productServiceNonfinancialAlterations.push(selectedGroup);
       }
       else if (option.group === 'featreandReinsate') {
         this.featreandReinsate.push(selectedGroup);
@@ -428,8 +428,8 @@ readonly innerPanelOpenState = signal(true);
       if (selectedIndex > -1) {
         if (option.group === 'productBoundaryCondition') {
           this.productBoundaryCondition.removeAt(selectedIndex);
-        } else if (option.group === 'premiumDetails') {
-          this.premiumDetails.removeAt(selectedIndex);
+        } else if (option.group === 'productServiceNonfinancialAlterations') {
+          this.productServiceNonfinancialAlterations.removeAt(selectedIndex);
         }
         else if (option.group === 'featreandReinsate') {
           this.featreandReinsate.removeAt(selectedIndex);
@@ -514,49 +514,49 @@ readonly innerPanelOpenState = signal(true);
 ///////////////
 
 
-toggleSelectAll(event, group, i: any) {
-  const relFields = this.searchFilterList.filter(item => item.group === group);
-   console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
+// toggleSelectAll(event, group, i: any) {
+//   const relFields = this.searchFilterList.filter(item => item.group === group);
+//    console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
 
-   relFields.forEach((item, index) =>{
-    const actualIndex = this.searchFilterList.indexOf(item);
-    if(event.checked  && !item.selected){
-      this.addRemoveControls(true, item, actualIndex);
-    }
-    else if(!event.checked && item.selected){
-      this.addRemoveControls(false, item, actualIndex);
-    }
-   });
+//    relFields.forEach((item, index) =>{
+//     const actualIndex = this.searchFilterList.indexOf(item);
+//     if(event.checked  && !item.selected){
+//       this.addRemoveControls(true, item, actualIndex);
+//     }
+//     else if(!event.checked && item.selected){
+//       this.addRemoveControls(false, item, actualIndex);
+//     }
+//    });
  
-}
+// }
 
-addRemoveControls(event: boolean, field: any, i: number) {
-  field.selected = event;
- // const option = this.searchFilterList[i];
- const option = this.searchFilterList.find(v => v.id === field.id);
-  console.log("field name from addRemoveControls" + JSON.stringify(field));
-  // Use 'productBoundaryCondition' as groupName for both single and other selections
-  //const groupName = 'productBoundaryCondition';
-  const groupName =    field.group;
-  const controlKey = option.label.replace(/\s+/g, '');                         //`${field.group}-${option.label.replace(/\s+/g, '')}`;
- // const indexOfSelection = this.selectedFrequency.indexOf(option.label);
+// addRemoveControls(event: boolean, field: any, i: number) {
+//   field.selected = event;
+//  // const option = this.searchFilterList[i];
+//  const option = this.searchFilterList.find(v => v.id === field.id);
+//   console.log("field name from addRemoveControls" + JSON.stringify(field));
+//   // Use 'productBoundaryCondition' as groupName for both single and other selections
+//   //const groupName = 'productBoundaryCondition';
+//   const groupName =    field.group;
+//   const controlKey = option.label.replace(/\s+/g, '');                         //`${field.group}-${option.label.replace(/\s+/g, '')}`;
+//  // const indexOfSelection = this.selectedFrequency.indexOf(option.label);
 
-  if (event) {
-    const selectedControl = this.formService.createDynamicFormGroup(option.label, option.type, option);
-    this.addControlToGroup(groupName,controlKey, selectedControl);
-  } else {
-    this.removeControlFromGroup(groupName, controlKey);
-  }
+//   if (event) {
+//     const selectedControl = this.formService.createDynamicFormGroup(option.label, option.type, option);
+//     this.addControlToGroup(groupName,controlKey, selectedControl);
+//   } else {
+//     this.removeControlFromGroup(groupName, controlKey);
+//   }
 
-  // Update page blank status
-  //const numberOfFields = Object.keys(this.dynamicForm.controls).length;
-const numberOfFields = Object.keys(this.dynamicForm.controls).reduce((total, key) => {
-  const group = this.dynamicForm.get(key) as FormGroup;
-  return total + Object.keys(group.controls).length
-}, 0);
+//   // Update page blank status
+//   //const numberOfFields = Object.keys(this.dynamicForm.controls).length;
+// const numberOfFields = Object.keys(this.dynamicForm.controls).reduce((total, key) => {
+//   const group = this.dynamicForm.get(key) as FormGroup;
+//   return total + Object.keys(group.controls).length
+// }, 0);
 
-  this.isPageBlank = numberOfFields === 0;
-}
+//   this.isPageBlank = numberOfFields === 0;
+// }
 
 // Add control to form group using a switch case
 addControlToGroup(groupName: string, controlKey:string, control: FormGroup) {
