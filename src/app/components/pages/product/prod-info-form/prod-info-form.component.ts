@@ -354,7 +354,7 @@ readonly innerPanelOpenState = signal(true);
   }
 
   saveData() {
-    this.formDataService.setFormData('product-info', this.dynamicForm.value);
+    this.formDataService.setFormData('productInfo', this.dynamicForm.value);
   }
 
   nextData() {

@@ -264,7 +264,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
 
   saveData(){
-    this.formDataService.setFormData('coverage-info', this.coverageInfoForm.value);
+    this.formDataService.setFormData('coverageInfo', this.coverageInfoForm.value);
   }
 
   nextData(){

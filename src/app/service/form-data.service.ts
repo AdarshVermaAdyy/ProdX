@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Injectable({
@@ -70,8 +71,10 @@ export class FormDataService {
 
     const drafts = this.fetchDraftsFromLocalStorage();
     const newData = {
+      lastEdited : moment(new Date()).format('MMMM D, YYYY'),
       draftName: draftName,
       data: this.formData,
+      status : 'draft',
       documents: this.docList
     }
 
