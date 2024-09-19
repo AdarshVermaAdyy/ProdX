@@ -48,6 +48,7 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   isSubmitted = false;
   dynamicForm!: FormGroup;
   availableOptions!: any[];
+  numberInputArray : number[] = [];
   // optionalFieldsList!: any[];
   toastType = '';
   showErrorToast = false;
@@ -60,81 +61,90 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   selectAllGroupControl = false;
   productDetailsForm: any;
   receivedshareData: any;
+  isMarkedRadioTouched = false;
   //formValue = 'templatated';
   isTeamplateValue = 'true';
   searchForm: FormGroup;
+  selectedFrequency: string []= [];
+  isSingleSelected: boolean = false;
+  isOtherSelected: boolean = false;
+  isNotSelectedFromToggle : boolean = true;
   //  searchFilterList : any;
   optionalFieldsList = [
-    { id: 1, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition', selected: false },
-    { id: 2, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected: false },
-    { id: 3, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected: false },
-    { id: 4, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected: false },
-    { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected: false },
-    { id: 6, label: "PT (In Year)", type: 'dropdown', options: ['5', '10', '15', '20'], group: 'productBoundaryCondition', selected: false },
-    { id: 7, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5', '7', '10', '12', '13'], group: 'productBoundaryCondition', selected: false },
-    { id: 8, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition', selected: false },
-    { id: 9, label: "Sum Assured", type: "range", min: 100000, max: 300000, group: 'productBoundaryCondition', selected: false },
-    { id: 10, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5', '7', '10', '12', '13'], group: 'productBoundaryCondition', selected: false },
+    { id: 1, label: "Premium Payment Frequency", type: 'checkbox', options: ['Single','Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected:false},
+  { id: 2, label: "Entity Age", type: "range", min: 18, max: 65, group: 'productBoundaryCondition', selected: false },
+    { id: 3, label: "Maturity Age", type: "range", min: 28, max: 65, group: 'productBoundaryCondition', selected: false },
+    { id: 4, label: "Gender", type: 'checkbox', options: ['Male','Female', 'Transgender'], group: 'productBoundaryCondition', selected:false},
+{ id: 5, label: "Premium", type: "range", min: 1500, max: 300000, group: 'productBoundaryCondition', selected: false },
+    { id: 6, label: "Premium Payment Type", type: 'radio', options: ['Regular', 'Limited'], group: 'productBoundaryCondition', selected: false },
+//     { id: 5, label: "Premium Payment Frequency", type: 'dropdown', options: ['Yearly', 'Half Yearly', 'Quaterly', 'Monthly'], group: 'productBoundaryCondition', selected: false },
+    { id: 7, label: "PT (In Year)", type: 'dropdown', options: ['5', '10', '15', '20'], group: 'productBoundaryCondition', selected: false },
+
+    { id: 8, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5', '7', '10', '12', '13'], group: 'productBoundaryCondition', selected: false },
+    { id: 9, label: "PT (In Year)", type: 'dropdown', options: ['10', '20', '30'], group: 'productBoundaryCondition', selected: false },
+    { id: 10, label: "Sum Assured", type: "range", min: 100000, max: 300000, group: 'productBoundaryCondition', selected: false },
+    { id: 11, label: "Add PPT Combination (In Year)", type: 'dropdown', options: ['5', '7', '10', '12', '13'], group: 'productBoundaryCondition', selected: false },
     // { id: 5, label: "Gender", type: 'dropdown', options: ['Male', 'Female', 'Other'], group: 'productBoundaryCondition' },
     // { id: 6, label: "Username", type: "text", value: "ahakal", group: 'productBoundaryCondition' },
-    { id: 11, label: "Grace Period", type: 'dropdown', options: ['15', '30', '60'], group: 'productBoundaryCondition', selected: false },
-    { id: 12, label: "BackDating", type: 'dropdown', options: ['Yes', 'No'], group: 'productBoundaryCondition', selected: false },
+    { id: 12, label: "Grace Period", type: 'dropdown', options: ['15', '30', '60'], group: 'productBoundaryCondition', selected: false },
+    { id: 13, label: "BackDating", type: 'dropdown', options: ['Yes', 'No'], group: 'productBoundaryCondition', selected: false },
+//{ id: 54, label: "Add PPT Combination With Comma", type: 'text', options: ['5','7', '10', '12', '13'], group: 'productBoundaryCondition' , selected:false},
 
+    { id: 14, label: "Change of Name", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 15, label: "Appointee Change", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 16, label: "Letters", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 17, label: "Nach Registration", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 18, label: "Change of Owner", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 19, label: "Change of Nominee", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 20, label: "Assignment/Reassignment", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 21, label: "Change of Address", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 22, label: "Change of Freq", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 23, label: "Change of Contact Details", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 24, label: "Change in PAN", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 25, label: "Duplicate policy Number", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 26, label: "EIA", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 27, label: "Change in Occupation", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 28, label: "Change of PEP", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 29, label: "Change in UID", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 30, label: "Certification of Existance", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 31, label: "Policy Search UI", type: 'dropdown', options: ['Yes', 'No'], group: 'productServiceNonfinancialAlterations', selected: false },
 
-    { id: 13, label: "Change of Name", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 14, label: "Appointee Change", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 15, label: "Letters", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 16, label: "Nach Registration", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 17, label: "Change of Owner", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 18, label: "Change of Nominee", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 19, label: "Assignment/Reassignment", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 20, label: "Change of Address", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 21, label: "Change of Freq", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 22, label: "Change of Contact Details", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 23, label: "Change in PAN", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 24, label: "Duplicate policy Number", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 25, label: "EIA", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 26, label: "Change in Occupation", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 27, label: "Change of PEP", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 28, label: "Change in UID", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 29, label: "Certification of Existance", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
-    { id: 30, label: "Policy Search UI", type: 'dropdown', options: ['Yes', 'No'], group: 'premiumDetails', selected: false },
+    { id: 32, label: "Lapse", type: 'dropdown', options: ['LAPSE30', 'LAPSE1530', 'NA'], group: 'featreandReinsate', selected: false },
+    { id: 33, label: "Revival", type: 'dropdown', options: ['REVIV30', 'REVIV75', 'REVIVTS', 'REVIVT5', 'REVIVT3', 'REVIVE', 'NA'], group: 'featreandReinsate', selected: false },
 
-    { id: 31, label: "Lapse", type: 'dropdown', options: ['LAPSE30', 'LAPSE1530', 'NA'], group: 'featreandReinsate', selected: false },
-    { id: 32, label: "Revival", type: 'dropdown', options: ['REVIV30', 'REVIV75', 'REVIVTS', 'REVIVT5', 'REVIVT3', 'REVIVE', 'NA'], group: 'featreandReinsate', selected: false },
+    { id: 34, label: "Increase/Decrease in Service", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: false },
+    { id: 35, label: "Change of DOB", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: false },
+    { id: 36, label: "Change of Gender", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
+    { id: 37, label: "Change of PT/FT", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
+    { id: 38, label: "Change of Premium", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
 
-    { id: 33, label: "Increase/Decrease in Service", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: false },
-    { id: 34, label: "Change of DOB", type: 'dropdown', options: ['Allowed4', 'Allowed6'], group: 'productServicingAlteration', selected: false },
-    { id: 35, label: "Change of Gender", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
-    { id: 36, label: "Change of PT/FT", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
-    { id: 37, label: "Change of Premium", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
+    { id: 39, label: "Free Look Period Cancell", type: 'dropdown', options: ['FP15', 'FP16'], group: 'terminationCancellation', selected: false },
 
-    { id: 38, label: "Free Look Period Cancell", type: 'dropdown', options: ['FP15', 'FP16'], group: 'terminationCancellation', selected: false },
+    { id: 40, label: "Death Claim", type: 'dropdown', options: ['DPRP', 'DSING', 'DLUMP', 'DMNIC5', 'NA'], group: 'terminationCancellation', selected: false },
+    { id: 41, label: "Surrender", type: 'dropdown', options: ['SURNORM', 'SUR3', 'SUR0BEN'], group: 'terminationCancellation', selected: false },
+    { id: 42, label: "Maturity", type: 'dropdown', options: ['M0BEN', 'MTERM', 'NA'], group: 'terminationCancellation', selected: false },
 
-    { id: 39, label: "Death Claim", type: 'dropdown', options: ['DPRP', 'DSING', 'DLUMP', 'DMNIC5', 'NA'], group: 'terminationCancellation', selected: false },
-    { id: 40, label: "Surrender", type: 'dropdown', options: ['SURNORM', 'SUR3', 'SUR0BEN'], group: 'terminationCancellation', selected: false },
-    { id: 41, label: "Maturity", type: 'dropdown', options: ['M0BEN', 'MTERM', 'NA'], group: 'terminationCancellation', selected: false },
-
-    { id: 42, label: "Policy Cancellation", type: 'dropdown', options: ['POLC', 'NA'], group: 'terminationCancellation', selected: false },
+    { id: 43, label: "Policy Cancellation", type: 'dropdown', options: ['POLC', 'NA'], group: 'terminationCancellation', selected: false },
 
     //////////////////////
 
-    { id: 43, label: "Product Start Date", type: 'date', group: 'productBoundary', selected: false },
-    { id: 44, label: "Product End Date", type: 'date', group: 'productBoundary', selected: false },
+    { id: 44, label: "Product Start Date", type: 'date', group: 'productBoundaryCondition', selected: false },
+    { id: 45, label: "Product End Date", type: 'date', group: 'productBoundaryCondition', selected: false },
     // { id: 41, label: "Product Start Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
     // { id: 42, label: "Product End Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
-    { id: 45, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
-    { id: 46, label: "Beneficiary Update Process", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServicingAlteration', selected: false },
-    { id: 47, label: "Termination Reason Code", type: 'dropdown', options: ['TERM1', 'TERM2'], group: 'terminationCancellation', selected: false },
-    { id: 48, label: "Premium Adjustment Option", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
-    { id: 49, label: "Premium Loading", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
-    { id: 50, label: "Premium Payment Methods", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
-    { id: 51, label: "Payment Frequency Change", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
-    { id: 52, label: "Partial Payment Option", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
-    { id: 53, label: "Payment Reschedulting", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 46, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 47, label: "Beneficiary Update Process", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServiceNonfinancialAlterations', selected: false },
+    { id: 48, label: "Termination Reason Code", type: 'dropdown', options: ['TERM1', 'TERM2'], group: 'terminationCancellation', selected: false },
+    { id: 49, label: "Premium Adjustment Option", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 50, label: "Premium Loading", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 51, label: "Premium Payment Methods", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 52, label: "Payment Frequency Change", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 53, label: "Partial Payment Option", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
+    { id: 54, label: "Payment Reschedulting", type: 'dropdown', options: ['POLC', 'NA'], group: 'PremiumandPaymentDetail', selected: false },
   ]
   searchResults: any;
-
+commaSeparatedInput: string = '';
+commaValueArray : string[] = [];
 
   templateFields = [
     'Entity Age',
@@ -182,6 +192,10 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   ]
   searchFilterList = this.optionalFieldsList;
   readonly panelOpenState = signal(true);
+readonly innerPanelOpenState = signal(true);
+
+
+
   private formService$ = new Subscription();
 
   constructor(private fb: FormBuilder,
@@ -252,8 +266,8 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
     return this.dynamicForm.get('selectedValues.productBoundary') as FormArray;
   }
 
-  get premiumDetails(): FormArray {
-    return this.dynamicForm.get('selectedValues.premiumDetails') as FormArray;
+  get productServiceNonfinancialAlterations(): FormArray {
+    return this.dynamicForm.get('selectedValues.productServiceNonfinancialAlterations') as FormArray;
   }
 
   get featreandReinsate(): FormArray {
@@ -285,10 +299,10 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
     return formArray.controls.findIndex(group => group.get('label')?.value === label);
   }
 
-  isProducBoundarySelect(): boolean {
-    const productBoundaryselect = this.dynamicForm.get(`selectedValues.productBoundary`) as FormArray;
-    return productBoundaryselect.controls.some(control => control.get('value')?.value);
-  }
+  // isProducBoundarySelect(): boolean {
+  //   const productBoundaryselect = this.dynamicForm.get(`selectedValues.productBoundary`) as FormArray;
+  //   return productBoundaryselect.controls.some(control => control.get('value')?.value);
+  // }
   isPremiumandPaymentDetailSelect(): boolean {
     const PremiumandPaymentDetail = this.dynamicForm.get(`selectedValues.PremiumandPaymentDetail`) as FormArray;
     return PremiumandPaymentDetail.controls.some(control => control.get('value')?.value);
@@ -309,7 +323,7 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
     return featureandReinstatement.controls.some(control => control.get('value')?.value);
   }
   isProductServicNonoFinancialAleration(): boolean {
-    const productServicNonoFinancialAleration = this.dynamicForm.get(`selectedValues.premiumDetails`) as FormArray;
+    const productServicNonoFinancialAleration = this.dynamicForm.get(`selectedValues.productServiceNonfinancialAlterations`) as FormArray;
     return productServicNonoFinancialAleration.controls.some(control => control.get('value')?.value);
   }
 
@@ -329,7 +343,7 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   }
 
   onSubmit() {
-
+ 
     if (this.dynamicForm.invalid) {
 
       this.markAllAsTouched();
@@ -349,7 +363,7 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
 
   markAllAsTouched() {
     this.productBoundaryCondition.controls.forEach(control => control.markAsTouched());
-    this.premiumDetails.controls.forEach(control => control.markAsTouched());
+    this.productServiceNonfinancialAlterations.controls.forEach(control => control.markAsTouched());
     this.featreandReinsate.controls.forEach(control => control.markAsTouched());
     this.productServicingAlteration.controls.forEach(control => control.markAsTouched());
     this.terminationCancellation.controls.forEach(control => control.markAsTouched());
@@ -386,8 +400,8 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
         console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
         this.productBoundaryCondition.push(selectedGroup);
 
-      } else if (option.group === 'premiumDetails') {
-        this.premiumDetails.push(selectedGroup);
+      } else if (option.group === 'productServiceNonfinancialAlterations') {
+        this.productServiceNonfinancialAlterations.push(selectedGroup);
       }
       else if (option.group === 'featreandReinsate') {
         this.featreandReinsate.push(selectedGroup);
@@ -414,8 +428,8 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
       if (selectedIndex > -1) {
         if (option.group === 'productBoundaryCondition') {
           this.productBoundaryCondition.removeAt(selectedIndex);
-        } else if (option.group === 'premiumDetails') {
-          this.premiumDetails.removeAt(selectedIndex);
+        } else if (option.group === 'productServiceNonfinancialAlterations') {
+          this.productServiceNonfinancialAlterations.removeAt(selectedIndex);
         }
         else if (option.group === 'featreandReinsate') {
           this.featreandReinsate.removeAt(selectedIndex);
@@ -496,6 +510,200 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
     this.searchFilterList = this.optionalFieldsList;
   }
 
+
+///////////////
+
+
+// toggleSelectAll(event, group, i: any) {
+//   const relFields = this.searchFilterList.filter(item => item.group === group);
+//    console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
+
+//    relFields.forEach((item, index) =>{
+//     const actualIndex = this.searchFilterList.indexOf(item);
+//     if(event.checked  && !item.selected){
+//       this.addRemoveControls(true, item, actualIndex);
+//     }
+//     else if(!event.checked && item.selected){
+//       this.addRemoveControls(false, item, actualIndex);
+//     }
+//    });
+ 
+// }
+
+// addRemoveControls(event: boolean, field: any, i: number) {
+//   field.selected = event;
+//  // const option = this.searchFilterList[i];
+//  const option = this.searchFilterList.find(v => v.id === field.id);
+//   console.log("field name from addRemoveControls" + JSON.stringify(field));
+//   // Use 'productBoundaryCondition' as groupName for both single and other selections
+//   //const groupName = 'productBoundaryCondition';
+//   const groupName =    field.group;
+//   const controlKey = option.label.replace(/\s+/g, '');                         //`${field.group}-${option.label.replace(/\s+/g, '')}`;
+//  // const indexOfSelection = this.selectedFrequency.indexOf(option.label);
+
+//   if (event) {
+//     const selectedControl = this.formService.createDynamicFormGroup(option.label, option.type, option);
+//     this.addControlToGroup(groupName,controlKey, selectedControl);
+//   } else {
+//     this.removeControlFromGroup(groupName, controlKey);
+//   }
+
+//   // Update page blank status
+//   //const numberOfFields = Object.keys(this.dynamicForm.controls).length;
+// const numberOfFields = Object.keys(this.dynamicForm.controls).reduce((total, key) => {
+//   const group = this.dynamicForm.get(key) as FormGroup;
+//   return total + Object.keys(group.controls).length
+// }, 0);
+
+//   this.isPageBlank = numberOfFields === 0;
+// }
+
+// Add control to form group using a switch case
+addControlToGroup(groupName: string, controlKey:string, control: FormGroup) {
+  switch (groupName) {
+    case 'productBoundaryCondition':
+      this.productBoundaryCondition.push(control);
+      break;
+    case 'PremiumandPaymentDetail':
+      this.PremiumandPaymentDetail.push(control);
+      break;
+    case 'productServiceNonfinancialAlterations':  
+      this.productServiceNonfinancialAlterations.push(control);
+      break;
+    case 'featreandReinsate':
+      this.featreandReinsate.push(control);
+      break;
+    case 'productServicingAlteration':
+      this.productServicingAlteration.push(control);
+      break;
+    case 'terminationCancellation':
+      this.terminationCancellation.push(control);
+      break;
+    case 'defaultGroup':
+    default:
+      this.dynamicForm.addControl(groupName , new FormGroup({}));
+      break;
+  }
+}
+
+// Remove control from form group using a switch case
+removeControlFromGroup(groupName: string, label: string) {
+  switch (groupName) {
+    case 'productBoundaryCondition': {
+      const index = this.findOptionIndex(label, 'productBoundaryCondition');
+      if (index > -1) this.productBoundaryCondition.removeAt(index);
+      break;
+    }
+    case 'PremiumandPaymentDetail': {
+      const index = this.findOptionIndex(label, 'PremiumandPaymentDetail');
+      if (index > -1) this.PremiumandPaymentDetail.removeAt(index);
+      break;
+    }
+    case 'productServiceNonfinancialAlterations': {
+      const index = this.findOptionIndex(label, 'productServiceNonfinancialAlterations');
+      if (index > -1) this.productServiceNonfinancialAlterations.removeAt(index);
+      break;
+    }
+    case 'featreandReinsate': {
+      const index = this.findOptionIndex(label, 'featreandReinsate');
+      if (index > -1) this.featreandReinsate.removeAt(index);
+      break;
+    }
+    case 'productServicingAlteration': {
+      const index = this.findOptionIndex(label, 'productServicingAlteration');
+      if (index > -1) this.productServicingAlteration.removeAt(index);
+      break;
+    }
+    case 'terminationCancellation': {
+      const index = this.findOptionIndex(label, 'terminationCancellation');
+      if (index > -1) this.terminationCancellation.removeAt(index);
+      break;
+    }
+    case 'defaultGroup':
+    default:
+      this.dynamicForm.removeControl(label);
+      break;
+  }
+}
+
+onSingleChange(isChecked: boolean) {
+  console.log("onSingleChange called");
+  this.isSingleSelected = isChecked;
+  this.isNotSelectedFromToggle = false
+  if (isChecked) {
+    this.selectedFrequency = []; // Clear other frequencies if "Single" is selected
+    this.isOtherSelected = false;
+
+    // Add all controls for the group 'productBoundaryCondition'
+    this.addAllControlsForGroup('productBoundaryCondition', true);
+  } else {
+    // Remove all controls for 'productBoundaryCondition' if "Single" is unchecked
+    this.addAllControlsForGroup('productBoundaryCondition', false);
+  }
+
+  this.updateControlsForSingle();
+}
+
+onChangeFrequency(option: string) {
+  console.log("onChangeFrequency called for option: " + option);
+  const index = this.selectedFrequency.indexOf(option);
+
+  if (index === -1) {
+    this.selectedFrequency.push(option);
+    this.isOtherSelected = true;
+
+    // Add all controls for the group 'productBoundaryCondition'
+    this.addAllControlsForGroup('productBoundaryCondition', true);
+  } else {
+    // Remove the frequency and check if any others are still selected
+    this.selectedFrequency.splice(index, 1);
+    if (this.selectedFrequency.length === 0) {
+      this.isOtherSelected = false;
+    }
+
+    // Remove all controls for 'productBoundaryCondition' if no options are selected
+    this.addAllControlsForGroup('productBoundaryCondition', false);
+  }
+
+  this.updateControlsForFrequency();
+}
+
+addAllControlsForGroup(groupName: string, isAdding: boolean) {
+  const groupOptions = this.searchFilterList.filter(option => option.group === groupName);
+
+  // Add or remove all controls for the given group
+  groupOptions.forEach(option => {
+    if(option.label === 'Premium Payment Frequency'){
+      console.log("Found empty label in group: " + option.label);
+      return;  // Skip empty labels in the group
+    }
+    const optionIndex = this.searchFilterList.indexOf(option);
+    this.addRemoveControls(isAdding, option, optionIndex);
+  });
+}
+
+updateControlsForSingle() {
+  if (this.isSingleSelected) {
+    console.log("Updating controls for single selection");
+    // Additional logic for "Single" if needed
+  }
+}
+
+updateControlsForFrequency() {
+  this.selectedFrequency.forEach(frequency => {
+    console.log("Updating controls for frequency: " + frequency);
+    // Additional logic for frequency options if needed
+  });
+}
+
+
+/////////////////////////
+  processComaInput(){
+this.numberInputArray = this.commaSeparatedInput
+.split(',').map(value=>value.trim()).filter(value=> !isNaN(Number(value)))
+ .map(value=> Number(value));
+  console.log("here is a number Array"+ this.numberInputArray);
+}
   ngOnDestroy(): void {
     this.formService$.unsubscribe()
   }
