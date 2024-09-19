@@ -151,3 +151,13 @@ mat-grid-list {
     position: absolute !important;
 
 }
+
+.checkboxOptional-group{
+    display: flex;
+    flex-wrap: nowrap ;
+    gap: 20px;
+}
+
+.checkboxOptional-group mat-checkbox {
+    display: inline-block;
+}

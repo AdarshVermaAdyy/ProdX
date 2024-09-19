@@ -72,8 +72,8 @@
                                 [formGroupName]="i" class="col-12" >
                                 <div *ngIf="field.get('type')?.value === 'checkbox' && field.get('label')?.value === 'Premium Payment Frequency'">
                                     <mat-label>{{ field.get('label')?.value }}:</mat-label>
-                                    <div formGroupName="optionControls">
-                                        
+                                    <div formGroupName="optionControls" class="checkboxOptional-group">
+                                       <!-- <div *ngIf="isNotSelectedFromToggle">  -->
                                         <div *ngFor="let option of field.get('options')?.value;">
                                             <mat-checkbox
                                             *ngIf ="option === 'Single'"
@@ -93,6 +93,7 @@
                                             {{ option}}
                                         </mat-checkbox>
                                     </div>
+                                
                                     </div>
                                 
                                 </div>
@@ -102,11 +103,18 @@
                             </div>
                             </div>
                             <div *ngIf="isSingleSelected">
+                                <mat-accordion class="dynamic-formngContainer">
+                                    <mat-expansion-panel (opened)="innerPanelOpenState.set(true)" (closed)="innerPanelOpenState.set(false)"
+                                        expanded="true">
                                 <h3> Single Selected  </h3>
                             <div formArrayName="productBoundaryCondition">
                                 <div class="row">
-                                    <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
-                                        [formGroupName]="i" class="col-6">
+                                    <ng-container *ngFor="let field of productBoundaryCondition.controls; let i = index">
+                                        <div  [formGroupName]="i"   *ngIf="field.get('label')?.value !== 'Premium Payment Frequency'" class="col-6">
+                                       
+                                    <!-- <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
+                                        [formGroupName]="i" class="col-6"> -->
+                                        <div  *ngIf="field.get('label')?.value !== 'Premium Payment Frequency'">
                                         <div [ngSwitch]="field.get('type')?.value">
                                             <div *ngSwitchCase="'range'">
                                                 <div class="row">
@@ -145,6 +153,7 @@
                                                     <!-- </div> -->
                                                 </div>
                                             </div>
+                                            
                                             <div *ngSwitchCase="'date'">
                                                 <mat-form-field class="dropdowidth">
                                                     <mat-label>{{field.get('label')?.value}}</mat-label>
@@ -190,6 +199,7 @@
                                                     <input matInput type="text" formControlName="value" />
                                                 </mat-form-field>
                                             </div>
+                                            
                                             <div *ngSwitchCase="'radio'">
                                                 <mat-label>{{ field.get('label')?.value }}:</mat-label>
                                                 <mat-radio-group formControlName="value" class="radiobtgroup"
@@ -209,24 +219,36 @@
                                             </mat-error> -->
                                             </div>
                                         </div>
+                                    </div>
                                         <div
                                             *ngIf="field.get('value')?.invalid && (field.get('value')?.dirty || field.get('value')?.touched)">
                                             <div *ngIf="field.get('value')?.errors?.['required']">
                                                 <span>This field is required</span>
                                             </div>
                                         </div>
+                                   
                                     </div>
+                                </ng-container>
                                 </div>
 
                             </div>
+                            </mat-expansion-panel>
+                            </mat-accordion>
                         </div>
+                        <div *ngIf="isOtherSelected">
                             <div *ngFor="let frequency of selectedFrequency">
+                                <mat-accordion class="dynamic-formngContainer">
+                                    <mat-expansion-panel (opened)="innerPanelOpenState.set(true)" (closed)="innerPanelOpenState.set(false)"
+                                        expanded="true">
                                 <h3> For Premium Payment Frequency: {{frequency}} </h3>
                             <div formArrayName="productBoundaryCondition">
 
                                 <div class="row">
-                                    <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
-                                        [formGroupName]="i" class="col-6">
+                                    <ng-container *ngFor="let field of productBoundaryCondition.controls; let i = index">
+                                        <div  [formGroupName]="i"   *ngIf="field.get('label')?.value !== 'Premium Payment Frequency'" class="col-6">
+                                       
+                                    <!-- <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
+                                        [formGroupName]="i" class="col-6"> -->
                                         <div [ngSwitch]="field.get('type')?.value">
                                             <div *ngSwitchCase="'range'">
                                                 <div class="row">
@@ -285,6 +307,20 @@
                                                             [value]="option">{{ option }}</mat-option>
                                                     </mat-select>
                                                 </mat-form-field>
+                                            </div>
+
+                                            <div *ngSwitchCase ="'checkbox'">
+                                                <div formGroupName="optionControls" class="checkboxOptional-group">
+                                                    <mat-label>{{ field.get('label')?.value }}:</mat-label>
+                                                    <div *ngFor="let option of field.get('options')?.value;">
+                                                    
+                                                    <mat-checkbox
+                                                     [formControlName]="option" >
+                                                       {{ option}}
+                                                   </mat-checkbox>
+
+                                            </div>
+                                            </div>
                                             </div>
                                             <!-- <div *ngSwitchCase="'checkbox'">
                                                    <div formGroupName="optionControls">
@@ -334,11 +370,15 @@
                                                 <span>This field is required</span>
                                             </div>
                                         </div>
-                                    </div>
+                                        </div>
+                                    </ng-container>
                                 </div>
 
                             </div>
+                            </mat-expansion-panel>
+                            </mat-accordion>
                         </div>
+                    </div>
                         </div>
                     </mat-expansion-panel>
                 </mat-accordion>
