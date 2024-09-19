@@ -11,6 +11,8 @@ import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-r
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { RiderInformationComponent } from "../rider-information/rider-information.component";
+import { ReviewDocumentComponent } from '../review-document/review-document.component';
+
 
 @Component({
   selector: 'app-create-using-template',
@@ -25,7 +27,7 @@ import { RiderInformationComponent } from "../rider-information/rider-informatio
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
-    MatSidenavModule, MatIconModule, RiderInformationComponent],
+    MatSidenavModule, MatIconModule, RiderInformationComponent,ReviewDocumentComponent],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'
 })
@@ -39,6 +41,7 @@ export class CreateUsingTemplateComponent {
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
   @ViewChild(RiderInformationComponent)RiderInformationComponent:RiderInformationComponent;
+  @ViewChild(ReviewDocumentComponent) ReviewDocumentComponent : ReviewDocumentComponent;
 
   ngOnInit(): void {
     localStorage.setItem('currentForm', JSON.stringify(this.currentSelectedIndex))

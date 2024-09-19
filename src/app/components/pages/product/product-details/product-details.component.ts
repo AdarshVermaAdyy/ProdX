@@ -274,7 +274,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy{
   }
 
   saveData(){
-    this.formDataService.setFormData('product-details', this.productDetailsForm.value);
+    this.formDataService.setFormData('productDetails', this.productDetailsForm.value);
   }
 
   nextData(){

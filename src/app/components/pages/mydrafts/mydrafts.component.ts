@@ -62,19 +62,7 @@ export class MydraftsComponent {
     {category : 'Unit Linked Insurance Plans (ULIPs)', subCategory : ['Regular Premium ULIPs','Single Premium ULIPs','Flexible Premium ULIPs','Equity Linked ULIPs','Debt Linked ULIPs']},
   ];
 
-  dataSource = new MatTableDataSource<productElement>([
-    {draftName: "Standard Level Term Plan", description: 'A basic level term insurance plan offering fixed coverage and premiums for a set period..', category: 'Term Life Insurence', lastEdited: 'Aug 30 , 2024',status:'Draft'},
-    {draftName: "Family Protector Level Plan", description: 'A level term plan with slightly higher premiums, providing additional benefits or riders..', category: 'Term Life Insurence', lastEdited: 'Aug 31 , 2024',status:'In Review with Raj'},
-    {draftName: "Premium Level Term Plan", description: 'Provides level term coverage with added benefits for family protection and financial security.', category: 'Term Life Insurence', lastEdited: 'Aug 26 , 2024',status:'In Review with Madhavi'},
-    {draftName: "Extended Coverage Level Plan", description: 'Offers regular premium payments with a focus on long-term investment growth and insurance coverage.', category: 'Term Life Insurence', lastEdited: 'Aug 23 , 2024',status:'In Review with Raj'},
-    {draftName: "Income Replacement Level Plan", description: 'Combines regular premium payments with extensive investment options and life coverage.', category: 'Group Life Insurance', lastEdited: 'Aug 30 , 2024',status:'In Review with Raj'},
-    {draftName: "Extended Coverage Level Plan", description: 'Designed for regular premium payments with comprehensive insurance and investment features.', category: 'Group Life Insurance', lastEdited: 'Sep 11 , 2024',status:'Draft'},
-    {draftName: "Flexible Benefit Level Plan", description: 'Provides level term coverage with added benefits for family protection and financial security.', category: 'Universal Life Insurance', lastEdited: 'Sep 11 , 202',status:'In review'},
-    {draftName: "Income Replacement Level Plan", description: 'Designed for regular premium payments with comprehensive insurance and investment features.', category: 'Group Life Insurance', lastEdited: 'Sep 12, 2024',status:'In Review'},
-    {draftName: "Flexible Benefit Level Plan", description: 'Offers level term coverage with flexible benefits and options to customize based on individual needs.', category: 'Universal Life Insurance', lastEdited: 'Sep 13, 2024',status:'Draft'},
-    {draftName: "Income Replacement Level Plan", description: 'Offers level term coverage with flexible benefits and options to customize based on individual needs.', category: 'Term Life Insurence', lastEdited: 'Sep13 , 2024',status:'In Review with Raj'},
-
-  ])
+  dataSource = new MatTableDataSource([])
 
   statusList =['Draft','In Review']
 
@@ -105,8 +93,20 @@ dateCreated:''
       dateCreated:new FormControl()
     })
 
+    this.getDraftList();
     this.formSubscribe();
     this.getFormsValue();
+  }
+
+  getDraftList(){
+    
+    if(localStorage.getItem('myDrafts') == null || localStorage.getItem('myDrafts') == undefined){
+      this.dataSource.data = [];
+    }else{
+      
+      this.dataSource.data = JSON.parse(localStorage.getItem('myDrafts'));
+
+    }
   }
 
   get category() { return this.filterForm.get('category'); }
@@ -139,11 +139,12 @@ dateCreated:''
   // create filter
   getFormsValue() {
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
+      console.log(data)
       let searchString = JSON.parse(filter);
 
       const resultValue = ( data?.draftName.toString().trim().toLowerCase().indexOf(searchString.search.toLowerCase()) !== -1 ||  data?.description.toString().trim().toLowerCase().indexOf(searchString.search.toLowerCase()) !== -1) &&
-      data?.category.toString().trim().toLowerCase().indexOf(searchString.category.toLowerCase()) !== -1 &&
-        data?.category.toString().trim().toLowerCase().indexOf(searchString.subCategory.toLowerCase()) !== -1 &&
+      data?.data?.productDetails?.category.toString().trim().toLowerCase().indexOf(searchString.category.toLowerCase()) !== -1 &&
+        data?.data?.productDetails?.category.toString().trim().toLowerCase().indexOf(searchString.subCategory.toLowerCase()) !== -1 &&
         data?.status.toString().trim().toLowerCase().indexOf(searchString.status.toLowerCase()) !== -1
 
       return resultValue;
