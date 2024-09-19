@@ -18,6 +18,7 @@ import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
 import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
+import { FormDataService } from '../../../../service/form-data.service';
 interface InputField{
   label: string;
   formControlName: string;
@@ -122,7 +123,8 @@ export class RiderInformationComponent implements OnInit {
     private _fb: FormBuilder,
     private dialog : MatDialog,
     private shareproductData:ShareproductdataService,
-    private getSetService: GetSetService
+    private getSetService: GetSetService,
+    private formDataService : FormDataService
   ) {
     this.riderDetailsForm = new FormGroup({});
     this.isBlankTemplate = localStorage.getItem('createMode');
@@ -284,11 +286,13 @@ export class RiderInformationComponent implements OnInit {
   }
 
   nextdata(){
+    console.log(this.riderDetailsForm)
     console.log("next method called");
     const data = 'Hello from form details';
   //  this.shareproductData.updateData(data);
 
     this.shareproductData.updateData(this.riderDetailsForm.value.riderTpye);
+    this.saveData();
   }
 
   search(event){
@@ -316,6 +320,11 @@ export class RiderInformationComponent implements OnInit {
       document.getElementById(element).innerHTML = result
     });
   }
+
+  saveData(){
+    this.formDataService.setFormData('riderInfoDetails', this.riderDetailsForm.value);
+  }
+
 
 
 }
