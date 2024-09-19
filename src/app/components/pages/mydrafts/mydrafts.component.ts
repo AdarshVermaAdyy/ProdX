@@ -16,7 +16,7 @@ import {MatSort, MatSortModule} from '@angular/material/sort';
 import {MatTableDataSource, MatTableModule} from '@angular/material/table';
 import {MatMenuModule} from '@angular/material/menu';
 import { Router } from '@angular/router';
-import { GetSetService } from '../../../../service/get-set.service';
+import { GetSetService } from '../../../service/get-set.service';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatNativeDateModule } from '@angular/material/core';
 

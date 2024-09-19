@@ -10,7 +10,7 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
 import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-ribbon.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { RiderInformationComponent } from "../../../rider-information/rider-information.component";
+import { RiderInformationComponent } from "../rider-information/rider-information.component";
 
 @Component({
   selector: 'app-create-using-template',

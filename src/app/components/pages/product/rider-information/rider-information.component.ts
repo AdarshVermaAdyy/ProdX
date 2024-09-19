@@ -13,11 +13,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatStepperModule } from '@angular/material/stepper';
-import { GetSetService } from '../../service/get-set.service';
+import { GetSetService } from '../../../../service/get-set.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { ShareproductdataService } from '../../service/shareproductdata.service';
-import { EditLabelComponent } from '../../shared/edit-label/edit-label.component';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
+import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
 interface InputField{
   label: string;
   formControlName: string;
