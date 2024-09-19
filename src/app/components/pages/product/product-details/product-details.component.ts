@@ -93,9 +93,9 @@ export class ProductDetailsComponent implements OnInit{
     'riderCheckbox1',
     'riderCheckbox2',
   ]
-  
+
   searchFilterList = []
-  
+
   constructor(
     private _fb: FormBuilder,
     private dialog : MatDialog,
@@ -284,12 +284,12 @@ export class ProductDetailsComponent implements OnInit{
       this.searchFilterList = this.fieldsList;
     }
   }
-  
+
   editlabel(controlname){
     console.log(controlname)
     const dialogRef = this.dialog.open(EditLabelComponent);
     dialogRef.afterClosed().subscribe(result => {
-    
+
       const element = controlname+'_label'
       document.getElementById(element).innerHTML = result
     });
