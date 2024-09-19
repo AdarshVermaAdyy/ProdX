@@ -37,10 +37,6 @@ const routes: Routes = [
         path:"create-product",
         component: CreateUsingTemplateComponent,
         data : {breadcrumb : 'Create product using template'}
-      },
-      {
-        path: 'review-document',
-        component: ReviewDocumentComponent
       }
     ]
   },
