@@ -11,6 +11,7 @@ import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { FormDataService } from '../../service/form-data.service';
 
 @Component({
   selector: 'app-doc-upload-dialog',
@@ -51,7 +52,11 @@ export class DocUploadDialogComponent {
 
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any,private dialogRef: MatDialogRef<DocUploadDialogComponent>){}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<DocUploadDialogComponent>,
+    private formDataService: FormDataService
+  ){}
 
   handleFileInputChange(l,event): void {
     this.file_store = l;
@@ -110,5 +115,12 @@ export class DocUploadDialogComponent {
         this.moveToUpload = true;
       }
     }
+  }
+
+  closeAndUpload(){
+    if(this.docList.length < 1){
+      return;
+    }
+    this.formDataService.addDocument(this.docList);
   }
 }

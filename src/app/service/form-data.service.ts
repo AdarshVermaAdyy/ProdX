@@ -10,6 +10,7 @@ export class FormDataService {
   private callSaveFunction = new Subject<string>();
   callSaveFunction$ = this.callSaveFunction.asObservable();
   private formData = {};
+  private docList = [];
 
   constructor() { }
 
@@ -22,6 +23,10 @@ export class FormDataService {
     this.formData[page] = data;
   }
 
+  addDocument(data){
+    this.docList = [...this.docList, ...data];
+  }
+
   getFormDataByPageName(page: string){
     return this.formData[page] || {};
   }
@@ -30,8 +35,16 @@ export class FormDataService {
     return this.formData;
   }
 
+  getDocList(){
+    return this.docList;
+  }
+
   clearFormData(){
     this.formData = {};
+  }
+
+  clearDocList(){
+    this.docList = [];
   }
 
   private fetchDraftsFromLocalStorage(){
@@ -58,13 +71,15 @@ export class FormDataService {
     const drafts = this.fetchDraftsFromLocalStorage();
     const newData = {
       draftName: draftName,
-      data: this.formData
+      data: this.formData,
+      documents: this.docList
     }
 
     drafts.push(newData);
     this.saveDraftToLocalStorage(drafts);
 
-    this.clearFormData()
+    this.clearFormData();
+    this.clearDocList();
   }
 
   submit({productName, startDate, effectiveDate, comments}){
@@ -78,12 +93,14 @@ export class FormDataService {
       startDate: startDate,
       effectiveDate: effectiveDate,
       comments: comments,
-      data: this.formData
+      data: this.formData,
+      documents: this.docList
     }
 
     products.push(newData);
     this.saveProductsToLocalStorage(products);
 
-    this.clearFormData()
+    this.clearFormData();
+    this.clearDocList();
   }
 }
