@@ -8,6 +8,7 @@ import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { FormDataService } from '../../service/form-data.service';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-submit-form-dialog',
@@ -21,7 +22,9 @@ import { FormDataService } from '../../service/form-data.service';
     MatInputModule,
    CommonModule,
    MatDatepickerModule
-
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
   ],
   templateUrl: './submit-form-dialog.component.html',
   styleUrl: './submit-form-dialog.component.scss'

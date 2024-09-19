@@ -10,6 +10,7 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTable, MatTableModule } from '@angular/material/table';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-doc-upload-dialog',
@@ -26,6 +27,9 @@ import { MatTable, MatTableModule } from '@angular/material/table';
     MatSelectModule,
   CommonModule,
 MatTableModule],
+providers: [
+  { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
+],
   templateUrl: './doc-upload-dialog.component.html',
   styleUrl: './doc-upload-dialog.component.scss'
 })
