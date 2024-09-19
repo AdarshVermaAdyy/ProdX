@@ -64,17 +64,20 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   private formService$ = new Subscription();
 
   optionalFieldsList: InputField[] =
-    [
-      { label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation' },
-      { label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation' },
+  [
+    {label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Min Age", formControlName: 'min', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Max Age", formControlName: 'max', type: 'text', isVisible: false, category: 'basicInformation'},
+
+    {label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
 
       { label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc' },
       { label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc' },
@@ -84,18 +87,22 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   // filteredFields = this.optionalFieldsList;
   readonly panelOpenState = signal(true);
-  searchFilterList = this.optionalFieldsList;
-  templeteFeilds = [
-    'coverageCode',
-    'cover_name1',
-    'cover_type',
-    'coverageAmount',
-    'coverageTerm',
-    'coverageEffectiveDate',
-    'coverageExpiryDate',
-    'coveragePremium',
-    'waiting_period',
-    'coverage_condition'
+  searchFilterList = [];
+  templeteFeilds=[
+      'coverageCode',
+      'cover_name1',
+      'cover_type' ,
+      'min',
+      'max',
+      'coverageAmount',
+      'coverageTerm',
+      'coverageEffectiveDate',
+      'coverageExpiryDate',
+      'coveragePremium',
+      'waiting_period',
+      'coverage_condition',
+
+
   ]
 
   constructor(private _fb: FormBuilder, private getSetService: GetSetService, private formDataService: FormDataService) {
@@ -115,6 +122,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
 
     if (this.isBlankTemplete === 'create-by-template') {
+  this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName))
       this.optionalFieldsList.forEach(feild => {
         const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
         if (isFeildExist) {
@@ -127,17 +135,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   initialiseForm() {
     this.coverageInfoForm = this._fb.group({
-      // coverageCode: new FormControl('',[Validators.required]),
-      // cover_name1: new FormControl('',[Validators.required]),
-      // cover_type: new FormControl('',[Validators.required]),
-      // coverageAmount: new FormControl('',[Validators.required]),
-      // coverageTerm: new FormControl('',[Validators.required]),
-      // coverageEffectiveDate:new FormControl('',[Validators.required]),
-      // coverageExpiryDate:new FormControl('',[Validators.required]),
-      // coveragePremium: new FormControl('',[Validators.required]),
-      // waiting_period: new FormControl('',[Validators.required]),
-      // coverage_condition:new FormControl(''),
-      // Death_benefit:new FormControl('')
+
 
     })
   }
@@ -162,8 +160,11 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   cancelSearch() {
     this.searchForm.reset();
+    if(this.isBlankTemplete === 'create-by-template'){
+      this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName));
+    } else{
     this.searchFilterList = this.optionalFieldsList;
-  }
+  }}
 
 
 
@@ -177,7 +178,13 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   get cover_type() {
     return this.coverageInfoForm.get('cover_type');
   }
-  get coverageAmount() {
+  get min(){
+    return this.coverageInfoForm.get('min')
+  }
+  get max(){
+    return this.coverageInfoForm.get('max')
+  }
+  get coverageAmount(){
     return this.coverageInfoForm.get('coverageAmount');
   }
   get coverageTerm() {
@@ -268,6 +275,6 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.formService$.unsubscribe()
   }
-    
+
 
 }

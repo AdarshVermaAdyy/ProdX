@@ -1,4 +1,3 @@
-import { RiderInformationComponent } from './../../rider-information/rider-information.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TemplateManagementComponent } from './template-management/template-management.component';
@@ -7,12 +6,12 @@ import { ProductManagementComponent } from './product-management/product-managem
 import { ProdInfoFormComponent } from './prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
 import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
-import { ReviewDocumentComponent } from './review-document/review-document.component';
+import { MydraftsComponent } from '../mydrafts/mydrafts.component';
 
 const routes: Routes = [
   {
     path : '',
-    
+
     children : [
       {
         path:'template-management',
@@ -30,6 +29,11 @@ const routes: Routes = [
         data : {breadcrumb : 'Product Management'}
       },
       {
+        path:"mydrafts",
+        component:MydraftsComponent,
+        data:{breadcrumb:'My Drafts'}
+      },
+      {
         path:"create-product",
         component: CreateUsingTemplateComponent,
         data : {breadcrumb : 'Create product using template'}
@@ -40,7 +44,7 @@ const routes: Routes = [
       }
     ]
   },
- 
+
 ];
 
 @NgModule({

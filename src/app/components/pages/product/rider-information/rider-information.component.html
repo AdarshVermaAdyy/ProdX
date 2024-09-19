@@ -1,37 +1,54 @@
-<div class="container-fluid d-flex">
+<div class="container-fluid d-flex" style="flex-direction: column;">
+
+<div class="offcanvas offcanvas-end" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOptionss"
+aria-labelledby="offcanvasWithBothOptionsLabel">
+<div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionsLabel">Backdrop with scrolling</h5>
+    <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+</div>
+<div class="offcanvas-body">
   <div class="field-list-wrapper">
-      <div>
-          <form [formGroup]="searchForm">
-              <mat-form-field class="input-fields-height">
-                  <mat-label>Search</mat-label>
-                  <input matInput formControlName="search" (input)="search($event)" />
-                  <button mat-icon-button matSuffix (click)="cancelSearch()">
-                      <mat-icon>cancel</mat-icon>
-                  </button>
-              </mat-form-field>
-          </form>
-      </div>
-      <div *ngFor="let field of searchFilterList; let i = index">
-          <mat-checkbox *ngIf="field.formControlName === 'ridercode1'" (change)="selectUnselectGroup($event, field)">
-              <h4 class="checkbox-list-heading">Rider details & Info</h4>
-          </mat-checkbox>
+    <div>
+        <form [formGroup]="searchForm">
+            <mat-form-field class="input-fields-height">
+                <mat-label>Search</mat-label>
+                <input matInput formControlName="search" (input)="search($event)" />
+                <button mat-icon-button matSuffix (click)="cancelSearch()">
+                    <mat-icon>cancel</mat-icon>
+                </button>
+            </mat-form-field>
+        </form>
+    </div>
+    <div *ngFor="let field of searchFilterList; let i = index">
+        <mat-checkbox *ngIf="field.formControlName === 'ridercode1'" (change)="selectUnselectGroup($event, field)">
+            <h4 class="checkbox-list-heading">Rider details & Info</h4>
+        </mat-checkbox>
 
-          <mat-checkbox *ngIf="field.formControlName === 'rider_age_res'"
-              (change)="selectUnselectGroup($event, field)">
-              <h4 class="checkbox-list-heading">Rider Details</h4>
-          </mat-checkbox>
+        <mat-checkbox *ngIf="field.formControlName === 'rider_age_res'"
+            (change)="selectUnselectGroup($event, field)">
+            <h4 class="checkbox-list-heading">Rider Details</h4>
+        </mat-checkbox>
 
-          <mat-checkbox *ngIf="field.formControlName === 'rider_payout_freq'"
-              (change)="selectUnselectGroup($event, field)">
-              <h4 class="checkbox-list-heading">Premium and Payments</h4>
-          </mat-checkbox>
+        <mat-checkbox *ngIf="field.formControlName === 'rider_payout_freq'"
+            (change)="selectUnselectGroup($event, field)">
+            <h4 class="checkbox-list-heading">Premium and Payments</h4>
+        </mat-checkbox>
 
-          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
-              style="margin-left: 30px;">
-              {{field.label}}
-          </mat-checkbox>
-      </div>
-  </div>
+        <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
+            style="margin-left: 30px;">
+            {{field.label}}
+        </mat-checkbox>
+    </div>
+</div>
+</div>
+</div>
+
+<div class="mt-3 me-3 d-flex justify-content-end">
+  <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOptionss" aria-controls="offcanvasWithBothOptionss">
+      Add Fields
+   </button>
+</div>
+
   <div class="form-wrapper" *ngIf="!isPageBlank">
       <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
               ariaLabelCloseButton="Close info toast message">
@@ -104,7 +121,7 @@
                           <div class="col-md-6" *ngIf="fieldsList[4].isVisible">
                               <mat-form-field class="input-fields-height">
                                   <mat-label>Rider Coverage Amount</mat-label>
-                                  <input matInput formControlName="riderCoverAmount" />
+                                  <input matInput  type="number" formControlName="riderCoverAmount" />
 
                                   <mat-error
                                       *ngIf="riderCoverAmount?.invalid && (riderCoverAmount?.dirty || riderCoverAmount?.touched)">
@@ -215,7 +232,30 @@
                         </mat-form-field>
                     </div>
 
-                    <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
+                    <div class="col-md-3"  *ngIf="fieldsList[13].isVisible">
+                      <mat-form-field class="input-fields-height" >
+                          <mat-label>Min Age</mat-label>
+                          <input matInput  formControlName="min"  type="number" placeholder="Min ">
+
+                          <mat-error *ngIf="min?.invalid && (min?.dirty || min?.touched)">
+                              <span *ngIf="min?.errors?.['required']">This information is required.</span>
+                          </mat-error>
+                      </mat-form-field>
+
+                  </div>
+                  <div class="col-md-3"  *ngIf="fieldsList[14].isVisible">
+
+                  <mat-form-field class="input-fields-height" >
+                    <mat-label>Max Age</mat-label>
+                    <input matInput  formControlName="max"  type="number" placeholder="Max ">
+
+                    <mat-error *ngIf="max?.invalid && (max?.dirty || max?.touched)">
+                        <span *ngIf="max?.errors?.['required']">This information is required.</span>
+                    </mat-error>
+                </mat-form-field>
+                </div>
+
+                    <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
                       <mat-form-field class="input-fields-height">
                           <mat-label>Rider Benefits</mat-label>
                           <textarea matInput matTextareaAutosize formControlName="rider_benefits"  placeholder="Rider Benefits"></textarea>
@@ -228,7 +268,7 @@
                       </mat-form-field>
                   </div>
 
-                  <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
+                  <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
                     <mat-form-field class="input-fields-height">
                         <mat-label>Rider Limitation</mat-label>
                         <textarea matInput matTextareaAutosize formControlName="rider_limitation"  placeholder="Rider Limitation"></textarea>
@@ -241,7 +281,7 @@
                     </mat-form-field>
                 </div>
 
-                <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
+                <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
                   <mat-form-field class="input-fields-height">
                       <mat-label>Rider Cancellation Term</mat-label>
                       <textarea matInput matTextareaAutosize formControlName="rider_cancellation_term"  placeholder="Rider Cancellation Term"></textarea>
@@ -262,7 +302,7 @@
           </ng-container>
 
 
-          <ng-container *ngIf="fieldsList[16].isVisible || fieldsList[17].isVisible || fieldsList[18].isVisible">
+          <ng-container *ngIf="fieldsList[18].isVisible || fieldsList[19].isVisible || fieldsList[20].isVisible">
               <mat-accordion>
                   <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
                       class="mt-3" expanded="true">
@@ -272,7 +312,7 @@
 
 
                       <div class="row">
-                        <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
+                        <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Age Restriction</mat-label>
                                 <input matInput  formControlName="rider_age_res"/>
@@ -281,7 +321,7 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
+                        <div class="col-md-6" *ngIf="fieldsList[19].isVisible">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Coverage Trigger</mat-label>
                                 <input matInput formControlName="rider_cover_trigger"/>
@@ -290,7 +330,7 @@
                                 </mat-error>
                             </mat-form-field>
                         </div>
-                        <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
+                        <div class="col-md-6" *ngIf="fieldsList[20].isVisible">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Coverage Reductions</mat-label>
                                 <input matInput formControlName="rider_cover_red"/>
@@ -308,7 +348,7 @@
               </mat-accordion>
           </ng-container>
 
-          <ng-container *ngIf="fieldsList[19].isVisible || fieldsList[20].isVisible || fieldsList[21].isVisible || fieldsList[22].isVisible || fieldsList[23].isVisible">
+          <ng-container *ngIf="fieldsList[21].isVisible || fieldsList[22].isVisible || fieldsList[23].isVisible || fieldsList[24].isVisible || fieldsList[25].isVisible">
             <mat-accordion>
                 <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
                     class="mt-3" expanded="true">
@@ -318,7 +358,7 @@
 
 
                     <div class="row">
-                      <div class="col-md-6" *ngIf="fieldsList[19].isVisible">
+                      <div class="col-md-6" *ngIf="fieldsList[21].isVisible">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Payout Frequency</mat-label>
                               <input matInput  formControlName="rider_payout_freq"/>
@@ -327,7 +367,7 @@
                               </mat-error>
                           </mat-form-field>
                       </div>
-                      <div class="col-md-6" *ngIf="fieldsList[20].isVisible">
+                      <div class="col-md-6" *ngIf="fieldsList[22].isVisible">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Premium Waiver Clause</mat-label>
                               <input matInput formControlName="rider_prem_waiver"/>
@@ -336,7 +376,7 @@
                               </mat-error>
                           </mat-form-field>
                       </div>
-                      <div class="col-md-6" *ngIf="fieldsList[21].isVisible">
+                      <div class="col-md-6" *ngIf="fieldsList[23].isVisible">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Automatic Increase</mat-label>
                               <input matInput formControlName="rider_auto_inc"/>
@@ -346,7 +386,7 @@
                           </mat-form-field>
                       </div>
                   </div>
-                  <div class="col-md-6" *ngIf="fieldsList[22].isVisible">
+                  <div class="col-md-6" *ngIf="fieldsList[24].isVisible">
                     <mat-form-field class="input-fields-height">
                         <mat-label>Rider Settlement Options</mat-label>
                         <input matInput formControlName="rider_settle_option"/>
@@ -355,7 +395,7 @@
                         </mat-error>
                     </mat-form-field>
                 </div>
-                <div class="col-md-6" *ngIf="fieldsList[23].isVisible">
+                <div class="col-md-6" *ngIf="fieldsList[25].isVisible">
                   <mat-form-field class="input-fields-height">
                       <mat-label>Rider Contribution Type</mat-label>
                       <input matInput formControlName="rider_contri_type"/>
@@ -375,7 +415,8 @@
           <div class="form-btn-wrapper">
               <button mat-flat-button color="primary" class="mt-3" [disabled]="riderDetailsForm.invalid">Save as
                   Draft</button>
-              <button mat-flat-button color="primary" class="mt-3" matStepperNext>Next</button>
+                  <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
+                  <button  mat-flat-button color="primary" class="mt-3" matStepperNext  >Next</button>
           </div>
       </form>
   </div>

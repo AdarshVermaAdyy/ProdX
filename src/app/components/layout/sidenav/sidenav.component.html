@@ -115,18 +115,25 @@
 		</div> -->
 		<mat-divider class="sidenav-divider"></mat-divider>
 
-		<mat-nav-list>
+
+    <div class="link-wrapper" routerLink="/main/product/mydrafts" [routerLinkActive]="'is-active'">
+			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
+				<mat-icon>drafts</mat-icon>
+				<span *ngIf="isExpanded || isShowing">My Drafts</span>
+			</button>
+		</div>
+		<!-- <mat-nav-list>
 			<button mat-button (click)="showSubmenu = !showSubmenu"
 				[ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
 				<mat-icon>drafts</mat-icon>
-				<span *ngIf="isExpanded || isShowing">My Drafts</span>
-				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}"
-					*ngIf="isExpanded || isShowing">expand_more</mat-icon>
-			</button>
+				<span *ngIf="isExpanded || isShowing">My Drafts</span> -->
+				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}"
+					*ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
+			<!-- </button> -->
 
-			<div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+			<!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
 				<a mat-list-item href="...">Draft 1</a>
-				<a mat-list-item href="...">Draft 2</a>
+				<a mat-list-item href="...">Draft 2</a> -->
 				<!-- <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
 					<span class="full-width" *ngIf="isExpanded || isShowing">Nested Menu</span>
 					<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
@@ -135,8 +142,8 @@
 					<mat-list-item>SubSubmenu Item 1</mat-list-item>
 					<mat-list-item>SubSubmenu Item 2</mat-list-item>
 				</div> -->
-			</div>
-		</mat-nav-list>
+			<!-- </div> -->
+		<!-- </mat-nav-list> -->
 	</mat-sidenav>
 
 	<mat-sidenav-content class="main-content">

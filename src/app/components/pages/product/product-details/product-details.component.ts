@@ -95,9 +95,9 @@ export class ProductDetailsComponent implements OnInit, OnDestroy{
     'riderCheckbox1',
     'riderCheckbox2',
   ]
-  
+
   searchFilterList = []
-  
+
   constructor(
     private _fb: FormBuilder,
     private dialog : MatDialog,
@@ -295,10 +295,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy{
       this.searchFilterList = this.fieldsList;
     }
   }
-  
+
   editlabel(controlname){
     const dialogRef = this.dialog.open(EditLabelComponent);
     dialogRef.afterClosed().subscribe(result => {
+
       const element = controlname+'_label'
       document.getElementById(element).innerHTML = result
     });
@@ -332,5 +333,5 @@ export class ProductDetailsComponent implements OnInit, OnDestroy{
   ngOnDestroy(): void {
     this.formService$.unsubscribe()
   }
-    
+
 }

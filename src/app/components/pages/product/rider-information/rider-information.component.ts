@@ -13,11 +13,11 @@ import { MatRadioModule } from '@angular/material/radio';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
 import { MatStepperModule } from '@angular/material/stepper';
-import { GetSetService } from '../../service/get-set.service';
+import { GetSetService } from '../../../../service/get-set.service';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
 import {MatExpansionModule} from '@angular/material/expansion';
-import { ShareproductdataService } from '../../service/shareproductdata.service';
-import { EditLabelComponent } from '../../shared/edit-label/edit-label.component';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
+import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
 interface InputField{
   label: string;
   formControlName: string;
@@ -79,6 +79,9 @@ export class RiderInformationComponent implements OnInit {
     {label: "Rider Renewal Option", formControlName: 'riderRenewal', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Rider Conversion Option", formControlName: 'ridersCoverOption', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Rider Condition", formControlName: 'riderCondition', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Min Age", formControlName: 'min', type: 'text', isVisible: false, category: 'basicInformation'},
+    {label: "Max Age", formControlName: 'max', type: 'text', isVisible: false, category: 'basicInformation'},
+
     {label: "Rider Benefits", formControlName: 'rider_benefits', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Rider Limitation", formControlName: 'rider_limitation', type: 'text', isVisible: false, category: 'basicInformation'},
     {label: "Rider Cancellation Term", formControlName: 'rider_cancellation_term', type: 'text', isVisible: false, category: 'basicInformation'},
@@ -108,6 +111,8 @@ export class RiderInformationComponent implements OnInit {
     'riderRenewal',
     'ridersCoverOption',
     'riderCondition',
+    'min',
+    'max',
     'rider_benefits',
    'rider_limitation',
    'rider_cancellation_term'
@@ -129,6 +134,8 @@ export class RiderInformationComponent implements OnInit {
     this.initializeSearchForm();
     if(this.isBlankTemplate === 'create-by-template'){
       this.fieldsList.forEach(field => {
+        this.searchFilterList = this.fieldsList.filter(field => !this.templateFields.some(item => item === field.formControlName));
+
         const isFieldExits = this.templateFields.some(tempField => field.formControlName === tempField);
         if(isFieldExits){
           this.addRemoveControls(true, field)
@@ -145,18 +152,7 @@ export class RiderInformationComponent implements OnInit {
 
   initialiseForm(){
     this.riderDetailsForm = this._fb.group({
-      // productCode: new FormControl('',[Validators.required]),
-      // productStatus: new FormControl('',[Validators.required]),
-      // category: new FormControl('',[Validators.required]),
-      // coverageCode1: new FormControl('',[Validators.required]),
-      // coverageName1: new FormControl('',[Validators.required]),
-      // coverageCode2:new FormControl('',[Validators.required]),
-      // coverageName2:new FormControl('',[Validators.required]),
-      // ridersApplicable: new FormControl('yes',[Validators.required]),
-      // riderCheckbox1:new FormControl(''),
-      // riderRadio1:new FormControl(''),
-      // riderCheckbox2: new FormControl(''),
-      // riderRadio2: new FormControl('')
+
     })
   }
 
@@ -194,7 +190,12 @@ export class RiderInformationComponent implements OnInit {
   get riderCondition(){
     return this.riderDetailsForm.get('riderCondition');
   }
-
+  get min(){
+    return this.riderDetailsForm.get('min');
+  }
+  get max(){
+    return this.riderDetailsForm.get('max');
+  }
   get rider_benefits(){
     return this.riderDetailsForm.get('rider_benefits');
   }
@@ -286,6 +287,7 @@ export class RiderInformationComponent implements OnInit {
     console.log("next method called");
     const data = 'Hello from form details';
   //  this.shareproductData.updateData(data);
+
     this.shareproductData.updateData(this.riderDetailsForm.value.riderTpye);
   }
 
@@ -299,8 +301,11 @@ export class RiderInformationComponent implements OnInit {
 
   cancelSearch(){
     this.searchForm.reset();
+    if(this.isBlankTemplate === 'create-by-template'){
+      this.searchFilterList = this.fieldsList.filter(field => !this.templateFields.some(item => item === field.formControlName));
+    } else{
     this.searchFilterList = this.fieldsList;
-  }
+  }}
 
   editlabel(controlname){
     console.log(controlname)

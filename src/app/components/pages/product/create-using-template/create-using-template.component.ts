@@ -10,6 +10,7 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
 import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-ribbon.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
+import { RiderInformationComponent } from "../rider-information/rider-information.component";
 
 @Component({
   selector: 'app-create-using-template',
@@ -24,8 +25,7 @@ import { MatIconModule } from '@angular/material/icon';
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
-    MatSidenavModule, MatIconModule
-  ],
+    MatSidenavModule, MatIconModule, RiderInformationComponent],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'
 })
@@ -38,6 +38,7 @@ export class CreateUsingTemplateComponent {
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
+  @ViewChild(RiderInformationComponent)RiderInformationComponent:RiderInformationComponent;
 
   ngOnInit(): void {
     localStorage.setItem('currentForm', JSON.stringify(this.currentSelectedIndex))
@@ -50,9 +51,13 @@ export class CreateUsingTemplateComponent {
     return this.ProdInfoFormComponent ? this.ProdInfoFormComponent.dynamicForm : null;
   }
 
-  get coverageInfoForm() {
-    return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
-  }
+get coverageInfoForm() {
+  return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
+}
+get riderDetailsForm(){
+  return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
+
+}
 
   onStepChange(event, stepper) {
     this.currentStep = stepper;
