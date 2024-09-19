@@ -20,13 +20,40 @@
         </form>
     <!-- </div> -->
     <div *ngFor="let group of  getUniqueGroup(); let groupIndex = index">
+        
         <ng-container *ngIf="searchListByGroup(group).length > 0">
        <div class="group-header">
+        <div *ngIf="isTeamplateValue">
+            <div *ngIf=" !(['productServicingAlteration','featreandReinsate'].includes(group))">
         <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
+                
+            <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
+            </mat-checkbox>
+        </div>
+        </div>
+        <div *ngIf="!isTeamplateValue">
+            <mat-checkbox (change)="toggleSelectAll($event, group, groupIndex)">
+                
             <h4 class="checkbox-list-heading">{{group | groupNamePipe}}</h4>
         </mat-checkbox>
+        </div>
+      
     </div>
-   
+      
+    <div *ngIf="isTeamplateValue">
+       <!-- <div *ngIf="hasOptionForFilterGroup(group)"> -->
+        <div *ngFor="let option  of fileredOptionalList;">
+            <div *ngIf="option.group === group">
+                <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, (option.id -1))"  class="group-option">
+                    {{option.label}}
+                </mat-checkbox>
+            </div>
+        <!-- </div> -->
+        
+    </div>
+        
+    </div>
+    <div *ngIf="!isTeamplateValue">
         <div *ngFor="let option  of searchFilterList; let i = index">
             <div *ngIf="option.group === group">
                 <mat-checkbox [checked]="option.selected" (change)="addRemoveControls($event.checked, option, i)"  class="group-option">
@@ -34,6 +61,7 @@
                 </mat-checkbox>
             </div>
         </div>
+    </div>
     </ng-container>
     </div>
 </div>
@@ -112,7 +140,7 @@
                                        
                                     <!-- <div *ngFor="let field of productBoundaryCondition.controls; let i = index"
                                         [formGroupName]="i" class="col-6"> -->
-                                        <div  *ngIf="field.get('label')?.value !== 'Premium Payment Frequency'">
+                                        <div  *ngIf="field.get('label')?.value !== 'Premium Payment Frequency' ">
                                         <div [ngSwitch]="field.get('type')?.value">
                                             <div *ngSwitchCase="'range'">
                                                 <div class="row">

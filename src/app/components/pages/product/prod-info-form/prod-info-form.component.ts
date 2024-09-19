@@ -63,7 +63,7 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   receivedshareData: any;
   isMarkedRadioTouched = false;
   //formValue = 'templatated';
-  isTeamplateValue = 'true';
+  isTeamplateValue = false;
   searchForm: FormGroup;
   selectedFrequency: string []= [];
   isSingleSelected: boolean = false;
@@ -194,7 +194,14 @@ commaValueArray : string[] = [];
   readonly panelOpenState = signal(true);
 readonly innerPanelOpenState = signal(true);
 
+myAvailable = [
+  { id: 44, label: "Product Start Date", type: 'date', group: 'productBoundaryCondition', selected: false },
+  { id: 45, label: "Product End Date", type: 'date', group: 'productBoundaryCondition', selected: false },
+  // { id: 41, label: "Product Start Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
+  // { id: 42, label: "Product End Date", type: "range", min: 18, max: 50, group: 'productBoundary' },
+  { id: 46, label: "Comunication Preferences", type: 'dropdown', options: ['Allowed', 'NotAllowed'], group: 'productServiceNonfinancialAlterations', selected: false }
 
+]
 
   private formService$ = new Subscription();
 
@@ -226,7 +233,12 @@ readonly innerPanelOpenState = signal(true);
     });
     //   this.preselectOption();
     if (this.isBlankTemplate === 'create-by-template') {
-      console.log("create-by-template called..");
+      const searchTempFilterList = this.optionalFieldsList.filter(field =>{
+        return  !this.templateFields.includes(field.label);
+      })
+      this.isTeamplateValue = true
+      this.fileredOptionalList = searchTempFilterList;
+      console.log("create-by-template called.. My FilteredList ... "+ JSON.stringify(this.fileredOptionalList) );
       this.optionalFieldsList.forEach((field, i) => {
         const isFieldExits = this.templateFields.some(tempField => field.label === tempField);
         if (isFieldExits) {
@@ -236,7 +248,7 @@ readonly innerPanelOpenState = signal(true);
     }
 
     this.initializeSearchForm();
-    this.fileredOptionalList = [...this.optionalFieldsList];
+  //  this.fileredOptionalList = [...this.optionalFieldsList];
 
     this.formService$ = this.formDataService.callSaveFunction$.subscribe(data => {
       if (data === '1') {
@@ -387,18 +399,29 @@ readonly innerPanelOpenState = signal(true);
     }
   }
   addRemoveControls(event: any, field: any, i) {
+   // console.log("add remove control event called for End Game... " + field +" "+ i);
 
     field.selected = event;
 
     const option = this.searchFilterList[i];
+  //  console.log("add remove control ith value SearChFilterVals........  : "+  JSON.stringify(option));
     //  const option = this.optionalFieldsList[i];
 
     if (event) {
+      
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
-      console.log("addcOntrol Group ..." + JSON.stringify(option.group + " " + option.label));
+      console.log("Selected Group ..." + JSON.stringify(option.group + " " + option.label) + selectedGroup );
       if (option.group === 'productBoundaryCondition') {
+        const isLabelExist = this.productBoundaryCondition.controls.some(control => 
+          {
+            return control.get('label')?.value === option.label});
         console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
+        if(!isLabelExist){
         this.productBoundaryCondition.push(selectedGroup);
+        }
+        else{
+          console.log("Label already exist in productBoundaryCondition...");
+        }
 
       } else if (option.group === 'productServiceNonfinancialAlterations') {
         this.productServiceNonfinancialAlterations.push(selectedGroup);
@@ -511,52 +534,6 @@ readonly innerPanelOpenState = signal(true);
   }
 
 
-///////////////
-
-
-// toggleSelectAll(event, group, i: any) {
-//   const relFields = this.searchFilterList.filter(item => item.group === group);
-//    console.log("toggleSelectAll.."+ group +" "+ event.checked + i );   
-
-//    relFields.forEach((item, index) =>{
-//     const actualIndex = this.searchFilterList.indexOf(item);
-//     if(event.checked  && !item.selected){
-//       this.addRemoveControls(true, item, actualIndex);
-//     }
-//     else if(!event.checked && item.selected){
-//       this.addRemoveControls(false, item, actualIndex);
-//     }
-//    });
- 
-// }
-
-// addRemoveControls(event: boolean, field: any, i: number) {
-//   field.selected = event;
-//  // const option = this.searchFilterList[i];
-//  const option = this.searchFilterList.find(v => v.id === field.id);
-//   console.log("field name from addRemoveControls" + JSON.stringify(field));
-//   // Use 'productBoundaryCondition' as groupName for both single and other selections
-//   //const groupName = 'productBoundaryCondition';
-//   const groupName =    field.group;
-//   const controlKey = option.label.replace(/\s+/g, '');                         //`${field.group}-${option.label.replace(/\s+/g, '')}`;
-//  // const indexOfSelection = this.selectedFrequency.indexOf(option.label);
-
-//   if (event) {
-//     const selectedControl = this.formService.createDynamicFormGroup(option.label, option.type, option);
-//     this.addControlToGroup(groupName,controlKey, selectedControl);
-//   } else {
-//     this.removeControlFromGroup(groupName, controlKey);
-//   }
-
-//   // Update page blank status
-//   //const numberOfFields = Object.keys(this.dynamicForm.controls).length;
-// const numberOfFields = Object.keys(this.dynamicForm.controls).reduce((total, key) => {
-//   const group = this.dynamicForm.get(key) as FormGroup;
-//   return total + Object.keys(group.controls).length
-// }, 0);
-
-//   this.isPageBlank = numberOfFields === 0;
-// }
 
 // Add control to form group using a switch case
 addControlToGroup(groupName: string, controlKey:string, control: FormGroup) {
@@ -673,11 +650,12 @@ addAllControlsForGroup(groupName: string, isAdding: boolean) {
 
   // Add or remove all controls for the given group
   groupOptions.forEach(option => {
-    if(option.label === 'Premium Payment Frequency'){
+    if(option.label === 'Premium Payment Frequency' || option.label === 'Product Start Date' || option.label === 'Product End Date'){
       console.log("Found empty label in group: " + option.label);
       return;  // Skip empty labels in the group
     }
     const optionIndex = this.searchFilterList.indexOf(option);
+    console.log("here is your pain ending label: " + optionIndex);
     this.addRemoveControls(isAdding, option, optionIndex);
   });
 }
@@ -707,5 +685,16 @@ this.numberInputArray = this.commaSeparatedInput
   ngOnDestroy(): void {
     this.formService$.unsubscribe()
   }
+
+  hasOptionForFilterGroup(group: string): boolean {
+    // const excludedGroup = ['productServicingAlteration', 'featreandReinsate'];
+    // if(excludedGroup.includes(group)){
+    //   return false;
+    // }
+    const hasGroupOption = this.fileredOptionalList.some(option=> option.group === group).length > 0;
+    return hasGroupOption;
+
+  }
+ 
 
 }
