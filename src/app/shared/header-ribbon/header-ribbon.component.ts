@@ -10,6 +10,7 @@ import { DocUploadDialogComponent } from '../doc-upload-dialog/doc-upload-dialog
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { SubmitFormDialogComponent } from '../submit-form-dialog/submit-form-dialog.component';
 import { DraftDialogComponent } from '../draft-dialog/draft-dialog.component';
+import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 
 @Component({
   selector: 'app-header-ribbon',
@@ -50,6 +51,14 @@ export class HeaderRibbonComponent implements OnChanges {
         width: '550px',
       }
     )
+  }
+
+  deleteDraft(){
+    const dialogRef = this.matdialog.open(ConfirmationDialogComponent,{
+      data: {
+        title : "Delete Draft", message : "Are you sure, you want to delete this draft?", action: 'delete-draft'
+      }
+    });
   }
 
   saveDraft(){

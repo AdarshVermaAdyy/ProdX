@@ -10,33 +10,28 @@ import { MydraftsComponent } from '../mydrafts/mydrafts.component';
 
 const routes: Routes = [
   {
-    path : '',
+    path: '',
 
-    children : [
+    children: [
       {
-        path:'template-management',
+        path: 'template-management',
         component: TemplateManagementComponent,
-        data : {breadcrumb : 'Template Management'},
+        data: { breadcrumb: 'Template Management' },
       },
       {
-        path : '',
-        redirectTo : 'template-management',
+        path: '',
+        redirectTo: 'template-management',
         pathMatch: 'full'
       },
       {
         path: "product-management",
         component: ProductManagementComponent,
-        data : {breadcrumb : 'Product Management'}
+        data: { breadcrumb: 'Product Management' }
       },
       {
-        path:"mydrafts",
-        component:MydraftsComponent,
-        data:{breadcrumb:'My Drafts'}
-      },
-      {
-        path:"create-product",
+        path: "create-product",
         component: CreateUsingTemplateComponent,
-        data : {breadcrumb : 'Create product using template'}
+        data: { breadcrumb: 'Create product using template' }
       }
     ]
   },

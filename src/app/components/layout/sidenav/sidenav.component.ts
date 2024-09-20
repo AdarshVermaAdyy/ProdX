@@ -51,7 +51,7 @@ export class SidenavComponent {
   openDialog(){
     const dialogRef = this.matdialog.open(ConfirmationDialogComponent,{
       data: {
-        title : "Logout",message : "Are you sure, you want to logout?"
+        title : "Logout",message : "Are you sure, you want to logout?", action:'logout'
       }
     });
   }

@@ -54,13 +54,10 @@ export class FormDataService {
 
   clearFormData(){
     this.formData = {};
-  }
-
-  clearDocList(){
     this.docList = [];
   }
 
-  private fetchDraftsFromLocalStorage(){
+  fetchDraftsFromLocalStorage(){
     return JSON.parse(localStorage.getItem('myDrafts')) || [];
   }
 
@@ -94,7 +91,6 @@ export class FormDataService {
     this.saveDraftToLocalStorage(drafts);
 
     this.clearFormData();
-    this.clearDocList();
   }
 
   submit({productName, startDate, effectiveDate, comments}){
@@ -116,6 +112,11 @@ export class FormDataService {
     this.saveProductsToLocalStorage(products);
 
     this.clearFormData();
-    this.clearDocList();
+  }
+
+  deleteDraft(index){
+    const drafts = this.fetchDraftsFromLocalStorage();
+    drafts.splice(index, 1);
+    this.saveDraftToLocalStorage(drafts);
   }
 }
