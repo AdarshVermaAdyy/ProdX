@@ -59,6 +59,6 @@ export class DraftDialogComponent {
     this.formDataService.saveData();
     this.formDataService.saveAsDraft(this.draftName.value);
     this.dialogRef.close();
-    this.route.navigate(['/main/product/mydrafts']);
+    this.route.navigate(['/main/drafts']);
   }
 }

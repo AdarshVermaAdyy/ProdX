@@ -37,8 +37,7 @@
         <button mat-menu-item (click)="saveDraft()">
           <span>Save as draft</span>
         </button>
-        <button mat-menu-item>
-      
+        <button mat-menu-item (click)="deleteDraft()">
           <span>Delete draft</span>
         </button>
         <button *ngIf="stepper?.selectedIndex === stepper?.steps?.length -1" mat-menu-item (click)="submitProduct()">
