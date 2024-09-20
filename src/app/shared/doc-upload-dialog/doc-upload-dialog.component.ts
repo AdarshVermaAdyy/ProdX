@@ -21,6 +21,12 @@ import { MatSelectModule } from '@angular/material/select';
 import { MatTable, MatTableModule } from '@angular/material/table';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 import { FormDataService } from '../../service/form-data.service';
+import moment from 'moment';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-doc-upload-dialog',
@@ -66,13 +72,16 @@ export class DocUploadDialogComponent {
     'Draft Product Specifications',
     'Internal Product Approval Documents',
   ];
+  horizontalPosition: MatSnackBarHorizontalPosition = 'right';
+  verticalPosition: MatSnackBarVerticalPosition = 'top';
 
   @ViewChild(MatTable) table: MatTable<any>;
 
   constructor(
     @Inject(MAT_DIALOG_DATA) private data: any,
     private dialogRef: MatDialogRef<DocUploadDialogComponent>,
-    private formDataService: FormDataService
+    private formDataService: FormDataService,
+    private snackbar: MatSnackBar
   ) {}
 
   handleFileInputChange(l, event): void {
@@ -88,13 +97,30 @@ export class DocUploadDialogComponent {
   uploadDoc(files) {
     if (files.length) {
       for (let i = 0; i < files.length; i++) {
-        this.docList.push({
-          category: this.selectedCategory,
-          documentName: files[i].name,
-          uploadDate: files[i].lastModifiedDate,
-          size: (files[i].size / 1048576).toFixed(2).toString(),
-          fileType: files[i].name.split('.')[1].toUpperCase(),
-        });
+        const globalIndex = this.formDataService
+          .getDocList()
+          .findIndex(
+            (x) =>
+              x.category == this.selectedCategory &&
+              x.documentName == files[i].name
+          );
+
+        const localIndex = this.docList.findIndex(
+          (x) =>
+            x.category == this.selectedCategory &&
+            x.documentName == files[i].name
+        );
+        if (globalIndex == -1 && localIndex == -1) {
+          this.docList.push({
+            category: this.selectedCategory,
+            documentName: files[i].name,
+            uploadDate: moment(new Date()).format('MMMM D, YYYY'),
+            size: (files[i].size / 1048576).toFixed(2).toString(),
+            fileType: files[i].name.split('.')[1].toUpperCase(),
+          });
+        } else {
+          this.openSnackBar();
+        }
       }
       this.table.renderRows();
       this.display.patchValue('');
@@ -140,6 +166,7 @@ export class DocUploadDialogComponent {
 
   changeCategory() {
     this.display.patchValue('');
+    this.selectedTab = 'Create New Document Category';
     this.moveToUpload = false;
   }
 
@@ -148,5 +175,13 @@ export class DocUploadDialogComponent {
       return;
     }
     this.formDataService.addDocument(this.docList);
+  }
+
+  openSnackBar() {
+    this.snackbar.open('File with same name already uploaded', '', {
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+      duration: 3000,
+    });
   }
 }
