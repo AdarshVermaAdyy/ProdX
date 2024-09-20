@@ -154,7 +154,7 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                           <div class="col-md-6" *ngIf="fieldsList[7].isVisible">
                               <mat-form-field class="input-fields-height">
                                   <mat-label>Rider Expiry Date</mat-label>
-                                  <input matInput [matDatepicker]="pickers" formControlName="riderEffectiveDate">
+                                  <input matInput [matDatepicker]="pickers" formControlName="riderExpiryDate">
                                   <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
                                    <mat-datepicker #pickers></mat-datepicker>                                  <mat-error
                                       *ngIf="riderExpiryDate?.invalid && (riderExpiryDate?.dirty || riderExpiryDate?.touched)">

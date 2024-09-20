@@ -23,7 +23,8 @@ interface InputField {
   type: 'select' | 'text' | 'radio' | 'checkbox';
   options?: Options[] | [];
   isVisible?: boolean,
-  category: string
+  category: string,
+  defaultVal?: any
 }
 
 interface Options {
@@ -65,23 +66,21 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   optionalFieldsList: InputField[] =
   [
-    {label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Min Age", formControlName: 'min', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Max Age", formControlName: 'max', type: 'text', isVisible: false, category: 'basicInformation'},
-
-    {label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
-
-      { label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc' },
-      { label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc' },
-      { label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc' },
+    {label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: 'N18A'},
+    {label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: 'Pure Protection RP-V01'},
+    {label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: 'Death_benefits'},
+    {label: "Min Age", formControlName: 'min', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '18'},
+    {label: "Max Age", formControlName: 'max', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '75'},
+    {label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '500000'},
+    {label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '15 years'},
+    {label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '12/09/2024'},
+    {label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '9/13/2024'},
+    {label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '500'},
+    {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: '90'},
+    {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation',defaultVal: 'If the insured dies in a car accident on 15th June 2024 and the death occurs within 180 days due to injuries from that accident, the Accidental Death Benefit of ₹50,000 will be payable to the beneficiaries.'},
+      { label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc' ,defaultVal: 'my cover'},
+      { label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc',defaultVal: 'my cover' },
+      { label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc',defaultVal: 'my cover' },
 
     ]
 
@@ -129,6 +128,9 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
           this.addRemoveControls(true, feild)
         }
       })
+    }else {
+      // Taking all fields
+      this.searchFilterList = this.optionalFieldsList;
     }
   }
 
@@ -237,7 +239,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   addRemoveControls(event: any, field: InputField) {
     field.isVisible = event;
     if (event) {
-      this.coverageInfoForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
+      this.coverageInfoForm.addControl(field.formControlName, new FormControl(field.defaultVal||'', [Validators.required]));
     } else {
       this.coverageInfoForm.removeControl(field.formControlName);
     }
