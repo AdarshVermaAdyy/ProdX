@@ -1,118 +1,104 @@
 <h2 mat-dialog-title>{{title}}</h2>
-<mat-dialog-content >
-    <mat-tab-group (selectedTabChange)="selectedTabValue($event)" *ngIf="!moveToUpload">
-        <mat-tab label="Create New Document Category">             
-          <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
-                        <div class="col">
-                          <mat-form-field class="categorytext-field">
-                            <mat-label>Enter Category Name</mat-label>
-                            <input matInput placeholder="Category Name" [formControl]="categoryNameText">
-                            @if (categoryNameText.hasError('required')) {
-                              <mat-error>Category name is <strong>required</strong></mat-error>
-                            }
-                          </mat-form-field>
-                        </div>
-                       
-                      </div>
-        </mat-tab>
-        <mat-tab label="Select from Existing Categories"> 
-          <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
-            <div class="col-9">
-              <mat-form-field style="width: 100%;">
-                <mat-label>Select category</mat-label>
-                <mat-select [formControl]="categorySelect" required>
-                  <mat-option>--</mat-option>
-                  @for (category of categoryList; track category) {
-                    <mat-option [value]="category">{{category}}</mat-option>
-                  }
-                </mat-select>
-                @if (categorySelect.hasError('required')) {
-                  <mat-error>Please choose a category</mat-error>
-                }
-                
-              </mat-form-field>
-            </div>
-          </div>
-        </mat-tab>
-        
-      </mat-tab-group>
+<mat-dialog-content>
+  <mat-tab-group (selectedTabChange)="selectedTabValue($event)" *ngIf="!moveToUpload">
+    <mat-tab label="Create New Document Category">
+      <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+        <div class="col">
+          <mat-form-field class="categorytext-field">
+            <mat-label>Enter Category Name</mat-label>
+            <input matInput placeholder="Category Name" [formControl]="categoryNameText">
+            @if (categoryNameText.hasError('required')) {
+            <mat-error>Category name is <strong>required</strong></mat-error>
+            }
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+    <mat-tab label="Select from Existing Categories">
+      <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+        <div class="col">
+          <mat-form-field class="categorytext-field">
+            <mat-label>Select category</mat-label>
+            <mat-select [formControl]="categorySelect" required>
+              <mat-option>--</mat-option>
+              @for (category of categoryList; track category) {
+              <mat-option [value]="category">{{category}}</mat-option>
+              }
+            </mat-select>
+            @if (categorySelect.hasError('required')) {
+            <mat-error>Please choose a category</mat-error>
+            }
 
-    
+          </mat-form-field>
+        </div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
 
-      <ng-container *ngIf="moveToUpload">
-        <div class="row"  style="margin: 2rem 0.5rem;align-items: baseline;">
-          <div class="col-9">
-            <mat-form-field style="width: 100%;">
-              <mat-label>Select File</mat-label>
-              <button mat-icon-button matPrefix (click)="f_input.click()">
-                <mat-icon>attach_file</mat-icon>
+  <ng-container *ngIf="moveToUpload">
+    <div class="row" style="margin: 2rem 0.5rem;align-items: baseline;">
+      <div class="col-9">
+        <mat-form-field style="width: 100%;">
+          <mat-label>Select File</mat-label>
+          <button mat-icon-button matPrefix (click)="f_input.click()">
+            <mat-icon>attach_file</mat-icon>
+          </button>
+          <input type="text" readonly matInput [formControl]="display" />
+          <input type="file" multiple hidden #f_input (change)="handleFileInputChange(f_input.files,$event)" />
+          <mat-error>this field is required</mat-error>
+        </mat-form-field>
+      </div>
+      <div class="col-3">
+        <button mat-flat-button color="primary" (click)="uploadDoc(f_input.files)">
+          <mat-icon>upload</mat-icon>
+          Upload
+        </button>
+      </div>
+    </div>
+    <div class="row" *ngIf="docList.length!=0">
+      <div class="col">
+        <table mat-table [dataSource]="docList" class="mat-elevation-z8">
+          <ng-container matColumnDef="category">
+            <th mat-header-cell *matHeaderCellDef> Category </th>
+            <td mat-cell *matCellDef="let element"> {{element.category}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="documentName">
+            <th mat-header-cell *matHeaderCellDef> Document Name </th>
+            <td mat-cell *matCellDef="let element"> {{element.documentName}} </td>
+          </ng-container>
+
+          <ng-container matColumnDef="action">
+            <th mat-header-cell *matHeaderCellDef> Action </th>
+            <td mat-cell *matCellDef="let element">
+              <button mat-icon-button (click)="deleteFile(element)" aria-label="Action delete">
+                <mat-icon>delete</mat-icon>
               </button>
-              <input type="text" readonly matInput [formControl]="display" />
-              <input
-                type="file"
-                multiple
-                hidden
-                #f_input
-                (change)="handleFileInputChange(f_input.files,$event)"
-              />
-              <mat-error>this field is required</mat-error>
-            </mat-form-field>
-          </div>
-          <div class="col-3">
-            <button mat-flat-button  color="primary" (click)="uploadDoc(f_input.files)">
-              <mat-icon>upload</mat-icon>
-              Upload
-            </button>
-          </div>
-         
-        </div>
-        <div class="row" *ngIf="docList.length!=0">
-          <div class="col">
-            <table mat-table [dataSource]="docList" class="mat-elevation-z8">
+            </td>
+          </ng-container>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+        </table>
+      </div>
+    </div>
+  </ng-container>
+</mat-dialog-content>
 
-           
-              <ng-container matColumnDef="category">
-                <th mat-header-cell *matHeaderCellDef> Category </th>
-                <td mat-cell *matCellDef="let element"> {{element.category}} </td>
-              </ng-container>
-            
-          
-              <ng-container matColumnDef="documentName">
-                <th mat-header-cell *matHeaderCellDef> Document Name </th>
-                <td mat-cell *matCellDef="let element"> {{element.documentName}} </td>
-              </ng-container>
-            
-            
-              <ng-container matColumnDef="action">
-                <th mat-header-cell *matHeaderCellDef> Action </th>
-                <td mat-cell *matCellDef="let element">
-                  <button mat-icon-button (click)="deleteFile(element)" aria-label="Action delete">
-                    <mat-icon>delete</mat-icon>
-                  </button>  
-                </td>
-              </ng-container>
-            
-             
-            
-              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-            </table>
-          </div>
-        </div>
-      </ng-container>
-      
-     
-  </mat-dialog-content>
-  <mat-dialog-actions align="end">
-    <button color="primary" *ngIf="selectedTab === 'Create New Document Category' && !moveToUpload" (click)="choseCategory('create')"  mat-flat-button>
-      <span>Create Category</span>
-    </button>
-    <button color="primary" *ngIf="selectedTab === 'Select from Existing Categories' && !moveToUpload" (click)="choseCategory('select')"  mat-flat-button>
-      <span>Select Category</span>
-    </button>
-    <!-- <button color="primary" *ngIf="moveToUpload"  mat-flat-button>
+<mat-dialog-actions align="end">
+  <button color="primary" *ngIf="selectedTab === 'Create New Document Category' && !moveToUpload"
+    (click)="choseCategory('create')" mat-flat-button>
+    <span>Create Category</span>
+  </button>
+  <button color="primary" *ngIf="selectedTab === 'Select from Existing Categories' && !moveToUpload"
+    (click)="choseCategory('select')" mat-flat-button>
+    <span>Select Category</span>
+  </button>
+  <!-- <button color="primary" *ngIf="moveToUpload"  mat-flat-button>
       <mat-icon >upload</mat-icon>
       <span>Upload</span>
     </button> -->
-    <button mat-flat-button color="primary" [mat-dialog-close]="true"  ><mat-icon>close</mat-icon><span>Close</span></button>
-  </mat-dialog-actions>
+  <button mat-flat-button color="primary" [mat-dialog-close]="true" (click)="closeAndUpload()">
+    <mat-icon>close</mat-icon>
+    <span>Close</span>
+  </button>
+</mat-dialog-actions>

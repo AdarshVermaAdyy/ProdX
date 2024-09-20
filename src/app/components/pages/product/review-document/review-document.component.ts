@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {
   FormBuilder,
   FormControl,
@@ -18,7 +18,8 @@ import { MatSort, MatSortModule } from '@angular/material/sort';
 import { MatStepperModule } from '@angular/material/stepper';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
 import { RouterModule } from '@angular/router';
-import { filter } from 'rxjs';
+import { filter, Subscription } from 'rxjs';
+import { FormDataService } from '../../../../service/form-data.service';
 
 export interface reviewTableElements {
   category: string;
@@ -49,80 +50,35 @@ export interface reviewTableElements {
   templateUrl: './review-document.component.html',
   styleUrl: './review-document.component.scss',
 })
-export class ReviewDocumentComponent implements OnInit {
+export class ReviewDocumentComponent implements OnInit, OnDestroy {
   displayedColumns: string[] = [
     'category',
     'documentName',
-    'uploadeDate',
+    'uploadDate',
     'fileType',
     'size',
     'action',
   ];
   isAddDocument: boolean = false;
+  addDocumentSubsscription = new Subscription();
   @ViewChild(MatSort) sort: MatSort;
   value: string = '';
   filterValues = {
     search: '',
     category: '',
   };
-  constructor(private fb: FormBuilder) {}
+  dataSource = new MatTableDataSource<reviewTableElements>();
+
+  constructor(private fb: FormBuilder, private formDataService: FormDataService) {}
 
   ngOnInit(): void {
     this.getFormsValue();
-    //   console.log("here is the form"+ this.getFormsValue());
+    
+    this.addDocumentSubsscription = this.formDataService.callAddDocument$.subscribe(() => {
+      this.dataSource.data = this.formDataService.getDocList();
+    })
   }
 
-  dataSource = new MatTableDataSource<reviewTableElements>([
-    {
-      category: 'Draft Product Specification',
-      documentName: 'Product_Specs_V1.pdf',
-      uploadeDate: '11/09/24',
-      fileType: 'PDF',
-      size: '12 MB',
-    },
-    {
-      category: 'Internal Product Approval Documents',
-      documentName: 'Approval_Documents_2024.pdf',
-      uploadeDate: '11/09/24',
-      fileType: 'DOCX',
-      size: '15 MB',
-    },
-    {
-      category: 'Regulatory Compliance Documents',
-      documentName: 'Product_Specs_V3.pdf',
-      uploadeDate: '14/09/24',
-      fileType: 'PDF',
-      size: '18 MB',
-    },
-    {
-      category: 'Marketing Material Drafts',
-      documentName: 'Product_Design_V2.pdf',
-      uploadeDate: '11/09/24',
-      fileType: 'DOCX',
-      size: '20 MB',
-    },
-    {
-      category: 'Product Illustration Documents',
-      documentName: 'Test_Cases_2024.pdf',
-      uploadeDate: '15/09/24',
-      fileType: 'PDF',
-      size: '25 MB',
-    },
-    {
-      category: 'Product Development Timeline',
-      documentName: 'Product_Documentation_Templates.pdf',
-      uploadeDate: '11/09/24',
-      fileType: 'PDF',
-      size: '30 MB',
-    },
-    {
-      category: 'Product Concept Note',
-      documentName: 'Product_Brochures_2024.pdf',
-      uploadeDate: '26/09/24',
-      fileType: 'DOCX',
-      size: '35 MB',
-    },
-  ]);
   categoryList: string[] = [
     'Draft Product Specification',
     'Internal Product Approval Documents',
@@ -172,5 +128,13 @@ export class ReviewDocumentComponent implements OnInit {
   ngAfterViewInit() {
     // this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+  }
+
+  ngOnDestroy(): void {
+    this.addDocumentSubsscription.unsubscribe()
+  }
+
+  deleteDoc(index){
+    this.formDataService.deleteDocument(index);
   }
 }

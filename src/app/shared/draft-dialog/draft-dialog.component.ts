@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { Router, RouterModule } from '@angular/router';
 import { FormDataService } from '../../service/form-data.service';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 @Component({
   selector: 'app-draft-dialog',
@@ -20,6 +21,9 @@ import { FormDataService } from '../../service/form-data.service';
     MatInputModule,
    CommonModule
 
+  ],
+  providers: [
+    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
   ],
   templateUrl: './draft-dialog.component.html',
   styleUrl: './draft-dialog.component.scss'

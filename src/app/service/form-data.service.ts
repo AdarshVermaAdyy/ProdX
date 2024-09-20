@@ -10,7 +10,10 @@ export class FormDataService {
 
   private callSaveFunction = new Subject<string>();
   callSaveFunction$ = this.callSaveFunction.asObservable();
+  private callAddDocument = new Subject();
+  callAddDocument$ = this.callAddDocument.asObservable();
   private formData = {};
+  private docList = [];
 
   constructor() { }
 
@@ -19,8 +22,22 @@ export class FormDataService {
     this.callSaveFunction.next(currentForm);
   }
 
+  updateDocument(){
+    this.callAddDocument.next('add')
+  }
+
   setFormData(page: string, data: any){
     this.formData[page] = data;
+  }
+
+  addDocument(data){
+    this.docList = [...this.docList, ...data];
+    this.updateDocument();
+  }
+
+  deleteDocument(index){
+    this.docList.splice(index, 1);
+    this.updateDocument();
   }
 
   getFormDataByPageName(page: string){
@@ -31,8 +48,16 @@ export class FormDataService {
     return this.formData;
   }
 
+  getDocList(){
+    return this.docList;
+  }
+
   clearFormData(){
     this.formData = {};
+  }
+
+  clearDocList(){
+    this.docList = [];
   }
 
   private fetchDraftsFromLocalStorage(){
@@ -61,13 +86,15 @@ export class FormDataService {
       lastEdited : moment(new Date()).format('MMMM D, YYYY'),
       draftName: draftName,
       data: this.formData,
-      status : 'draft'
+      status : 'draft',
+      documents: this.docList
     }
 
     drafts.push(newData);
     this.saveDraftToLocalStorage(drafts);
 
-    this.clearFormData()
+    this.clearFormData();
+    this.clearDocList();
   }
 
   submit({productName, startDate, effectiveDate, comments}){
@@ -81,12 +108,14 @@ export class FormDataService {
       startDate: startDate,
       effectiveDate: effectiveDate,
       comments: comments,
-      data: this.formData
+      data: this.formData,
+      documents: this.docList
     }
 
     products.push(newData);
     this.saveProductsToLocalStorage(products);
 
-    this.clearFormData()
+    this.clearFormData();
+    this.clearDocList();
   }
 }

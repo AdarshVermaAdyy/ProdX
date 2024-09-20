@@ -10,6 +10,8 @@ import { CommonModule } from '@angular/common';
 import { MatDividerModule } from '@angular/material/divider';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTable, MatTableModule } from '@angular/material/table';
+import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
+import { FormDataService } from '../../service/form-data.service';
 
 @Component({
   selector: 'app-doc-upload-dialog',
@@ -26,6 +28,9 @@ import { MatTable, MatTableModule } from '@angular/material/table';
     MatSelectModule,
   CommonModule,
 MatTableModule],
+providers: [
+  { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { appearance: 'outline' } }
+],
   templateUrl: './doc-upload-dialog.component.html',
   styleUrl: './doc-upload-dialog.component.scss'
 })
@@ -47,7 +52,11 @@ export class DocUploadDialogComponent {
 
   @ViewChild(MatTable) table: MatTable<any>;
 
-  constructor(@Inject(MAT_DIALOG_DATA) private data: any,private dialogRef: MatDialogRef<DocUploadDialogComponent>){}
+  constructor(
+    @Inject(MAT_DIALOG_DATA) private data: any,
+    private dialogRef: MatDialogRef<DocUploadDialogComponent>,
+    private formDataService: FormDataService
+  ){}
 
   handleFileInputChange(l,event): void {
     this.file_store = l;
@@ -64,7 +73,15 @@ export class DocUploadDialogComponent {
   uploadDoc(files){
     if(files.length){
       for(let i=0;i<files.length;i++){
-        this.docList.push({category:this.selectedCategory,documentName:files[i].name})
+        this.docList.push(
+          {
+            category:this.selectedCategory,
+            documentName:files[i].name,
+            uploadDate: files[i].lastModifiedDate,
+            size: (files[i].size/1048576).toFixed(2).toString(),
+            fileType: files[i].name.split('.')[1].toUpperCase()
+          }
+        )
       }
       this.table.renderRows();
       this.display.patchValue("");
@@ -106,5 +123,12 @@ export class DocUploadDialogComponent {
         this.moveToUpload = true;
       }
     }
+  }
+
+  closeAndUpload(){
+    if(this.docList.length < 1){
+      return;
+    }
+    this.formDataService.addDocument(this.docList);
   }
 }
