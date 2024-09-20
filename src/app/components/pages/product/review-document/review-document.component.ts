@@ -133,4 +133,8 @@ export class ReviewDocumentComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
     this.addDocumentSubsscription.unsubscribe()
   }
+
+  deleteDoc(index){
+    this.formDataService.deleteDocument(index);
+  }
 }

@@ -130,6 +130,5 @@ export class DocUploadDialogComponent {
       return;
     }
     this.formDataService.addDocument(this.docList);
-    this.formDataService.updateDocument();
   }
 }

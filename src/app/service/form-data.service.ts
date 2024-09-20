@@ -32,6 +32,12 @@ export class FormDataService {
 
   addDocument(data){
     this.docList = [...this.docList, ...data];
+    this.updateDocument();
+  }
+
+  deleteDocument(index){
+    this.docList.splice(index, 1);
+    this.updateDocument();
   }
 
   getFormDataByPageName(page: string){
