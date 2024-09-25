@@ -190,4 +190,7 @@ export class MydraftsComponent {
     this.dataSource.data = this.formDataService.fetchDraftsFromLocalStorage();
   }
 
+  editDraft(draft){
+    this.route.navigate(['main', 'product', 'edit-draft', encodeURIComponent(draft.draftName)]);
+  }
 }

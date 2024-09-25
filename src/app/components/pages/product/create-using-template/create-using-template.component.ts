@@ -12,6 +12,8 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { RiderInformationComponent } from "../rider-information/rider-information.component";
 import { ReviewDocumentComponent } from '../review-document/review-document.component';
+import { ActivatedRoute, Router } from '@angular/router';
+import { FormDataService } from '../../../../service/form-data.service';
 
 
 @Component({
@@ -27,7 +29,7 @@ import { ReviewDocumentComponent } from '../review-document/review-document.comp
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
-    MatSidenavModule, MatIconModule, RiderInformationComponent,ReviewDocumentComponent],
+    MatSidenavModule, MatIconModule, RiderInformationComponent, ReviewDocumentComponent],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss'
 })
@@ -36,14 +38,31 @@ export class CreateUsingTemplateComponent {
   selectedStep: any;
   currentStep;
   currentSelectedIndex = 0;
+  productName = '';
+  productData: any = {};
+  mode = '';
 
   @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
   @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
-  @ViewChild(RiderInformationComponent)RiderInformationComponent:RiderInformationComponent;
-  @ViewChild(ReviewDocumentComponent) ReviewDocumentComponent : ReviewDocumentComponent;
+  @ViewChild(RiderInformationComponent) RiderInformationComponent: RiderInformationComponent;
+  @ViewChild(ReviewDocumentComponent) ReviewDocumentComponent: ReviewDocumentComponent;
+
+  constructor(
+    private route: ActivatedRoute,
+    private formDataService: FormDataService
+  ) {
+    
+  }
 
   ngOnInit(): void {
+    this.mode = this.route.snapshot.url.join('/');
+    this.route.paramMap.subscribe((params) => {
+      this.productName = decodeURIComponent(params.get('name')!);
+      if(this.mode.includes('edit-draft')){
+        this.productData = this.formDataService.fetchDraftsFromLocalStorageByName(this.productName);
+      }
+    });
     localStorage.setItem('currentForm', JSON.stringify(this.currentSelectedIndex))
   }
 
@@ -54,13 +73,13 @@ export class CreateUsingTemplateComponent {
     return this.ProdInfoFormComponent ? this.ProdInfoFormComponent.dynamicForm : null;
   }
 
-get coverageInfoForm() {
-  return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
-}
-get riderDetailsForm(){
-  return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
+  get coverageInfoForm() {
+    return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
+  }
+  get riderDetailsForm() {
+    return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
 
-}
+  }
 
   onStepChange(event, stepper) {
     this.currentStep = stepper;

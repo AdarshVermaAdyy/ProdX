@@ -61,6 +61,10 @@ export class FormDataService {
     return JSON.parse(localStorage.getItem('myDrafts')) || [];
   }
 
+  fetchDraftsFromLocalStorageByName(draftName){
+    return JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0] || {};
+  }
+
   private saveDraftToLocalStorage(drafts){
     localStorage.setItem('myDrafts', JSON.stringify(drafts));
   }
