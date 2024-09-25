@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -73,6 +73,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   isPageBlank = true; //
   readonly panelOpenState = signal(true);
   private formService$ = new Subscription();
+  @Input() productData!: any;
+  @Input() mode!: string;
 
   fieldsList: InputField[] = [
     {
@@ -136,6 +138,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       isVisible: false,
       isMandatory: false,
       category: 'Basic Information',
+      defaultVal: [{
+        coverageCode: 'N18A',
+        coverageName: 'Accidental Death Benefit Option',
+      }]
     },
     {
       label: 'Riders Applicable',
@@ -256,7 +262,21 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         }
       }
     );
+    this.generateFormFields()
+    this.groupFieldsByCategory();
+  }
 
+  initializeSearchForm() {
+    this.searchForm = this._fb.group({
+      search: [''],
+    });
+  }
+
+  initialiseForm() {
+    this.productDetailsForm = this._fb.group({});
+  }
+
+  generateFormFields(){
     if (this.isBlankTemplate === 'create-by-template') {
       // checking if the created from template or from scratch
       // Taking only those fields which are mandatory
@@ -265,6 +285,13 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           !this.templateFields.some((item) => item === field.formControlName)
       );
       this.fieldsList.forEach((field) => {
+
+        //assigning controls and values from saved draft
+        if(this.mode.includes('edit-draft')){
+          this.templateFields = Object.keys(this.productData);
+          field.defaultVal = this.productData[field.formControlName];
+        }
+
         const isFieldExits = this.templateFields.some(
           (tempField) => field.formControlName === tempField
         );
@@ -277,17 +304,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       // Taking all fields
       this.searchFilterList = this.fieldsList;
     }
-    this.groupFieldsByCategory()
-  }
-
-  initializeSearchForm() {
-    this.searchForm = this._fb.group({
-      search: [''],
-    });
-  }
-
-  initialiseForm() {
-    this.productDetailsForm = this._fb.group({});
   }
 
   //getters
@@ -377,9 +393,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       switch (field.formControlName) {
         case 'coverage':
           this.productDetailsForm.addControl('coverage', this._fb.array([]));
-          this.addCoverage({
-            coverageCode: 'N18A',
-            coverageName: 'Accidental Death Benefit Option',
+          field.defaultVal.forEach(value => {
+            this.addCoverage(value);
           });
           break;
         case 'riderCheckbox1':

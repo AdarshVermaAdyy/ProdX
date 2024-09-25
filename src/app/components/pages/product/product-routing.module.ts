@@ -32,6 +32,11 @@ const routes: Routes = [
         path: "create-product",
         component: CreateUsingTemplateComponent,
         data: { breadcrumb: 'Create product using template' }
+      },
+      {
+        path: "edit-draft/:name",
+        component: CreateUsingTemplateComponent,
+        data: { breadcrumb: 'Create product using template' }
       }
     ]
   },
