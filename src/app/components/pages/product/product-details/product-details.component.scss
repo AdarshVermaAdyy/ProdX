@@ -55,7 +55,14 @@ mat-form-field{
 
 .checkbox-list-heading{
     margin-bottom: 0;
-    margin-top: 10px;
+}
+
+.delete-field{
+    display: none;
+}
+
+mat-form-field:hover .delete-field{
+    display: block;
 }
 
 // .offcanvas{
