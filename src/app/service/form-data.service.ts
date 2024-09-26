@@ -12,7 +12,7 @@ export class FormDataService {
   callSaveFunction$ = this.callSaveFunction.asObservable();
   private callAddDocument = new Subject();
   callAddDocument$ = this.callAddDocument.asObservable();
-  private formData = {};
+  private formData: any = {};
   private docList = [];
 
   constructor() { }
@@ -77,7 +77,7 @@ export class FormDataService {
     localStorage.setItem('products', JSON.stringify(products));
   }
 
-  saveAsDraft(draftName){
+  saveAsDraft(){
     if(Object.keys(this.formData).length === 0){
       return;
     }
@@ -85,9 +85,11 @@ export class FormDataService {
     const drafts = this.fetchDraftsFromLocalStorage();
     const newData = {
       lastEdited : moment(new Date()).format('MMMM D, YYYY'),
-      draftName: draftName,
+      draftName: this.formData.productDetails.productName,
+      description: this.formData.productDetails.productDescription,
+      category: this.formData.productDetails.category, 
       data: this.formData,
-      status : 'draft',
+      status : this.formData.productDetails.productStatus,
       documents: this.docList
     }
 

@@ -278,8 +278,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   generateFormFields(){
     if (this.isBlankTemplate === 'create-by-template') {
-      // checking if the created from template or from scratch
-      // Taking only those fields which are mandatory
       this.fieldsList.forEach((field) => {
 
         //assigning controls and values from saved draft
@@ -296,6 +294,8 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           this.addRemoveControls(true, field);
         }
       });
+      // checking if the created from template or from scratch
+      // Taking only those fields which are mandatory
       this.searchFilterList = this.fieldsList.filter(
         (field) =>
           !this.templateFields.some((item) => item === field.formControlName)
@@ -480,7 +480,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   nextData() {
-    console.log(this.productDetailsForm)
     this.saveData();
     this.shareproductData.updateData(this.productDetailsForm.value.productCode);
   }

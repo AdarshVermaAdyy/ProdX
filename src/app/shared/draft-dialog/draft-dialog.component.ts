@@ -56,9 +56,9 @@ export class DraftDialogComponent {
   ngOnInit(): void {}
 
   saveAsDraft() {
-    this.formDataService.saveData();
-    this.formDataService.saveAsDraft(this.draftName.value);
-    this.dialogRef.close();
-    this.route.navigate(['/main/drafts']);
+    // this.formDataService.saveData();
+    // this.formDataService.saveAsDraft(this.draftName.value);
+    // this.dialogRef.close();
+    // this.route.navigate(['/main/drafts']);
   }
 }

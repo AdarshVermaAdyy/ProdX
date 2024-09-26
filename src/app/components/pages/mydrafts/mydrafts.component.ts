@@ -142,7 +142,6 @@ export class MydraftsComponent {
     this.dataSource.filterPredicate = (data, filter: string): boolean => {
       console.log(data)
       let searchString = JSON.parse(filter);
-
       const resultValue = (data?.draftName.toString().trim().toLowerCase().indexOf(searchString.search.toLowerCase()) !== -1 || data?.description.toString().trim().toLowerCase().indexOf(searchString.search.toLowerCase()) !== -1) &&
         data?.data?.productDetails?.category.toString().trim().toLowerCase().indexOf(searchString.category.toLowerCase()) !== -1 &&
         data?.data?.productDetails?.category.toString().trim().toLowerCase().indexOf(searchString.subCategory.toLowerCase()) !== -1 &&
