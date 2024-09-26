@@ -19,16 +19,16 @@ aria-labelledby="offcanvasWithBothOptionLabel">
         </mat-form-field>
     </form>
 </div>
-    <div *ngFor="let field of searchFilterList; let i = index">
-        <mat-checkbox *ngIf="field.formControlName === 'coverageCode'" (change)="selectUnselectGroup($event, field)">
-            <h4 class="checkbox-list-heading">Coverage Details & Info</h4>
+    <div *ngFor="let category of groupCategoryList|keyvalue; let i = index">
+        <mat-checkbox  (change)="selectUnselectGroup($event, category.key)">
+            <h4 class="checkbox-list-heading">{{category.key}}</h4>
         </mat-checkbox>
-        <mat-checkbox *ngIf="field.formControlName === 'coverage_struc'" (change)="selectUnselectGroup($event, field)">
-          <h4 class="checkbox-list-heading">Coverage Details</h4>
-      </mat-checkbox>
-        <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)" style="margin-left: 30px;">
+        <div *ngFor="let field of category.value; let i = index">
+          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field,'checkbox',i)" style="margin-left: 30px;">
             {{field.label}}
         </mat-checkbox>
+        </div>
+
     </div>
 </div>
       </div>
@@ -58,7 +58,7 @@ aria-labelledby="offcanvasWithBothOptionLabel">
         *ngIf="optionalFieldsList[0].isVisible || optionalFieldsList[1].isVisible || optionalFieldsList[2].isVisible
         || optionalFieldsList[3].isVisible|| optionalFieldsList[4].isVisible|| optionalFieldsList[5].isVisible
         || optionalFieldsList[6].isVisible|| optionalFieldsList[7].isVisible|| optionalFieldsList[8].isVisible
-        || optionalFieldsList[9].isVisible">
+        || optionalFieldsList[9].isVisible  || optionalFieldsList[10].isVisible || optionalFieldsList[11].isVisible">
         <mat-accordion>
           <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
               expanded="true">
@@ -254,6 +254,9 @@ aria-labelledby="offcanvasWithBothOptionLabel">
                       <mat-form-field class="input-fields-height">
                           <mat-label>Coverage Structure</mat-label>
                           <input matInput  formControlName="coverage_struc"/>
+                          <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(optionalFieldsList[12])">
+                            <mat-icon>delete</mat-icon>
+                        </button>
                           <mat-error *ngIf="coverage_struc?.invalid && (coverage_struc?.dirty || coverage_struc?.touched)">
                               <span *ngIf="coverage_struc?.errors?.['required']">This information is required.</span>
                           </mat-error>
@@ -263,6 +266,9 @@ aria-labelledby="offcanvasWithBothOptionLabel">
                       <mat-form-field class="input-fields-height">
                           <mat-label>Beneficiary Details</mat-label>
                           <input matInput formControlName="Beneficiary"/>
+                          <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(optionalFieldsList[13])">
+                            <mat-icon>delete</mat-icon>
+                        </button>
                           <mat-error *ngIf="Beneficiary?.invalid && (Beneficiary?.dirty || Beneficiary?.touched)">
                               <span *ngIf="Beneficiary?.errors?.['required']">This information is required.</span>
                           </mat-error>
@@ -272,6 +278,9 @@ aria-labelledby="offcanvasWithBothOptionLabel">
                       <mat-form-field class="input-fields-height">
                           <mat-label>Product Tageline</mat-label>
                           <input matInput formControlName="Death_benefit"/>
+                          <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(optionalFieldsList[14])">
+                            <mat-icon>delete</mat-icon>
+                        </button>
                           <mat-error *ngIf="Death_benefit?.invalid && (Death_benefit?.dirty || Death_benefit?.touched)">
                               <span *ngIf="Death_benefit?.errors?.['required']">This information is required.</span>
                           </mat-error>
