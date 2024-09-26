@@ -102,7 +102,6 @@ export class MydraftsComponent {
   }
 
   getDraftList() {
-
     if (localStorage.getItem('myDrafts') == null || localStorage.getItem('myDrafts') == undefined) {
       this.dataSource.data = [];
     } else {

@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import moment from 'moment';
 import { Subject } from 'rxjs';
 
@@ -14,8 +15,10 @@ export class FormDataService {
   callAddDocument$ = this.callAddDocument.asObservable();
   private formData: any = {};
   private docList = [];
+  mode = '';
 
-  constructor() { }
+  constructor(private route: Router) {
+  }
 
   saveData() {
     const currentForm = localStorage.getItem('currentForm');
@@ -62,7 +65,8 @@ export class FormDataService {
   }
 
   fetchDraftsFromLocalStorageByName(draftName){
-    return JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0] || {};
+    this.formData = JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0].data || {};
+    return this.formData;
   }
 
   private saveDraftToLocalStorage(drafts){
@@ -78,11 +82,22 @@ export class FormDataService {
   }
 
   saveAsDraft(){
+    this.mode = this.route.url;
     if(Object.keys(this.formData).length === 0){
       return;
     }
-
     const drafts = this.fetchDraftsFromLocalStorage();
+    //Check if draft with same name exists
+    const draftIndex = drafts.findIndex(draft => draft.draftName=== this.formData.productDetails.productName);
+    //if editing a draft then remove previous version
+    if(this.mode.includes('edit-draft')){
+      drafts.splice(draftIndex, 1);
+    } else { // create mode
+      if(draftIndex > -1 ){
+        return
+      }
+    }
+
     const newData = {
       lastEdited : moment(new Date()).format('MMMM D, YYYY'),
       draftName: this.formData.productDetails.productName,
