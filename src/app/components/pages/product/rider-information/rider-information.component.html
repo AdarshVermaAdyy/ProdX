@@ -19,12 +19,17 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
             </mat-form-field>
         </form>
     </div>
-    <div *ngFor="let field of searchFilterList; let i = index">
-        <mat-checkbox *ngIf="field.formControlName === 'ridercode1'" (change)="selectUnselectGroup($event, field)">
-            <h4 class="checkbox-list-heading">Rider details & Info</h4>
+    <div *ngFor="let category of groupCategoryList|keyvalue let i = index">
+        <mat-checkbox  (change)="selectUnselectGroup($event, category.key)">
+            <h4 class="checkbox-list-heading">{{category.key}}</h4>
         </mat-checkbox>
-
-        <mat-checkbox *ngIf="field.formControlName === 'rider_age_res'"
+        <div *ngFor="let field of category.value; let i = index">
+          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field, 'checkbox', i)"
+          style="margin-left: 30px;">
+          {{field.label}}
+      </mat-checkbox>
+      </div>
+        <!-- <mat-checkbox *ngIf="field.formControlName === 'rider_age_res'"
             (change)="selectUnselectGroup($event, field)">
             <h4 class="checkbox-list-heading">Rider Details</h4>
         </mat-checkbox>
@@ -37,7 +42,7 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
         <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)"
             style="margin-left: 30px;">
             {{field.label}}
-        </mat-checkbox>
+        </mat-checkbox> -->
     </div>
 </div>
 </div>
@@ -316,6 +321,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Age Restriction</mat-label>
                                 <input matInput  formControlName="rider_age_res"/>
+                                <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[18])">
+                                  <mat-icon>delete</mat-icon>
+                              </button>
                                 <mat-error *ngIf="rider_age_res?.invalid && (rider_age_res?.dirty || rider_age_res?.touched)">
                                     <span *ngIf="rider_age_res?.errors?.['required']">This information is required.</span>
                                 </mat-error>
@@ -325,6 +333,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Coverage Trigger</mat-label>
                                 <input matInput formControlName="rider_cover_trigger"/>
+                                <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[19])">
+                                  <mat-icon>delete</mat-icon>
+                              </button>
                                 <mat-error *ngIf="rider_cover_trigger?.invalid && (rider_cover_trigger?.dirty || rider_cover_trigger?.touched)">
                                     <span *ngIf="rider_cover_trigger?.errors?.['required']">This information is required.</span>
                                 </mat-error>
@@ -334,6 +345,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                             <mat-form-field class="input-fields-height">
                                 <mat-label>Rider Coverage Reductions</mat-label>
                                 <input matInput formControlName="rider_cover_red"/>
+                                <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[20])">
+                                  <mat-icon>delete</mat-icon>
+                              </button>
                                 <mat-error *ngIf="rider_cover_red?.invalid && (rider_cover_red?.dirty || rider_cover_red?.touched)">
                                     <span *ngIf="rider_cover_red?.errors?.['required']">This information is required.</span>
                                 </mat-error>
@@ -362,6 +376,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Payout Frequency</mat-label>
                               <input matInput  formControlName="rider_payout_freq"/>
+                              <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[21])">
+                                <mat-icon>delete</mat-icon>
+                            </button>
                               <mat-error *ngIf="rider_payout_freq?.invalid && (rider_payout_freq?.dirty || rider_payout_freq?.touched)">
                                   <span *ngIf="rider_payout_freq?.errors?.['required']">This information is required.</span>
                               </mat-error>
@@ -371,6 +388,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Premium Waiver Clause</mat-label>
                               <input matInput formControlName="rider_prem_waiver"/>
+                              <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[22])">
+                                <mat-icon>delete</mat-icon>
+                            </button>
                               <mat-error *ngIf="rider_prem_waiver?.invalid && (rider_prem_waiver?.dirty || rider_prem_waiver?.touched)">
                                   <span *ngIf="rider_prem_waiver?.errors?.['required']">This information is required.</span>
                               </mat-error>
@@ -380,6 +400,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                           <mat-form-field class="input-fields-height">
                               <mat-label>Rider Automatic Increase</mat-label>
                               <input matInput formControlName="rider_auto_inc"/>
+                              <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[23])">
+                                <mat-icon>delete</mat-icon>
+                            </button>
                               <mat-error *ngIf="rider_auto_inc?.invalid && (rider_auto_inc?.dirty || rider_auto_inc?.touched)">
                                   <span *ngIf="rider_auto_inc?.errors?.['required']">This information is required.</span>
                               </mat-error>
@@ -390,6 +413,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                     <mat-form-field class="input-fields-height">
                         <mat-label>Rider Settlement Options</mat-label>
                         <input matInput formControlName="rider_settle_option"/>
+                        <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[24])">
+                          <mat-icon>delete</mat-icon>
+                      </button>
                         <mat-error *ngIf="rider_settle_option?.invalid && (rider_settle_option?.dirty || rider_settle_option?.touched)">
                             <span *ngIf="rider_settle_option?.errors?.['required']">This information is required.</span>
                         </mat-error>
@@ -399,6 +425,9 @@ aria-labelledby="offcanvasWithBothOptionsLabel">
                   <mat-form-field class="input-fields-height">
                       <mat-label>Rider Contribution Type</mat-label>
                       <input matInput formControlName="rider_contri_type"/>
+                      <button matSuffix mat-icon-button aria-label="Clear" class="delete-field" (click)="deleteControl(fieldsList[25])">
+                        <mat-icon>delete</mat-icon>
+                    </button>
                       <mat-error *ngIf="rider_contri_type?.invalid && (rider_contri_type?.dirty || rider_contri_type?.touched)">
                           <span *ngIf="rider_contri_type?.errors?.['required']">This information is required.</span>
                       </mat-error>
