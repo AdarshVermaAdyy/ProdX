@@ -11,6 +11,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { SubmitFormDialogComponent } from '../submit-form-dialog/submit-form-dialog.component';
 import { DraftDialogComponent } from '../draft-dialog/draft-dialog.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
+import { FormDataService } from '../../service/form-data.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-header-ribbon',
@@ -31,7 +33,7 @@ export class HeaderRibbonComponent implements OnChanges {
 
   @Input() stepper;
 
-  constructor(private matdialog: MatDialog){}
+  constructor(private matdialog: MatDialog, private formDataService: FormDataService, private router: Router){}
 
   ngOnChanges(changes: SimpleChanges): void {
     
@@ -62,12 +64,15 @@ export class HeaderRibbonComponent implements OnChanges {
   }
 
   saveDraft(){
-    const dialogRef = this.matdialog.open(DraftDialogComponent,
-      {
-        height: 'auto',
-        width: '550px',
-      }
-    )
+    // const dialogRef = this.matdialog.open(DraftDialogComponent,
+    //   {
+    //     height: 'auto',
+    //     width: '550px',
+    //   }
+    // )
+    this.formDataService.saveData();
+    this.formDataService.saveAsDraft();
+    this.router.navigate(['/main/drafts']);
   }
 
 }
