@@ -82,7 +82,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'productName',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: 'Premium Life Secure Plan',
     },
@@ -91,7 +91,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'productDescription',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal:
         'Comprehensive coverage for accidental death and dismemberment',
@@ -109,7 +109,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'productCode',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: 'PC987654321',
     },
@@ -118,7 +118,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'productStatus',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: 'work_in_progress',
     },
@@ -127,7 +127,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'category',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: 'term',
     },
@@ -136,7 +136,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'coverage',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: [{
         coverageCode: 'N18A',
@@ -148,7 +148,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       formControlName: 'ridersApplicable',
       type: 'text',
       isVisible: false,
-      isMandatory: false,
+      isMandatory: true,
       category: 'Basic Information',
       defaultVal: 'yes',
     },
@@ -280,10 +280,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     if (this.isBlankTemplate === 'create-by-template') {
       // checking if the created from template or from scratch
       // Taking only those fields which are mandatory
-      this.searchFilterList = this.fieldsList.filter(
-        (field) =>
-          !this.templateFields.some((item) => item === field.formControlName)
-      );
       this.fieldsList.forEach((field) => {
 
         //assigning controls and values from saved draft
@@ -296,10 +292,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           (tempField) => field.formControlName === tempField
         );
         if (isFieldExits) {
-          field.isMandatory = true
+          // field.isMandatory = true
           this.addRemoveControls(true, field);
         }
       });
+      this.searchFilterList = this.fieldsList.filter(
+        (field) =>
+          !this.templateFields.some((item) => item === field.formControlName)
+      );
     } else {
       // Taking all fields
       this.searchFilterList = this.fieldsList;
@@ -458,7 +458,6 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   // Add/remove fields on checkout selection
   selectUnselectGroup(event, category) {
-    debugger
     const relFields = this.searchFilterList.filter(
       (item) => item.category === category
     );
@@ -481,6 +480,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   nextData() {
+    console.log(this.productDetailsForm)
     this.saveData();
     this.shareproductData.updateData(this.productDetailsForm.value.productCode);
   }
