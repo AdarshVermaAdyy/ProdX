@@ -65,8 +65,9 @@ export class FormDataService {
   }
 
   fetchDraftsFromLocalStorageByName(draftName){
-    this.formData = JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0].data || {};
-    return this.formData;
+    const draftData = JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0];
+    this.formData = draftData.data || {};
+    return draftData;
   }
 
   private saveDraftToLocalStorage(drafts){

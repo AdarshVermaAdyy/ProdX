@@ -9,7 +9,7 @@
               <!-- Product details step -->
                 <mat-step [stepControl]="step1.productDetailsForm">
                     <ng-template matStepLabel>Product Details</ng-template>
-                        <app-product-details  #step1 [productData]="productData?.productDetails" [mode]="mode"></app-product-details>
+                        <app-product-details  #step1 [productData]="productData?.data?.productDetails" [mode]="mode"></app-product-details>
                 </mat-step>
 
                 <!-- Product Info step -->
