@@ -355,7 +355,7 @@ myAvailable = [
   }
 
   onSubmit() {
- 
+
     if (this.dynamicForm.invalid) {
 
       this.markAllAsTouched();
@@ -371,6 +371,8 @@ myAvailable = [
 
   nextData() {
     this.saveData()
+    this.shareproductData.updateData(this.dynamicForm.value.productCode);
+
   }
 
   markAllAsTouched() {
@@ -408,11 +410,11 @@ myAvailable = [
     //  const option = this.optionalFieldsList[i];
 
     if (event) {
-      
+
       const selectedGroup = this.formService.createDynamicFormGroup(option.label, option.type, option);
       console.log("Selected Group ..." + JSON.stringify(option.group + " " + option.label) + selectedGroup );
       if (option.group === 'productBoundaryCondition') {
-        const isLabelExist = this.productBoundaryCondition.controls.some(control => 
+        const isLabelExist = this.productBoundaryCondition.controls.some(control =>
           {
             return control.get('label')?.value === option.label});
         console.log("Phushing Product Boundary Condition..." + JSON.stringify(option.label));
@@ -517,7 +519,7 @@ myAvailable = [
     const value = event.target.value.toLocaleLowerCase();
     this.searchFilterList = this.optionalFieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
     // this.searchFilterList = this.optionalFieldsList.filter(field => {
-    // return   field.label.toLocaleLowerCase().includes(value) 
+    // return   field.label.toLocaleLowerCase().includes(value)
     // });
 
   }
@@ -544,7 +546,7 @@ addControlToGroup(groupName: string, controlKey:string, control: FormGroup) {
     case 'PremiumandPaymentDetail':
       this.PremiumandPaymentDetail.push(control);
       break;
-    case 'productServiceNonfinancialAlterations':  
+    case 'productServiceNonfinancialAlterations':
       this.productServiceNonfinancialAlterations.push(control);
       break;
     case 'featreandReinsate':
@@ -608,7 +610,7 @@ onSingleChange(isChecked: boolean) {
   this.isSingleSelected = isChecked;
   this.isNotSelectedFromToggle = false
   if (isChecked) {
-    this.selectedFrequency = []; 
+    this.selectedFrequency = [];
     this.isOtherSelected = false;
 
     // Add all controls for the group 'productBoundaryCondition'
@@ -695,6 +697,6 @@ this.numberInputArray = this.commaSeparatedInput
     return hasGroupOption;
 
   }
- 
+
 
 }

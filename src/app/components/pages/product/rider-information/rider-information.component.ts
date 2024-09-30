@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit,signal } from '@angular/core';
+import { Component, Input, OnInit,signal } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -69,7 +69,8 @@ export class RiderInformationComponent implements OnInit {
   isPageBlank = true; //
   readonly panelOpenState = signal(true);
   private formService$ = new Subscription();
-
+  @Input() productData!: any;
+  @Input() mode!: string;
   fieldsList: InputField[] = [
     {label: "Rider Code 1", formControlName: 'ridercode1', type: 'text', isVisible: false, isMandatory: false, category: 'basicInformation',defaultVal:'RID-01'},
     {label: "Rider Name 1", formControlName: 'riderName1', type: 'text', isVisible: false,  isMandatory: false,category: 'basicInformation',defaultVal:'Spouse Coverage Rider'},
@@ -290,11 +291,14 @@ export class RiderInformationComponent implements OnInit {
 
   generateFormFeilds(){
   if(this.isBlankTemplate === 'create-by-template'){
-    this.searchFilterList = this.fieldsList.filter(field => !this.templateFields.some(item => item === field.formControlName))
+    //this.searchFilterList = this.fieldsList.filter(field => !this.templateFields.some(item => item === field.formControlName))
 
     this.fieldsList.forEach(field => {
       // this.searchFilterList = this.fieldsList.filter(field => !this.templateFields.some(item => item === field.formControlName));
-
+      if(this.mode.includes('edit-draft')){
+        this.templateFields = Object.keys(this.productData);
+        field.defaultVal = this.productData[field.formControlName];
+      }
       const isFieldExits = this.templateFields.some(tempField => field.formControlName === tempField);
       if(isFieldExits){
         this.addRemoveControls(true, field)
@@ -323,7 +327,7 @@ export class RiderInformationComponent implements OnInit {
     }
   }
   saveData(){
-    this.formDataService.setFormData('coverage-info', this.riderDetailsForm.value);
+    this.formDataService.setFormData('riderinfo', this.riderDetailsForm.value);
   }
 
   nextdata(){
@@ -333,8 +337,8 @@ export class RiderInformationComponent implements OnInit {
     //const data = 'Hello from form details';
   //  this.shareproductData.updateData(data);
 
-    // this.shareproductData.updateData(this.riderDetailsForm.value.riderTpye);
-    this.saveData();
+    this.shareproductData.updateData(this.riderDetailsForm.value.productCode);
+
   }
 
   search(event){

@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnDestroy, OnInit, signal } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
@@ -17,6 +17,7 @@ import { GetSetService } from '../../../../service/get-set.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { FormDataService } from '../../../../service/form-data.service';
 import { Subscription } from 'rxjs';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
 interface InputField {
   label: string;
   formControlName: string;
@@ -64,6 +65,8 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   isBlankTemplete = '';
   isPageBlank = true; //
   private formService$ = new Subscription();
+  @Input() productData!: any;
+  @Input() mode!: string;
 
   optionalFieldsList: InputField[] =
   [
@@ -106,12 +109,13 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   ]
 
-  constructor(private _fb: FormBuilder, private getSetService: GetSetService, private formDataService: FormDataService) {
+  constructor(private _fb: FormBuilder, private getSetService: GetSetService,private shareproductData: ShareproductdataService, private formDataService: FormDataService) {
     this.coverageInfoForm = new FormGroup({});
     this.isBlankTemplete = localStorage.getItem('createMode');
   }
 
   ngOnInit(): void {
+
     this.initialiseForm();
     this.initializeSearchForm();
 
@@ -162,8 +166,15 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   }}
   generateFormFeilds(){
   if (this.isBlankTemplete === 'create-by-template') {
-    this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName))
+
+    // this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName))
         this.optionalFieldsList.forEach(feild => {
+          if(this.mode.includes('edit-draft')){
+            this.templeteFeilds = Object.keys(this.productData);
+            feild.defaultVal = this.productData[feild.formControlName];
+          }
+
+
           const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
           if (isFeildExist) {
             this.addRemoveControls(true, feild)
@@ -298,7 +309,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
   nextData(){
     this.saveData()
-    // this.shareproductData.updateData(this.productDetailsForm.value.productCode);
+    this.shareproductData.updateData(this.coverageInfoForm.value.productCode);
   }
 
   ngOnDestroy(): void {

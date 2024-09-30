@@ -23,14 +23,14 @@
                 <!-- coverage Info step  -->
                 <mat-step [stepControl]="step3.coverageInfoForm">
                   <ng-template matStepLabel>Coverage Info</ng-template>
-                   <app-coverage-info #step3></app-coverage-info>
+                   <app-coverage-info #step3  [productData]="productData?.data?.coverageInfo" [mode]="mode"></app-coverage-info>
                     <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
                 </mat-step>
 
                 <mat-step [stepControl]="step4.riderDetailsForm">
                   <ng-template matStepLabel>Rider & Information</ng-template>
-                  <app-rider-information #step4></app-rider-information>
+                  <app-rider-information #step4  [productData]="productData?.data?.riderinfo" [mode]="mode"></app-rider-information>
                     <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
                 </mat-step>
@@ -39,7 +39,7 @@
                  <mat-step>
                   <ng-template matStepLabel>Review Documents</ng-template>
                   <app-review-document #step5></app-review-document>
-                   
+
                     <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
                 </mat-step>
