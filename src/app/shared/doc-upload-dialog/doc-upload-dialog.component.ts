@@ -117,6 +117,7 @@ export class DocUploadDialogComponent {
             uploadDate: moment(new Date()).format('MMMM D, YYYY'),
             size: (files[i].size / 1048576).toFixed(2).toString(),
             fileType: files[i].name.split('.')[1].toUpperCase(),
+            fileDetails: URL.createObjectURL(files[i]),
           });
         } else {
           this.openSnackBar();
@@ -183,5 +184,10 @@ export class DocUploadDialogComponent {
       verticalPosition: this.verticalPosition,
       duration: 3000,
     });
+  }
+
+  previewFile(file) {
+    // const url = URL.createObjectURL(file?.fileDetails);
+    window.open(file?.fileDetails);
   }
 }

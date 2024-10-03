@@ -29,7 +29,9 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header>
               Upload Date
             </th>
-            <td mat-cell *matCellDef="let row">{{ row.uploadDate | date: 'MMMM d, y' }}</td>
+            <td mat-cell *matCellDef="let row">
+              {{ row.uploadDate | date : "MMMM d, y" }}
+            </td>
           </ng-container>
 
           <!-- fileType Column -->
@@ -60,9 +62,9 @@
                 <mat-icon>more_vert</mat-icon>
               </button>
               <mat-menu #menu="matMenu">
-                <button mat-menu-item>
-                  <mat-icon>view_column</mat-icon>
-                  <span>View</span>
+                <button mat-menu-item (click)="preview(element)">
+                  <mat-icon>search</mat-icon>
+                  <span>Preview</span>
                 </button>
                 <button mat-menu-item (click)="deleteDoc(i)">
                   <mat-icon>delete</mat-icon>

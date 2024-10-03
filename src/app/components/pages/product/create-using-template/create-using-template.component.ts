@@ -1,5 +1,10 @@
 import { Component, ViewChild } from '@angular/core';
-import { FormBuilder, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
+import {
+  FormBuilder,
+  Validators,
+  FormsModule,
+  ReactiveFormsModule,
+} from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatStepperModule } from '@angular/material/stepper';
@@ -10,16 +15,16 @@ import { ProdInfoFormComponent } from '../prod-info-form/prod-info-form.componen
 import { HeaderRibbonComponent } from '../../../../shared/header-ribbon/header-ribbon.component';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { RiderInformationComponent } from "../rider-information/rider-information.component";
+import { RiderInformationComponent } from '../rider-information/rider-information.component';
 import { ReviewDocumentComponent } from '../review-document/review-document.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormDataService } from '../../../../service/form-data.service';
 
-
 @Component({
   selector: 'app-create-using-template',
   standalone: true,
-  imports: [MatStepperModule,
+  imports: [
+    MatStepperModule,
     MatButtonModule,
     MatFormFieldModule,
     MatInputModule,
@@ -29,61 +34,82 @@ import { FormDataService } from '../../../../service/form-data.service';
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
-    MatSidenavModule, MatIconModule, RiderInformationComponent, ReviewDocumentComponent],
+    MatSidenavModule,
+    MatIconModule,
+    RiderInformationComponent,
+    ReviewDocumentComponent,
+  ],
   templateUrl: './create-using-template.component.html',
-  styleUrl: './create-using-template.component.scss'
+  styleUrl: './create-using-template.component.scss',
 })
 export class CreateUsingTemplateComponent {
-
   selectedStep: any;
   currentStep;
   currentSelectedIndex = 0;
   productName = '';
   productData: any = {};
   mode = '';
+  selectedStepperIdex = 0;
 
-  @ViewChild(ProductDetailsComponent) ProductDetailsComponent: ProductDetailsComponent;
-  @ViewChild(ProdInfoFormComponent) ProdInfoFormComponent: ProdInfoFormComponent;
-  @ViewChild(CoverageInfoComponent) CoverageInfoComponent: CoverageInfoComponent;
-  @ViewChild(RiderInformationComponent) RiderInformationComponent: RiderInformationComponent;
-  @ViewChild(ReviewDocumentComponent) ReviewDocumentComponent: ReviewDocumentComponent;
+  @ViewChild(ProductDetailsComponent)
+  ProductDetailsComponent: ProductDetailsComponent;
+  @ViewChild(ProdInfoFormComponent)
+  ProdInfoFormComponent: ProdInfoFormComponent;
+  @ViewChild(CoverageInfoComponent)
+  CoverageInfoComponent: CoverageInfoComponent;
+  @ViewChild(RiderInformationComponent)
+  RiderInformationComponent: RiderInformationComponent;
+  @ViewChild(ReviewDocumentComponent)
+  ReviewDocumentComponent: ReviewDocumentComponent;
 
   constructor(
     private route: ActivatedRoute,
     private formDataService: FormDataService
-  ) {
-    
-  }
+  ) {}
 
   ngOnInit(): void {
     this.mode = this.route.snapshot.url.join('/');
     this.route.paramMap.subscribe((params) => {
       this.productName = decodeURIComponent(params.get('name')!);
-      if(this.mode.includes('edit-draft')){
-        this.productData = this.formDataService.fetchDraftsFromLocalStorageByName(this.productName);
+      if (this.mode.includes('edit-draft')) {
+        this.productData =
+          this.formDataService.fetchDraftsFromLocalStorageByName(
+            this.productName
+          );
+        this.selectedStepperIdex =
+          Object.keys(this.productData?.data).length - 1;
       }
     });
-    localStorage.setItem('currentForm', JSON.stringify(this.currentSelectedIndex))
+    localStorage.setItem(
+      'currentForm',
+      JSON.stringify(this.currentSelectedIndex)
+    );
   }
 
   get productDetailsForm() {
-    return this.ProductDetailsComponent ? this.ProductDetailsComponent.productDetailsForm : null;
+    return this.ProductDetailsComponent
+      ? this.ProductDetailsComponent.productDetailsForm
+      : null;
   }
   get dynamicForm() {
-    return this.ProdInfoFormComponent ? this.ProdInfoFormComponent.dynamicForm : null;
+    return this.ProdInfoFormComponent
+      ? this.ProdInfoFormComponent.dynamicForm
+      : null;
   }
 
   get coverageInfoForm() {
-    return this.CoverageInfoComponent ? this.CoverageInfoComponent.coverageInfoForm : null;
+    return this.CoverageInfoComponent
+      ? this.CoverageInfoComponent.coverageInfoForm
+      : null;
   }
   get riderDetailsForm() {
-    return this.RiderInformationComponent ? this.RiderInformationComponent.riderDetailsForm : null;
-
+    return this.RiderInformationComponent
+      ? this.RiderInformationComponent.riderDetailsForm
+      : null;
   }
 
   onStepChange(event, stepper) {
     this.currentStep = stepper;
-    localStorage.setItem('currentForm', JSON.stringify(event.selectedIndex))
+    localStorage.setItem('currentForm', JSON.stringify(event.selectedIndex));
   }
-
 }

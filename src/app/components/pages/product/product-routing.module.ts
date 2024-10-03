@@ -21,30 +21,34 @@ const routes: Routes = [
       {
         path: '',
         redirectTo: 'template-management',
-        pathMatch: 'full'
+        pathMatch: 'full',
       },
       {
-        path: "product-management",
+        path: 'product-management',
         component: ProductManagementComponent,
-        data: { breadcrumb: 'Product Management' }
+        data: { breadcrumb: 'Product Management' },
       },
       {
-        path: "create-product",
+        path: 'create-product',
         component: CreateUsingTemplateComponent,
-        data: { breadcrumb: 'Create product using template' }
+        data: { breadcrumb: 'Create product using template' },
       },
       {
-        path: "edit-draft/:name",
+        path: 'edit-product/:name',
         component: CreateUsingTemplateComponent,
-        data: { breadcrumb: 'Create product using template' }
-      }
-    ]
+        data: { breadcrumb: 'Create product using template' },
+      },
+      {
+        path: 'edit-draft/:name',
+        component: CreateUsingTemplateComponent,
+        data: { breadcrumb: 'Create product using template' },
+      },
+    ],
   },
-
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProductRoutingModule { }
+export class ProductRoutingModule {}
