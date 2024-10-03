@@ -4,11 +4,9 @@ import moment from 'moment';
 import { Subject } from 'rxjs';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class FormDataService {
-
-
   private callSaveFunction = new Subject<string>();
   callSaveFunction$ = this.callSaveFunction.asObservable();
   private callAddDocument = new Subject();
@@ -17,97 +15,101 @@ export class FormDataService {
   private docList = [];
   mode = '';
 
-  constructor(private route: Router) {
-  }
+  constructor(private route: Router) {}
 
   saveData() {
     const currentForm = localStorage.getItem('currentForm');
     this.callSaveFunction.next(currentForm);
   }
 
-  updateDocument(){
-    this.callAddDocument.next('add')
+  updateDocument() {
+    this.callAddDocument.next('add');
   }
 
-  setFormData(page: string, data: any){
+  setFormData(page: string, data: any) {
     this.formData[page] = data;
   }
 
-  addDocument(data){
+  addDocument(data) {
     this.docList = [...this.docList, ...data];
     this.updateDocument();
   }
 
-  deleteDocument(index){
+  deleteDocument(index) {
     this.docList.splice(index, 1);
     this.updateDocument();
   }
 
-  getFormDataByPageName(page: string){
+  getFormDataByPageName(page: string) {
     return this.formData[page] || {};
   }
 
-  getAllFormData(){
+  getAllFormData() {
     return this.formData;
   }
 
-  getDocList(){
+  getDocList() {
     return this.docList;
   }
 
-  clearFormData(){
+  clearFormData() {
     this.formData = {};
     this.docList = [];
   }
 
-  fetchDraftsFromLocalStorage(){
+  fetchDraftsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('myDrafts')) || [];
   }
 
-  fetchDraftsFromLocalStorageByName(draftName){
-    const draftData = JSON.parse(localStorage.getItem('myDrafts')).filter(draft => draft.draftName === draftName)[0];
+  fetchDraftsFromLocalStorageByName(draftName) {
+    const draftData = JSON.parse(localStorage.getItem('myDrafts')).filter(
+      (draft) => draft.draftName === draftName
+    )[0];
     this.formData = draftData.data || {};
     return draftData;
   }
 
-  private saveDraftToLocalStorage(drafts){
+  private saveDraftToLocalStorage(drafts) {
     localStorage.setItem('myDrafts', JSON.stringify(drafts));
   }
 
-  private fetchProductsFromLocalStorage(){
+  private fetchProductsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('products')) || [];
   }
 
-  private saveProductsToLocalStorage(products){
+  private saveProductsToLocalStorage(products) {
     localStorage.setItem('products', JSON.stringify(products));
   }
 
-  saveAsDraft(){
+  saveAsDraft() {
     this.mode = this.route.url;
-    if(Object.keys(this.formData).length === 0){
+    if (Object.keys(this.formData).length === 0) {
       return;
     }
     const drafts = this.fetchDraftsFromLocalStorage();
     //Check if draft with same name exists
-    const draftIndex = drafts.findIndex(draft => draft.draftName=== this.formData.productDetails.productName);
+    const draftIndex = drafts.findIndex(
+      (draft) => draft.draftName === this.formData.productDetails.productName
+    );
     //if editing a draft then remove previous version
-    if(this.mode.includes('edit-draft')){
+    if (this.mode.includes('edit-draft')) {
       drafts.splice(draftIndex, 1);
-    } else { // create mode
-      if(draftIndex > -1 ){
-        return
+    } else {
+      // create mode
+      if (draftIndex > -1) {
+        return;
       }
     }
 
     const newData = {
-      lastEdited : moment(new Date()).format('MMMM D, YYYY'),
+      lastEdited: moment(new Date()).format('MMMM D, YYYY'),
       draftName: this.formData.productDetails.productName,
       description: this.formData.productDetails.productDescription,
-      category: this.formData.productDetails.category, 
+      category: this.formData.productDetails.category,
       data: this.formData,
-      status : this.formData.productDetails.productStatus,
-      documents: this.docList
-    }
+      status: this.formData.productDetails.productStatus,
+      documents: this.docList,
+    };
 
     drafts.push(newData);
     this.saveDraftToLocalStorage(drafts);
@@ -115,8 +117,8 @@ export class FormDataService {
     this.clearFormData();
   }
 
-  submit({productName, startDate, effectiveDate, comments}){
-    if(Object.keys(this.formData).length === 0){
+  submit({ productName, startDate, effectiveDate, comments }) {
+    if (Object.keys(this.formData).length === 0) {
       return;
     }
 
@@ -127,8 +129,8 @@ export class FormDataService {
       effectiveDate: effectiveDate,
       comments: comments,
       data: this.formData,
-      documents: this.docList
-    }
+      documents: this.docList,
+    };
 
     products.push(newData);
     this.saveProductsToLocalStorage(products);
@@ -136,7 +138,7 @@ export class FormDataService {
     this.clearFormData();
   }
 
-  deleteDraft(index){
+  deleteDraft(index) {
     const drafts = this.fetchDraftsFromLocalStorage();
     drafts.splice(index, 1);
     this.saveDraftToLocalStorage(drafts);

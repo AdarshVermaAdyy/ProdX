@@ -1,77 +1,111 @@
 <mat-toolbar class="toolbar">
-	<button mat-icon-button (click)="isExpanded = !isExpanded"><mat-icon>menu</mat-icon></button>
-	<span><img alt="Product name" src="assets/images/ey-logo-black.png" style="height: 3.2rem;width: 3.5rem;" /></span>
-	<h1 class="product-name" routerLink="/main/dashboard">ProdX</h1>
-	<span class="spacer"></span>
+  <button mat-icon-button (click)="isExpanded = !isExpanded">
+    <mat-icon>menu</mat-icon>
+  </button>
+  <span
+    ><img
+      alt="Product name"
+      src="assets/images/ey-logo-black.png"
+      style="height: 3.2rem; width: 3.5rem"
+  /></span>
+  <h1 class="product-name" routerLink="/main/dashboard">ProdX</h1>
+  <span class="spacer"></span>
 
-	<!-- Notification Panel -->
-	<button mat-icon-button class="icon-button-large" [matMenuTriggerFor]="notification">
-		<mat-icon mat-add_alert-icon matBadge="4" aria-hidden="false" matBadgeColor="primary">notifications</mat-icon>
-	</button>
-	<mat-menu #notification="matMenu" class="noti-menu">
-		<ng-container *ngFor="let noti of notificationArray">
-			<div mat-menu-item>
-				<div class="noti-wrapper">
-					<div class="noti-heading">Heading</div>
-					<div class="noti-body">
-						<div class="noti-msg">This is a sample notification.</div>
-						<div class="noti-time">12:34</div>
-					</div>
-				</div>
-			</div>
-			<mat-divider></mat-divider>	
-		</ng-container>
+  <!-- Notification Panel -->
+  <button
+    mat-icon-button
+    class="icon-button-large"
+    [matMenuTriggerFor]="notification"
+  >
+    <mat-icon
+      mat-add_alert-icon
+      matBadge="4"
+      aria-hidden="false"
+      matBadgeColor="primary"
+      >notifications</mat-icon
+    >
+  </button>
+  <mat-menu #notification="matMenu" class="noti-menu">
+    <ng-container *ngFor="let noti of notificationArray">
+      <div mat-menu-item>
+        <div class="noti-wrapper">
+          <div class="noti-heading">Heading</div>
+          <div class="noti-body">
+            <div class="noti-msg">This is a sample notification.</div>
+            <div class="noti-time">12:34</div>
+          </div>
+        </div>
+      </div>
+      <mat-divider></mat-divider>
+    </ng-container>
+  </mat-menu>
+  <!-- -------------------- -->
 
-	</mat-menu>
-	<!-- -------------------- -->
+  <!-- Profile panel -->
+  <button
+    mat-icon-button
+    class="icon-button-large"
+    [matMenuTriggerFor]="profile"
+  >
+    <mat-icon>account_circle</mat-icon>
+  </button>
+  <mat-menu #profile="matMenu" class="profile-menu">
+    <button mat-menu-item>
+      <mat-icon>person</mat-icon>
+      <span>Profile</span>
+    </button>
+    <button mat-menu-item>
+      <mat-icon>app_registration</mat-icon>
+      <span>Register</span>
+    </button>
+    <button mat-menu-item (click)="openDialog()">
+      <mat-icon>logout</mat-icon>
+      <span>Logout</span>
+    </button>
+  </mat-menu>
 
-	<!-- Profile panel -->
-	<button mat-icon-button class="icon-button-large" [matMenuTriggerFor]="profile">
-		<mat-icon>account_circle</mat-icon>
-	</button>
-	<mat-menu #profile="matMenu" class="profile-menu">
-		<button mat-menu-item>
-			<mat-icon>person</mat-icon>
-			<span>Profile</span>
-		</button>
-		<button mat-menu-item>
-			<mat-icon>app_registration</mat-icon>
-			<span>Register</span>
-		</button>
-		<button mat-menu-item (click)="openDialog()">
-			<mat-icon>logout</mat-icon>
-			<span>Logout</span>
-		</button>
-	</mat-menu>
-
-	<!-- ------------------ -->
-
-
+  <!-- ------------------ -->
 </mat-toolbar>
 <mat-sidenav-container class="wrapper" autosize>
-	<mat-sidenav #sidenav class="sidenav" mode="side" opened="true" 
-		>
-		<div class="link-wrapper" routerLink="/main/dashboard" [routerLinkActive]="'is-active'">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon fontIcon="home">design_services</mat-icon>
-				<span *ngIf="isExpanded || isShowing">Dashboard</span>
-			</button>
-		</div>
-		<div class="link-wrapper" routerLink="/main/product/template-management" [routerLinkActive]="'is-active'">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon>design_services</mat-icon>
-				<span *ngIf="isExpanded || isShowing">Build Product from Template</span>
-			</button>
-		</div>
+  <mat-sidenav #sidenav class="sidenav" mode="side" opened="true">
+    <div
+      class="link-wrapper"
+      routerLink="/main/dashboard"
+      [routerLinkActive]="'is-active'"
+    >
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon fontIcon="home">design_services</mat-icon>
+        <span *ngIf="isExpanded || isShowing">Dashboard</span>
+      </button>
+    </div>
+    <div
+      class="link-wrapper"
+      routerLink="/main/product/template-management"
+      [routerLinkActive]="'is-active'"
+    >
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon>design_services</mat-icon>
+        <span *ngIf="isExpanded || isShowing">Build Product from Template</span>
+      </button>
+    </div>
 
-
-		<!-- <mat-nav-list>
+    <!-- <mat-nav-list>
 			<mat-list-item  class="parent">
 				<span class="full-width" *ngIf="isExpanded || isShowing">Template Management</span>
 				<mat-icon mat-library_add_icon>library_add</mat-icon>
 				<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-		<!-- </mat-list-item> -->
-		<!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+    <!-- </mat-list-item> -->
+    <!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
 				<a mat-list-item href="...">Submenu Item 1</a>
 				<a mat-list-item href="...">Submenu Item 2</a>
 				<mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
@@ -84,57 +118,84 @@
 				</div>
 			</div> -->
 
-		<div class="link-wrapper" routerLink="/main/product/product-management" [routerLinkActive]="'is-active'">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon>inventory_2</mat-icon>
-				<span *ngIf="isExpanded || isShowing">Product Creation: Start New / Clone</span>
-			</button>
-		</div>
+    <div
+      class="link-wrapper"
+      routerLink="/main/product/product-management"
+      [routerLinkActive]="'is-active'"
+    >
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon>inventory_2</mat-icon>
+        <span *ngIf="isExpanded || isShowing"
+          >Product Creation: Start New / Clone</span
+        >
+      </button>
+    </div>
 
+    <div class="link-wrapper">
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon>quiz</mat-icon>
+        <span *ngIf="isExpanded || isShowing">FAQ</span>
+      </button>
+    </div>
 
+    <div class="link-wrapper">
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon>monitoring</mat-icon>
+        <span *ngIf="isExpanded || isShowing">Reports & Anayltics</span>
+      </button>
+    </div>
 
-		<div class="link-wrapper">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon>quiz</mat-icon>
-				<span *ngIf="isExpanded || isShowing">FAQ</span>
-			</button>
-		</div>
-
-		<div class="link-wrapper">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon>monitoring</mat-icon>
-				<span *ngIf="isExpanded || isShowing">Reports & Anayltics</span>
-			</button>
-		</div>
-
-		<!-- <div class="link-wrapper">
+    <!-- <div class="link-wrapper">
 			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
 				<mat-icon mat-help-icon>help</mat-icon>
 				<span *ngIf="isExpanded || isShowing">Help and Support</span>
 			</button>
 		</div> -->
-		<mat-divider class="sidenav-divider"></mat-divider>
+    <mat-divider class="sidenav-divider"></mat-divider>
 
-
-    <div class="link-wrapper" routerLink="/main/drafts" [routerLinkActive]="'is-active'">
-			<button mat-button [ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
-				<mat-icon>drafts</mat-icon>
-				<span *ngIf="isExpanded || isShowing">My Drafts</span>
-			</button>
-		</div>
-		<!-- <mat-nav-list>
+    <div
+      class="link-wrapper"
+      routerLink="/main/drafts"
+      [routerLinkActive]="'is-active'"
+    >
+      <button
+        mat-button
+        [ngClass]="
+          isExpanded || isShowing ? 'menuButtonExpanded' : 'menuButtonCollapse'
+        "
+      >
+        <mat-icon>drafts</mat-icon>
+        <span *ngIf="isExpanded || isShowing">My Drafts</span>
+      </button>
+    </div>
+    <!-- <mat-nav-list>
 			<button mat-button (click)="showSubmenu = !showSubmenu"
 				[ngClass]="isExpanded || isShowing ? 'menuButtonExpanded': 'menuButtonCollapse'">
 				<mat-icon>drafts</mat-icon>
 				<span *ngIf="isExpanded || isShowing">My Drafts</span> -->
-				<!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}"
+    <!-- <mat-icon class="menu-button" [ngClass]="{'rotated' : showSubmenu}"
 					*ngIf="isExpanded || isShowing">expand_more</mat-icon> -->
-			<!-- </button> -->
+    <!-- </button> -->
 
-			<!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
+    <!-- <div class="submenu" [ngClass]="{'expanded' : showSubmenu}" *ngIf="isShowing || isExpanded">
 				<a mat-list-item href="...">Draft 1</a>
 				<a mat-list-item href="...">Draft 2</a> -->
-				<!-- <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
+    <!-- <mat-list-item (click)="showSubSubMenu = !showSubSubMenu" class="parent">
 					<span class="full-width" *ngIf="isExpanded || isShowing">Nested Menu</span>
 					<mat-icon class="menu-button" [ngClass]="{'rotated' : showSubSubMenu}" *ngIf="isExpanded || isShowing">expand_more</mat-icon>
 				</mat-list-item>
@@ -142,20 +203,18 @@
 					<mat-list-item>SubSubmenu Item 1</mat-list-item>
 					<mat-list-item>SubSubmenu Item 2</mat-list-item>
 				</div> -->
-			<!-- </div> -->
-		<!-- </mat-nav-list> -->
-	</mat-sidenav>
+    <!-- </div> -->
+    <!-- </mat-nav-list> -->
+  </mat-sidenav>
 
-	<mat-sidenav-content class="main-content">
-
-		<!-- <div class="container">
+  <mat-sidenav-content class="main-content">
+    <!-- <div class="container">
 			<app-breadcrumb></app-breadcrumb>
 		</div> -->
 
-		<router-outlet></router-outlet>
-	</mat-sidenav-content>
-	<!-- <div class="example-sidenav-content">
+    <router-outlet></router-outlet>
+  </mat-sidenav-content>
+  <!-- <div class="example-sidenav-content">
 		Main content that resizes properly
 	</div> -->
-
 </mat-sidenav-container>

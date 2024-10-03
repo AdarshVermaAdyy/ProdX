@@ -69,14 +69,18 @@ export class ReviewDocumentComponent implements OnInit, OnDestroy {
   };
   dataSource = new MatTableDataSource<reviewTableElements>();
 
-  constructor(private fb: FormBuilder, private formDataService: FormDataService) {}
+  constructor(
+    private fb: FormBuilder,
+    private formDataService: FormDataService
+  ) {}
 
   ngOnInit(): void {
     this.getFormsValue();
-    
-    this.addDocumentSubsscription = this.formDataService.callAddDocument$.subscribe(() => {
-      this.dataSource.data = this.formDataService.getDocList();
-    })
+
+    this.addDocumentSubsscription =
+      this.formDataService.callAddDocument$.subscribe(() => {
+        this.dataSource.data = this.formDataService.getDocList();
+      });
   }
 
   categoryList: string[] = [
@@ -131,10 +135,15 @@ export class ReviewDocumentComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy(): void {
-    this.addDocumentSubsscription.unsubscribe()
+    this.addDocumentSubsscription.unsubscribe();
   }
 
-  deleteDoc(index){
+  deleteDoc(index) {
     this.formDataService.deleteDocument(index);
+  }
+
+  preview(file) {
+    console.log(file);
+    window.open(file?.fileDetails);
   }
 }
