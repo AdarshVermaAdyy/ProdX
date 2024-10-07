@@ -34,6 +34,7 @@ import { Subscription } from 'rxjs';
 import { FormDataService } from '../../../../service/form-data.service';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
+import { MatMenuModule } from '@angular/material/menu';
 interface InputField {
   label: string;
   formControlName: string;
@@ -72,6 +73,7 @@ interface Options {
     MatSidenavModule,
     MatStepperModule,
     MatTooltipModule,
+    MatMenuModule,
   ],
   templateUrl: './rider-information.component.html',
   styleUrl: './rider-information.component.scss',
@@ -536,6 +538,12 @@ export class RiderInformationComponent implements OnInit {
       }
     } else {
       this.riderDetailsForm.removeControl(field.formControlName);
+      const index = this.fieldsList.findIndex(
+        (x) => x.formControlName == field.formControlName
+      );
+      if (index != -1 && this.fieldsList[index].hasOwnProperty('comments')) {
+        delete this.fieldsList[index]['comments'];
+      }
     }
 
     const numberOfFields = Object.keys(this.riderDetailsForm.controls).length;

@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  Component,
+  Input,
+  OnDestroy,
+  OnInit,
+  signal,
+} from '@angular/core';
 import {
   FormArray,
   FormBuilder,
@@ -64,7 +71,7 @@ interface Options {
   providers: [],
   templateUrl: './product-details.component.html',
   styleUrl: './product-details.component.scss',
-  changeDetection: ChangeDetectionStrategy.Default
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ProductDetailsComponent implements OnInit, OnDestroy {
   productDetailsForm: FormGroup;
@@ -138,10 +145,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       isVisible: false,
       isMandatory: true,
       category: 'Basic Information',
-      defaultVal: [{
-        coverageCode: 'N18A',
-        coverageName: 'Accidental Death Benefit Option',
-      }]
+      defaultVal: [
+        {
+          coverageCode: 'N18A',
+          coverageName: 'Accidental Death Benefit Option',
+        },
+      ],
     },
     {
       label: 'Riders Applicable',
@@ -262,7 +271,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         }
       }
     );
-    this.generateFormFields()
+    this.generateFormFields();
     this.groupFieldsByCategory();
   }
 
@@ -276,12 +285,11 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     this.productDetailsForm = this._fb.group({});
   }
 
-  generateFormFields(){
+  generateFormFields() {
     if (this.isBlankTemplate === 'create-by-template') {
       this.fieldsList.forEach((field) => {
-
         //assigning controls and values from saved draft
-        if(this.mode.includes('edit-draft')){
+        if (this.mode.includes('edit-draft')) {
           this.templateFields = Object.keys(this.productData);
           field.defaultVal = this.productData[field.formControlName];
         }
@@ -363,7 +371,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
   }
 
   groupFieldsByCategory() {
-    this.searchFilterList.forEach(item => {
+    this.searchFilterList.forEach((item) => {
       if (!this.groupCategoryList[item.category]) {
         this.groupCategoryList[item.category] = [];
       }
@@ -386,21 +394,29 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     this.coverage?.removeAt(index);
   }
 
-  addRemoveControls(event: any, field: InputField, action = 'function', index?) {
+  addRemoveControls(
+    event: any,
+    field: InputField,
+    action = 'function',
+    index?
+  ) {
     field.isVisible = event;
     if (event) {
       //creating new fields
       switch (field.formControlName) {
         case 'coverage':
           this.productDetailsForm.addControl('coverage', this._fb.array([]));
-          field.defaultVal.forEach(value => {
+          field.defaultVal.forEach((value) => {
             this.addCoverage(value);
           });
           break;
         case 'riderCheckbox1':
           this.productDetailsForm.addControl(
             field.formControlName,
-            new FormControl(field.defaultVal || '', field.isMandatory ? Validators.required : [])
+            new FormControl(
+              field.defaultVal || '',
+              field.isMandatory ? Validators.required : []
+            )
           );
           this.productDetailsForm.addControl(
             'riderRadio1',
@@ -413,7 +429,10 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         case 'riderCheckbox2':
           this.productDetailsForm.addControl(
             field.formControlName,
-            new FormControl(field.defaultVal || '', field.isMandatory ? Validators.required : [])
+            new FormControl(
+              field.defaultVal || '',
+              field.isMandatory ? Validators.required : []
+            )
           );
           this.productDetailsForm.addControl(
             'riderRadio2',
@@ -423,12 +442,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
         default:
           this.productDetailsForm.addControl(
             field.formControlName,
-            new FormControl(field.defaultVal || '', field.isMandatory ? Validators.required : [])
+            new FormControl(
+              field.defaultVal || '',
+              field.isMandatory ? Validators.required : []
+            )
           );
       }
-      if(action === 'checkbox'){
+      if (action === 'checkbox') {
         this.groupCategoryList[field.category].splice(index, 1);
-        if(this.groupCategoryList[field.category].length === 0){
+        if (this.groupCategoryList[field.category].length === 0) {
           delete this.groupCategoryList[field.category];
         }
       }
@@ -444,6 +466,15 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           break;
         default:
           this.productDetailsForm.removeControl(field.formControlName);
+          const index = this.fieldsList.findIndex(
+            (x) => x.formControlName == field.formControlName
+          );
+          if (
+            index != -1 &&
+            this.fieldsList[index].hasOwnProperty('comments')
+          ) {
+            delete this.fieldsList[index]['comments'];
+          }
       }
     }
 
@@ -542,9 +573,40 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   deleteControl(field) {
     this.addRemoveControls(false, field);
-    if(!this.groupCategoryList[field.category]){
+    if (!this.groupCategoryList[field.category]) {
       this.groupCategoryList[field.category] = [];
     }
     this.groupCategoryList[field.category].push(field);
+  }
+
+  openCommentDialog(controlName, event?): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    const index = this.fieldsList.findIndex(
+      (x) => x.formControlName == controlName
+    );
+    const dialogRef = this.dialog.open(EditLabelComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        comment: this.fieldsList[index].hasOwnProperty('comments')
+          ? this.fieldsList[index]['comments']
+          : '',
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result != 'cancel' && result != '') {
+        if (index != -1) {
+          this.fieldsList[index]['comments'] = result;
+        }
+      } else if (
+        result == '' &&
+        this.fieldsList[index].hasOwnProperty('comments')
+      ) {
+        delete this.fieldsList[index]['comments'];
+      }
+    });
   }
 }
