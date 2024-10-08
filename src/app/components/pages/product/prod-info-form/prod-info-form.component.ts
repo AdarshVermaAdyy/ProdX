@@ -841,7 +841,12 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
   }
 
   saveData() {
-    this.formDataService.setFormData('productInfo', this.dynamicForm.value);
+    const SelectedValForSubmit = this.flattenSavedData(this.dynamicForm.value);
+    console.log(
+      ' Selected values from Save Data funtion my ... ' +
+        JSON.stringify(SelectedValForSubmit)
+    );
+    this.formDataService.setFormData('productInfo', SelectedValForSubmit);
   }
 
   nextData() {
@@ -1180,5 +1185,36 @@ export class ProdInfoFormComponent implements OnInit, OnDestroy {
       this.fileredOptionalList.some((option) => option.group === group).length >
       0;
     return hasGroupOption;
+  }
+
+  flattenSavedData(data) {
+    const savedData = {};
+    // Loop through each section (e.g., productBoundaryCondition, productServiceNonfinancialAlterations)
+    Object.keys(data.selectedValues).forEach((section) => {
+      // Loop through each field in the section
+      data.selectedValues[section].forEach((field) => {
+        // Handle checkbox options (e.g., Premium Payment Frequency, Gender)
+        if (field.type === 'checkbox' && field.optionControls) {
+          Object.keys(field.optionControls).forEach((option) => {
+            if (field.optionControls[option]) {
+              savedData[`${section}_${field.label}_${option}`] =
+                field.optionControls[option];
+            }
+          });
+        }
+        // Handle other types of fields (e.g., range, dropdown, text, radio)
+        else if (field.type === 'range') {
+          savedData[`${section}_${field.label}_min`] = field.min;
+          savedData[`${section}_${field.label}_max`] = field.max;
+        } else if (
+          field.type === 'dropdown' ||
+          field.type === 'radio' ||
+          field.type === 'text'
+        ) {
+          savedData[`${section}_${field.label}`] = field.value;
+        }
+      });
+    });
+    return savedData;
   }
 }
