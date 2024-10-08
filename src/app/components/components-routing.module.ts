@@ -3,6 +3,7 @@ import { RouterModule, Routes } from '@angular/router';
 import { Components } from './components.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MydraftsComponent } from './pages/mydrafts/mydrafts.component';
+import { IrdaComponent } from './pages/Irda/irda/irda.component';
 // import { MasterComponent } from './master.component';
 
 const routes: Routes = [
@@ -25,6 +26,9 @@ const routes: Routes = [
       {
         path: 'drafts',
         component: MydraftsComponent
+      },
+      {path:'idra',
+        component:IrdaComponent
       },
       {
         path: 'product',
