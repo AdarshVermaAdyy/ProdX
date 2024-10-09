@@ -47,7 +47,7 @@
 </div>
 <div class="container-fluid d-flex" style="flex-direction: column">
   <div class="mt-3 me-3 d-flex justify-content-end">
-    <button
+    <button *ngIf="!mode.includes('edit-product')"
       mat-stroked-button
       data-bs-toggle="offcanvas"
       data-bs-target="#offcanvasWithBothOptions"
@@ -91,6 +91,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('productName')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -100,6 +101,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('productName')"
                   >
@@ -137,6 +139,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('productDescription')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -146,6 +149,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('productDescription')"
                   >
@@ -180,6 +184,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('productTagline')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -189,6 +194,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('productTagline')"
                   >
@@ -236,6 +242,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('productCode')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -245,6 +252,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('productCode')"
                   >
@@ -287,6 +295,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('productStatus', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -296,6 +305,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('productStatus', $event)"
                   >
@@ -333,6 +343,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('category', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -342,6 +353,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('category', $event)"
                   >
@@ -424,6 +436,7 @@
                   </div>
                 </div>
                 <button
+                *ngIf="!mode.includes('edit-product')"
                   class="mb-4"
                   mat-stroked-button
                   (click)="addCoverage()"
@@ -449,6 +462,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('ridersApplicable', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -458,6 +472,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('ridersApplicable', $event)"
                   >
@@ -599,6 +614,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('underwritingGuidelines')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -608,6 +624,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('underwritingGuidelines')"
                   >
@@ -669,6 +686,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="
                       openCommentDialog('underwritingRequirements', $event)
                     "
@@ -680,6 +698,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="
                       openCommentDialog('underwritingRequirements', $event)
@@ -729,6 +748,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riskAssessCriteria')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -738,6 +758,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riskAssessCriteria')"
                   >
@@ -810,6 +831,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('refundablePrem', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -819,6 +841,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('refundablePrem', $event)"
                   >
@@ -868,6 +891,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('taxBenefits', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -877,6 +901,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('taxBenefits', $event)"
                   >
@@ -929,6 +954,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('renewal', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -938,6 +964,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('renewal', $event)"
                   >

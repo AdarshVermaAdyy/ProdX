@@ -8,13 +8,6 @@
   <div>
     <form [formGroup]="submitForm" class="d-flex flex-column justify-content-center align-items-center">
       <mat-form-field class="w-75 mb-2">
-        <mat-label>Product Name</mat-label>
-        <input matInput formControlName="productName" placeholder="Product Name">
-        @if (submitForm.get('productName').hasError('required')) {
-        <mat-error>Product name is <strong>required</strong></mat-error>
-        }
-      </mat-form-field>
-      <mat-form-field class="w-75 mb-2">
         <mat-label>Choose start Date</mat-label>
         <input matInput formControlName="startDate" [min]="yesterday" [matDatepicker]="startdatepicker" />
         @if (submitForm.get('startDate').hasError('required')) {

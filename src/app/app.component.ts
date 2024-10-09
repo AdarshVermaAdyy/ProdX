@@ -1,5 +1,5 @@
-import { Component } from '@angular/core';
-import { RouterOutlet } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { Router, RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { SidenavComponent } from './components/layout/sidenav/sidenav.component';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
@@ -16,7 +16,19 @@ import { ShareproductdataService } from './service/shareproductdata.service';
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss'
 })
-export class AppComponent {
+export class AppComponent implements OnInit{
   title = 'prodx';
   isLoggedIn = true;
+
+  constructor(private router: Router) {
+    
+  }
+
+  ngOnInit(): void {
+    const user = JSON.parse(localStorage.getItem('user'));
+    if(!user){
+      this.router.navigate(['/auth/login'])
+    }
+  }
+
 }

@@ -6,6 +6,7 @@ import { Router, RouterModule } from '@angular/router';
 import { MatCardModule } from '@angular/material/card';
 import { MatButtonModule } from '@angular/material/button';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { UserRole } from '../../enums';
 @Component({
   selector: 'app-login',
   standalone: true,
@@ -17,6 +18,18 @@ export class LoginComponent implements OnInit {
   isLoginPage: boolean = true;
   loginForm: FormGroup;
   registerForm: FormGroup;
+  users = [
+    {
+      email: 'adarsh@gmail.com',
+      password: 'admin',
+      role: UserRole.product
+    },
+    {
+      email: 'madhav@gmail.com',
+      password: 'admin',
+      role: UserRole.actuary
+    }
+  ]
   constructor(private router: Router, private fb: FormBuilder) {
   }
 
@@ -47,7 +60,13 @@ export class LoginComponent implements OnInit {
 
   login(){
     if(!this.loginForm.invalid){
-      this.router.navigate(['/main/dashboard'])
+      const userEmail = this.loginForm.get('email').value;
+      const password = this.loginForm.get('password').value;
+      const user = this.users.find(item => item.email === userEmail && item.password === password);
+      if(user){
+        localStorage.setItem('user', JSON.stringify(user));
+        this.router.navigate(['/main/dashboard'])
+      }
     }
   }
 

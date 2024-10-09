@@ -81,6 +81,14 @@ export class CreateUsingTemplateComponent {
         this.selectedStepperIdex =
           Object.keys(this.productData?.data).length - 1;
       }
+      if (this.mode.includes('edit-product')) {
+        this.productData =
+          this.formDataService.fetchProductFromLocalStorageByName(
+            this.productName
+          );
+        this.selectedStepperIdex =
+          Object.keys(this.productData?.data).length - 1;
+      }
     });
     localStorage.setItem(
       'currentForm',

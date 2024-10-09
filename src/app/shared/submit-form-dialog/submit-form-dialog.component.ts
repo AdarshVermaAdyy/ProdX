@@ -54,7 +54,6 @@ export class SubmitFormDialogComponent implements OnInit {
 
   initializeForm(){
     this.submitForm = this.fb.group({
-      productName : new FormControl('',[Validators.required]),
       startDate : new FormControl('',[Validators.required]),
       effectiveDate : new FormControl('',[Validators.required]),
       comments : new FormControl('',[Validators.required])

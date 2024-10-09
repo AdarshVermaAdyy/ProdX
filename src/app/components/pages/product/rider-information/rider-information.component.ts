@@ -371,20 +371,20 @@ export class RiderInformationComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.router.url.includes('edit-product')) {
-      this.activatedRoute.params.subscribe((param) => {
-        this.templateName = param['name'];
-      });
-      const draftsData = JSON.parse(localStorage.getItem('myDrafts'));
+    // if (this.router.url.includes('edit-product')) {
+    //   this.activatedRoute.params.subscribe((param) => {
+    //     this.templateName = param['name'];
+    //   });
+    //   const draftsData = JSON.parse(localStorage.getItem('myDrafts'));
 
-      const template = draftsData.filter(
-        (x) => x?.draftName == this.templateName
-      );
+    //   const template = draftsData.filter(
+    //     (x) => x?.draftName == this.templateName
+    //   );
 
-      this.riderInfoData = template[0]?.data?.['rider-info'];
+    //   this.riderInfoData = template[0]?.data?.['rider-info'];
 
-      this.templateFields = Object.keys(this.riderInfoData);
-    }
+    //   this.templateFields = Object.keys(this.riderInfoData);
+    // }
 
     this.initialiseForm();
     this.initializeSearchForm();
@@ -563,6 +563,11 @@ export class RiderInformationComponent implements OnInit {
         if (this.mode.includes('edit-draft')) {
           this.templateFields = Object.keys(this.productData);
           field.defaultVal = this.productData[field.formControlName];
+        }
+        if (this.mode.includes('edit-product')) {
+          this.templateFields = Object.keys(this.productData);
+          field.defaultVal = this.productData[field.formControlName];
+          this.riderDetailsForm.disable()
         }
         const isFieldExits = this.templateFields.some(
           (tempField) => field.formControlName === tempField
