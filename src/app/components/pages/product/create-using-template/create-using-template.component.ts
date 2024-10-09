@@ -19,6 +19,7 @@ import { RiderInformationComponent } from '../rider-information/rider-informatio
 import { ReviewDocumentComponent } from '../review-document/review-document.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormDataService } from '../../../../service/form-data.service';
+import { ProductInfoComponent } from '../product-info/product-info.component';
 
 @Component({
   selector: 'app-create-using-template',
@@ -38,6 +39,7 @@ import { FormDataService } from '../../../../service/form-data.service';
     MatIconModule,
     RiderInformationComponent,
     ReviewDocumentComponent,
+    ProductInfoComponent,
   ],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss',
@@ -53,8 +55,8 @@ export class CreateUsingTemplateComponent {
 
   @ViewChild(ProductDetailsComponent)
   ProductDetailsComponent: ProductDetailsComponent;
-  @ViewChild(ProdInfoFormComponent)
-  ProdInfoFormComponent: ProdInfoFormComponent;
+  @ViewChild(ProductInfoComponent)
+  ProductInfoComponent: ProductInfoComponent;
   @ViewChild(CoverageInfoComponent)
   CoverageInfoComponent: CoverageInfoComponent;
   @ViewChild(RiderInformationComponent)
@@ -100,8 +102,8 @@ export class CreateUsingTemplateComponent {
       : null;
   }
   get dynamicForm() {
-    return this.ProdInfoFormComponent
-      ? this.ProdInfoFormComponent.dynamicForm
+    return this.ProductInfoComponent
+      ? this.ProductInfoComponent.productInfoForm
       : null;
   }
 
