@@ -56,8 +56,8 @@ export class CreateUsingTemplateComponent {
   productData: any = {};
   mode = '';
   selectedStepperIdex = 0;
-  journey2=true;
-
+  // journey2=true;
+  userRole='';
   @ViewChild(ProductDetailsComponent)
   ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProductInfoComponent)
@@ -100,6 +100,8 @@ export class CreateUsingTemplateComponent {
       'currentForm',
       JSON.stringify(this.currentSelectedIndex)
     );
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+
   }
 
   get productDetailsForm() {

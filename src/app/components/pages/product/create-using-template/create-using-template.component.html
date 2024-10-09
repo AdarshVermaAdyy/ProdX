@@ -88,7 +88,7 @@
           <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
         </mat-step>
-        <mat-step *ngIf="journey2" >
+        <mat-step *ngIf="userRole==='Actuary'" >
           <ng-template matStepLabel>Upload Rate Tables</ng-template>
         <app-rate-table #step6></app-rate-table>
 

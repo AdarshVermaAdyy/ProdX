@@ -1,3 +1,4 @@
+import { MatMenuModule } from '@angular/material/menu';
 import { CommonModule } from '@angular/common';
 import { HttpClient, HttpClientModule } from '@angular/common/http';
 import { Component, TemplateRef, ViewChild } from '@angular/core';
@@ -37,14 +38,14 @@ const ELEMENT_DATA: Element[] = [
   // add more data as needed
 ];
 const my_data: Elements[] = [
-  {uploadedRatesList: ' 1', totalCombinationCount: 10, success: 8, fail: 2, callToAction: 'Action 1', uploadedBy: 'User 1', timestamp: '2024-10-08 13:00:00'},
-  {uploadedRatesList: ' 2', totalCombinationCount: 20, success: 18, fail: 2, callToAction: 'Action 2', uploadedBy: 'User 2', timestamp: '2024-10-08 14:00:00'},
+  {uploadedRatesList: ' 1', totalCombinationCount: 10, success: 8, fail: 2, callToAction: '', uploadedBy: 'User 1', timestamp: '2024-10-08 13:00:00'},
+  {uploadedRatesList: ' 2', totalCombinationCount: 20, success: 18, fail: 2, callToAction: '', uploadedBy: 'User 2', timestamp: '2024-10-08 14:00:00'},
   // add more data as needed
 ];
 @Component({
   selector: 'app-rate-table',
   standalone: true,
-  imports: [MatRadioButton,MatDialogClose,MatStepperModule, MatPaginatorModule,MatSortModule,MatTableModule, MatRadioGroup,MatListModule,MatIconModule,CommonModule,HttpClientModule,MatFormFieldModule,MatButtonModule],
+  imports: [MatRadioButton,MatDialogClose,MatMenuModule,MatStepperModule, MatPaginatorModule,MatSortModule,MatTableModule, MatRadioGroup,MatListModule,MatIconModule,CommonModule,HttpClientModule,MatFormFieldModule,MatButtonModule],
   templateUrl: './rate-table.component.html',
   styleUrl: './rate-table.component.scss'
 })

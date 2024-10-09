@@ -30,6 +30,7 @@ export class IrdaComponent {
   irdaform:FormGroup;
   productForm:FormGroup;
   file_store:any
+  productName:any;
   constructor(private fb: FormBuilder) {
     this.irdaform = this.fb.group({
       irdaQueries: [''],
@@ -41,7 +42,7 @@ export class IrdaComponent {
       approvalDocument: ['']
     });
     this.productForm = this.fb.group({
-      productName: ['', Validators.required],
+      productName: [this.productName, Validators.required],
       productCategory: ['', Validators.required],
       submissionDate: ['', Validators.required],
       irdaReferenceNumber: ['', Validators.required],
@@ -51,6 +52,15 @@ export class IrdaComponent {
     });
 
 
+  }
+  ngOnInit():void{
+    const storedData = localStorage.getItem('myDrafts');
+    if (storedData) {
+      const drafts = JSON.parse(storedData);
+      if (drafts.length > 0) {
+        this.productName = drafts[0].data.productDetails.productName;
+      }
+    }
   }
 
   // toggleSection(section: string,event:any): void {
