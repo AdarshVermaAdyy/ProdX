@@ -80,6 +80,7 @@ export class ProductInfoComponent {
   isOtherSelected: boolean = false;
   readonly panelOpenState = signal(true);
   readonly innerPanelOpenState = signal(true);
+  isFormVisible = false;
   templateFields = [
     'changeOfName',
     'appointeeChange',
@@ -111,6 +112,11 @@ export class ProductInfoComponent {
     'surrender',
     'maturity',
     'policyCancellation',
+    'single',
+    'yearly',
+    'quaterly',
+    'halfYearly',
+    'monthly',
   ];
   premiumPaymentFrequencyList: InputField[] = [
     {
@@ -639,6 +645,51 @@ export class ProductInfoComponent {
       category: 'Premiumand Payment Detail',
       defaultVal: 'POLC',
     },
+    {
+      label: 'Single',
+      type: 'checkbox',
+      formControlName: 'single',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Product Boundary Condition',
+      defaultVal: false,
+    },
+    {
+      label: 'Yearly',
+      type: 'checkbox',
+      formControlName: 'yearly',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Product Boundary Condition',
+      defaultVal: false,
+    },
+    {
+      label: 'halfYearly',
+      type: 'checkbox',
+      formControlName: 'halfYearly',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Product Boundary Condition',
+      defaultVal: false,
+    },
+    {
+      label: 'Quaterly',
+      type: 'checkbox',
+      formControlName: 'quaterly',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Product Boundary Condition',
+      defaultVal: false,
+    },
+    {
+      label: 'Monthly',
+      type: 'checkbox',
+      formControlName: 'monthly',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Product Boundary Condition',
+      defaultVal: false,
+    },
   ];
   groupCategoryList: { [key: string]: any[] } = {};
 
@@ -653,7 +704,7 @@ export class ProductInfoComponent {
   }
 
   ngOnInit(): void {
-    console.log(this.fieldsList);
+    console.log(this.productData);
     this.initialiseForm(); //Initialise the product details form
     this.initializeSearchForm(); //Initialise the search form
     this.formService$ = this.formDataService.callSaveFunction$.subscribe(
@@ -721,10 +772,12 @@ export class ProductInfoComponent {
           this.templateFields = Object.keys(this.productData);
           field.defaultVal = this.productData[field.formControlName];
         }
+        console.log(this.templateFields);
 
         const isFieldExits = this.templateFields.some(
           (tempField) => field.formControlName === tempField
         );
+
         if (isFieldExits) {
           // field.isMandatory = true
           this.addRemoveControls(true, field);
@@ -736,6 +789,49 @@ export class ProductInfoComponent {
         (field) =>
           !this.templateFields.some((item) => item === field.formControlName)
       );
+
+      if (this.mode.includes('edit-draft')) {
+        if (
+          this.templateFields.some((tempfield) => tempfield.includes('_single'))
+        ) {
+          this.onSingleChange(true);
+          this.productInfoForm.get('single').setValue(true);
+        } else {
+          if (
+            this.templateFields.some((tempfield) =>
+              tempfield.includes('_yearly')
+            )
+          ) {
+            this.onChangeFrequency('Yearly');
+            this.productInfoForm.get('yearly').setValue(true);
+          }
+          if (
+            this.templateFields.some((tempfield) =>
+              tempfield.includes('_monthly')
+            )
+          ) {
+            this.onChangeFrequency('Monthly');
+            this.productInfoForm.get('monthly').setValue(true);
+          }
+          if (
+            this.templateFields.some((tempfield) =>
+              tempfield.includes('_halfyearly')
+            )
+          ) {
+            this.onChangeFrequency('Halfyearly');
+            this.productInfoForm.get('halfyearly').setValue(true);
+          }
+          if (
+            this.templateFields.some((tempfield) =>
+              tempfield.includes('_quaterly')
+            )
+          ) {
+            this.onChangeFrequency('Quaterly');
+            this.productInfoForm.get('quaterly').setValue(true);
+          }
+        }
+      }
+      this.isFormVisible = true;
     } else {
       // Taking all fields
       this.searchFilterList = this.fieldsList;
@@ -896,7 +992,15 @@ export class ProductInfoComponent {
           ? field.formControlName + '_' + action
           : field.formControlName,
         new FormControl(
-          field.defaultVal || '',
+          action == 'single' ||
+          action == 'yearly' ||
+          action == 'halfyearly' ||
+          action == 'quaterly' ||
+          action == 'monthly'
+            ? this.mode.includes('edit-draft')
+              ? this.productData[field.formControlName + '_' + action]
+              : field.defaultVal || ''
+            : field.defaultVal || '',
           field.isMandatory ? Validators.required : []
         )
       );
