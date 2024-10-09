@@ -82,7 +82,7 @@ export class FormDataService {
     localStorage.setItem('myDrafts', JSON.stringify(drafts));
   }
 
-  private fetchProductsFromLocalStorage() {
+  fetchProductsFromLocalStorage() {
     return JSON.parse(localStorage.getItem('products')) || [];
   }
 
@@ -156,5 +156,11 @@ export class FormDataService {
     const drafts = this.fetchDraftsFromLocalStorage();
     drafts.splice(index, 1);
     this.saveDraftToLocalStorage(drafts);
+  }
+
+  deleteProduct(index) {
+    const products = this.fetchProductsFromLocalStorage();
+    products.splice(index, 1);
+    this.saveProductsToLocalStorage(products);
   }
 }

@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatButtonModule } from '@angular/material/button';
 import { UserRole } from '../../../enums';
 import { Router } from '@angular/router';
+import { FormDataService } from '../../../service/form-data.service';
 export interface PeriodicElement {
 
   taskId: string;
@@ -109,12 +110,9 @@ export class DashboardComponent implements OnInit{
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor(private router: Router) { }
+  constructor(private router: Router, private formDataService: FormDataService) { }
 
   ngOnInit(): void {
-  }
-
-  ngAfterViewInit() {
     this.userRole = JSON.parse(localStorage.getItem('user')).role;
     if(this.userRole === UserRole.actuary){
       this.savedProducts = JSON.parse(localStorage.getItem('products'));
@@ -125,6 +123,10 @@ export class DashboardComponent implements OnInit{
       this.tasksDataSource.paginator = this.paginator;
       this.tasksDataSource.sort = this.sort;
     }
+  }
+
+  ngAfterViewInit() {
+
   }
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -190,6 +192,11 @@ export class DashboardComponent implements OnInit{
 
   editProduct(product){
     this.router.navigate(['main', 'product', 'edit-product', encodeURIComponent(product.productName)]);
+  }
+
+  deleteProduct(index){
+    this.formDataService.deleteProduct(index);
+    this.productDataSource.data = this.formDataService.fetchProductsFromLocalStorage();
   }
 
 
