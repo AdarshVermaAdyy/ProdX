@@ -294,6 +294,12 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
           field.defaultVal = this.productData[field.formControlName];
         }
 
+        if (this.mode.includes('edit-product')) {
+          this.templateFields = Object.keys(this.productData);
+          field.defaultVal = this.productData[field.formControlName];
+          this.productDetailsForm.disable()
+        }
+
         const isFieldExits = this.templateFields.some(
           (tempField) => field.formControlName === tempField
         );

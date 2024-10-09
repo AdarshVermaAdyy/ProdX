@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -33,11 +33,12 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit{
   isExpanded = false;
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
+  userRole = '';
   notificationArray = [{title: "Notification",msg: "This is a notification",icon:"edit"},
     {title: "Notification",msg: "This is a notification",icon:"edit"},
     {title: "Notification",msg: "This is a notification",icon:"edit"},
@@ -47,6 +48,10 @@ export class SidenavComponent {
   isRibbonAllowed : boolean=false;
   
   constructor(private matdialog: MatDialog){}
+
+  ngOnInit(): void {
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+  }
 
   openDialog(){
     const dialogRef = this.matdialog.open(ConfirmationDialogComponent,{

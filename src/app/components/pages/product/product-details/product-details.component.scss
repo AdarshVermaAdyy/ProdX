@@ -57,13 +57,13 @@ mat-form-field {
   margin-bottom: 0;
 }
 
-// .delete-field{
-//     display: none;
-// }
+.delete-field, .add-comment{
+    display: none;
+}
 
-// mat-form-field:hover .delete-field{
-//     display: block;
-// }
+mat-form-field:hover .delete-field, mat-form-field:hover .add-comment{
+    display: block;
+}
 
 // .offcanvas{
 //     position: fixed !important;

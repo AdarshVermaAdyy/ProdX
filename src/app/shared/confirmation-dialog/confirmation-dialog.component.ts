@@ -37,4 +37,10 @@ export class ConfirmationDialogComponent implements OnInit {
     this.formDataService.clearFormData();
     this.route.navigate(['main/drafts'])
   }
+
+
+  logout(){
+    localStorage.removeItem('user');
+    this.route.navigate(['auth/login'])
+  }
 }

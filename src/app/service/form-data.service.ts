@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { Subject } from 'rxjs';
+import { ProductStatus } from '../enums';
 
 @Injectable({
   providedIn: 'root',
@@ -69,6 +70,14 @@ export class FormDataService {
     return draftData;
   }
 
+  fetchProductFromLocalStorageByName(productName) {
+    const productData = JSON.parse(localStorage.getItem('products')).filter(
+      (product) => product.productName === productName
+    )[0];
+    this.formData = productData.data || {};
+    return productData;
+  }
+
   private saveDraftToLocalStorage(drafts) {
     localStorage.setItem('myDrafts', JSON.stringify(drafts));
   }
@@ -117,14 +126,19 @@ export class FormDataService {
     this.clearFormData();
   }
 
-  submit({ productName, startDate, effectiveDate, comments }) {
+  submit({ startDate, effectiveDate, comments }) {
     if (Object.keys(this.formData).length === 0) {
       return;
     }
 
     const products = this.fetchProductsFromLocalStorage();
     const newData = {
-      productName: productName,
+      productName: this.formData.productDetails.productName,
+      description: this.formData.productDetails.productDescription,
+      submittedOn: moment(new Date()).format('MMMM D, YYYY'),
+      submittedBy: JSON.parse(localStorage.getItem('user')).email,
+      status: ProductStatus.pending,
+      category: this.formData.productDetails.category,
       startDate: startDate,
       effectiveDate: effectiveDate,
       comments: comments,

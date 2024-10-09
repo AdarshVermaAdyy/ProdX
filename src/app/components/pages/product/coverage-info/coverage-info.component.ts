@@ -314,6 +314,11 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
           this.templeteFeilds = Object.keys(this.productData);
           feild.defaultVal = this.productData[feild.formControlName];
         }
+        if (this.mode.includes('edit-product')) {
+          this.templeteFeilds = Object.keys(this.productData);
+          feild.defaultVal = this.productData[feild.formControlName];
+          this.coverageInfoForm.disable();
+        }
 
         const isFeildExist = this.templeteFeilds.some(
           (tempFeild) => feild.formControlName === tempFeild
