@@ -19,6 +19,8 @@ import { RiderInformationComponent } from '../rider-information/rider-informatio
 import { ReviewDocumentComponent } from '../review-document/review-document.component';
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormDataService } from '../../../../service/form-data.service';
+import { RateTableComponent } from '../rate-table/rate-table.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-using-template',
@@ -34,10 +36,12 @@ import { FormDataService } from '../../../../service/form-data.service';
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
+    RateTableComponent,
     MatSidenavModule,
     MatIconModule,
     RiderInformationComponent,
     ReviewDocumentComponent,
+    CommonModule
   ],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss',
@@ -50,6 +54,7 @@ export class CreateUsingTemplateComponent {
   productData: any = {};
   mode = '';
   selectedStepperIdex = 0;
+  journey2=true;
 
   @ViewChild(ProductDetailsComponent)
   ProductDetailsComponent: ProductDetailsComponent;
@@ -61,7 +66,8 @@ export class CreateUsingTemplateComponent {
   RiderInformationComponent: RiderInformationComponent;
   @ViewChild(ReviewDocumentComponent)
   ReviewDocumentComponent: ReviewDocumentComponent;
-
+ @ViewChild(RateTableComponent)
+ RateTableComponent:RateTableComponent;
   constructor(
     private route: ActivatedRoute,
     private formDataService: FormDataService

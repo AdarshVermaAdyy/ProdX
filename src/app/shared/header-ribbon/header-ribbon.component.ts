@@ -77,4 +77,7 @@ export class HeaderRibbonComponent implements OnChanges {
     this.formDataService.saveAsDraft();
     this.router.navigate(['/main/drafts']);
   }
+  movetoirda(){
+    this.router.navigate(['/main/irda']);
+  }
 }

@@ -4,6 +4,7 @@ import { Components } from './components.component';
 import { DashboardComponent } from './pages/dashboard/dashboard.component';
 import { MydraftsComponent } from './pages/mydrafts/mydrafts.component';
 import { IrdaComponent } from './pages/Irda/irda/irda.component';
+import { RateTableComponent } from './pages/product/rate-table/rate-table.component';
 // import { MasterComponent } from './master.component';
 
 const routes: Routes = [
@@ -29,6 +30,9 @@ const routes: Routes = [
       },
       {path:'idra',
         component:IrdaComponent
+      },
+      {path:'ratetable',
+        component:RateTableComponent
       },
       {
         path: 'product',
