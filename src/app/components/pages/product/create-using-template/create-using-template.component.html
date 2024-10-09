@@ -29,18 +29,18 @@
 
         <!-- Product Info step -->
         <mat-step
-          [stepControl]="step2.dynamicForm"
+          [stepControl]="step2.productInfoForm"
           [completed]="
             (this.mode.includes('edit-draft') && selectedStepperIdex > 1) ||
-            step2.dynamicForm.valid
+            step2.productInfoForm.valid
           "
         >
           <ng-template matStepLabel>Product Info</ng-template>
-          <app-prod-info-form
+          <app-product-info
             #step2
             [productData]="productData?.data?.productInfo"
             [mode]="mode"
-          ></app-prod-info-form>
+          ></app-product-info>
           <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
         </mat-step>
