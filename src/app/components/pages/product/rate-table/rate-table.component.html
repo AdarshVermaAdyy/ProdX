@@ -1,0 +1,213 @@
+
+
+<div class="container">
+
+  <div class="row table-row">
+<div class="heading">
+    <h2>Upload Rate tables- {{productName}}</h2>
+<p>  Please upload the rate tables for the selected product. Accepted formats: .csv, .xls, .xlsx.</p>
+</div>
+
+
+<br><br>
+<h3>Are Rates same for all Genders?</h3>
+<mat-radio-group aria-label="Select an option">
+  <mat-radio-button value="yes">Yes</mat-radio-button>
+  <mat-radio-button value="no">No</mat-radio-button>
+</mat-radio-group>
+
+
+<h3>Are Rates same for Smoker and Non-Smoker?</h3>
+<mat-radio-group aria-label="Select an option">
+  <mat-radio-button value="yes">Yes</mat-radio-button>
+  <mat-radio-button value="no">No</mat-radio-button>
+</mat-radio-group>
+
+
+
+<!-- <button mat-flat-button color="primary" class="mt-3">Upload Table</button> -->
+<!-- <input type="file" (change)="onFileSelected($event)" multiple>
+<button mat-raised-button color="primary" (click)="onUpload()">Upload</button>
+
+<mat-list *ngIf="uploadedFiles.length > 0">
+  <h3>Uploaded Files:</h3>
+  <mat-list-item *ngFor="let file of uploadedFiles">
+    <mat-icon matListIcon>insert_drive_file</mat-icon>
+    <h4 matLine>{{ file.name }}</h4>
+  </mat-list-item>
+</mat-list> -->
+
+
+
+</div>
+
+<div class="row files">
+<div class="col-md-6" >
+  <div class="input-fields-height">
+    <!-- <mat-label>Select File</mat-label>
+    <button mat-icon-button matPrefix (change)="onFileSelected($event)">
+      <mat-icon>attach_file</mat-icon>
+    </button> -->
+
+  <input  type="file" (change)="onFileSelected($event)" multiple>
+
+  <button  mat-flat-button color="primary" (click)="onUpload()">Upload</button>
+  <div *ngIf="uploadedFiles.length > 0">
+    <h3>Uploaded Files:</h3>
+    <div *ngFor="let file of uploadedFiles; let i = index" class="file-item">
+      <span><mat-icon matListIcon>insert_drive_file</mat-icon></span>
+      <span><h4>{{ file.name }}</h4></span>
+      <span>
+        <button
+          matSuffix
+          mat-icon-button
+          aria-label="Clear"
+          class="delete-field"
+          (click)="removeFile(i)"
+        >
+          <mat-icon>delete</mat-icon>
+        </button>
+      </span>
+    </div>
+  </div>
+
+
+
+
+  </div>
+</div>
+<div class="col-md-6" >
+  <a href="/src/assets/files/rating_excel.xlsx" download="downloaded-file.xlsx">
+    <button mat-raised-button color="primary">Download Sample File</button>
+  </a>
+</div>
+
+</div>
+<div class="form-btn-wrapper">
+  <!-- <button mat-flat-button color="primary" class="mt-3">Save as Draft</button> -->
+  <button mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
+  <button mat-flat-button color="primary" class="mt-3" (click)="getsummary()" >Next</button>
+</div>
+
+
+      </div>
+
+
+
+
+      <div class="container" *ngIf="summaryVisible">
+
+        <div class="row table-row">
+      <div class="heading">
+          <h2>SUMMARY</h2>
+          </div>
+          <div class="row">
+            <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+              <!-- Column Definitions -->
+              <ng-container matColumnDef="column1">
+                <th mat-header-cell *matHeaderCellDef> </th>
+                <td mat-cell *matCellDef="let element"> {{element.column1}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="column2">
+                <th mat-header-cell *matHeaderCellDef> Total </th>
+                <td mat-cell *matCellDef="let element"> {{element.column2}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="column3">
+                <th mat-header-cell *matHeaderCellDef>Pending </th>
+                <td mat-cell *matCellDef="let element"> {{element.column3}} </td>
+              </ng-container>
+
+              <!-- Header and Row Definitions -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+            </table>
+
+
+
+          </div>
+
+          <div class="row">
+            <table mat-table [dataSource]="dataSources" class="mat-elevation-z8">
+
+              <!-- Column Definitions -->
+              <ng-container matColumnDef="uploadedRatesList">
+                <th mat-header-cell *matHeaderCellDef> Uploaded Rates List </th>
+                <td mat-cell *matCellDef="let element"> {{element.uploadedRatesList}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="totalCombinationCount">
+                <th mat-header-cell *matHeaderCellDef> Total Combination Count </th>
+                <td mat-cell *matCellDef="let element"> {{element.totalCombinationCount}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="success">
+                <th mat-header-cell *matHeaderCellDef> Success </th>
+                <td mat-cell *matCellDef="let element"> {{element.success}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="fail">
+                <th mat-header-cell *matHeaderCellDef> Fail </th>
+                <td mat-cell *matCellDef="let element"> {{element.fail}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="callToAction">
+                <th mat-header-cell *matHeaderCellDef> Call to Action </th>
+                <td mat-cell *matCellDef="let element"> {{element.callToAction}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="uploadedBy">
+                <th mat-header-cell *matHeaderCellDef> Uploaded By </th>
+                <td mat-cell *matCellDef="let element"> {{element.uploadedBy}} </td>
+              </ng-container>
+
+              <ng-container matColumnDef="timestamp">
+                <th mat-header-cell *matHeaderCellDef> Timestamp </th>
+                <td mat-cell *matCellDef="let element"> {{element.timestamp}} </td>
+              </ng-container>
+
+              <!-- Header and Row Definitions -->
+              <tr mat-header-row *matHeaderRowDef="displayedColumn"></tr>
+              <tr mat-row *matRowDef="let row; columns: displayedColumn;"></tr>
+            </table>
+
+          </div>
+
+
+        </div>
+        <div class="form-btn-wrappe">
+          <button mat-raised-button color="primary" (click)="openDialog()">Submit</button>
+
+        </div>
+
+          </div>
+
+          <!-- Main Component HTML -->
+<!-- <button mat-button (click)="openDialog('PureGuard Term Insurance')">Show Submission Confirmation</button> -->
+
+<ng-template #dialogTemplate let-data>
+
+<div class="container">
+
+  <div class="row table-row">
+  <h1 mat-dialog-title>Submission Confirmation</h1>
+  <div mat-dialog-content>
+    <p>Success! Your product has been successfully submitted.</p>
+    <h3>Details:</h3>
+    <p><strong>Product Name:</strong> {{data.productName}}</p>
+    <p><strong>Submission Date:</strong> {{data.submissionDate}}</p>
+    <h3>Notification:</h3>
+    <p>A notification has been sent to the operations team to review your submission.</p>
+    <p>The operations team will contact you if they have any queries or require further information.</p>
+  </div>
+  <div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="navtohome()">Close</button>
+  </div>
+</div></div>
+</ng-template>
+
+
+
+
