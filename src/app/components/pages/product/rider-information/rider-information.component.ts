@@ -83,6 +83,7 @@ export class RiderInformationComponent implements OnInit {
   searchForm: FormGroup;
   isBlankTemplate = ''; // if the template is made from Blank template or not
   isPageBlank = true; //
+  userRole = '';
   readonly panelOpenState = signal(true);
   private formService$ = new Subscription();
   @Input() productData!: any;
@@ -397,6 +398,8 @@ export class RiderInformationComponent implements OnInit {
     );
     this.generateFormFeilds();
     this.groupFieldsByCategory();
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+
   }
 
   initializeSearchForm() {
