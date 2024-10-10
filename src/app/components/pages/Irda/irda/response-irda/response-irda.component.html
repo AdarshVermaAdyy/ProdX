@@ -1,0 +1,171 @@
+<div class="container">
+  <div class="col"><h2> Response from IRDA</h2></div>
+
+<div class="row table-row">
+<div class="col">
+<div class="form-group">
+<mat-checkbox [checked]="showQueries" (change)="toggleSection('showQueries', $event)">Queries from IRDA</mat-checkbox>
+<mat-checkbox [checked]="showApprovalDetails" (change)="toggleSection('showApprovalDetails', $event)">IRDA Approved details</mat-checkbox>
+
+</div>
+
+<br><br>
+
+<form [formGroup]="irdaform" (ngSubmit)="onSubmit()">
+<div *ngIf="showQueries">
+<h3>Queries from IRDA</h3>
+
+<div class="row">
+  <h3>Document Upload Section</h3>
+  <div class="col-lg-6">
+    <div class="input-fields-height">
+      <div class="row" >
+        <div class="col-9">
+          <mat-form-field style="width: 100%">
+            <mat-label>Upload IRDA Queries</mat-label>
+            <button mat-icon-button matPrefix (click)="f_input.click()">
+              <mat-icon>attach_file</mat-icon>
+            </button>
+            <input type="text" readonly matInput formControlname="documents" />
+            <input
+              type="file"
+              multiple
+              hidden
+              #f_input
+              (change)="handleFileInputChanges(f_input.files, $event)"
+            />
+            <mat-error>this field is required</mat-error>
+          </mat-form-field>
+        </div>
+        <div class="col-3">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="uploadDoc(f_input.files)"
+          >
+            <mat-icon>upload</mat-icon>
+            Upload
+          </button>
+        </div>
+      </div>
+  </div>
+  </div>
+</div>
+
+<div class="row">
+  <h3>Assignment Area</h3>
+  <div class="col-lg-6">
+    <mat-form-field appearance="fill">
+      <mat-label>Self-Assign:</mat-label>
+      <input matInput type="text" id="assigneeName" formControlName="assigneeName" placeholder="Enter your name">
+    </mat-form-field>
+  </div>
+  <div class="col-lg-6">
+    <mat-form-field appearance="fill">
+      <mat-label>Assign to Team Member</mat-label>
+      <mat-select id="assignTo" formControlName="assignTo">
+        <mat-option value="anil">Anil Mehta</mat-option>
+        <mat-option value="rajiv">Rajiv Kumar</mat-option>
+        <mat-option value="priya">Priya Sharma</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+</div>
+
+
+
+
+
+<div>
+  <button  mat-flat-button
+  color="primary" type="button">Submit</button>
+  <!-- <button mat-raised-button type="button">Clear Selections</button> -->
+</div>
+</div>
+
+<div *ngIf="showApprovalDetails">
+<h3>IRDA Approval details</h3>
+<div class="row">
+  <div class="col-lg-6">
+    <mat-form-field appearance="fill">
+      <mat-label>IRDA/ UIN Number</mat-label>
+      <input matInput type="text" id="irdaUinNumber" formControlName="irdaUinNumber" placeholder="Enter IRDA/ UIN Number">
+    </mat-form-field>
+  </div>
+  <div class="col-lg-6">
+    <mat-form-field appearance="fill">
+      <mat-label>Approval Date</mat-label>
+      <input matInput [matDatepicker]="pickers" formControlName="approvalDate">
+      <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
+       <mat-datepicker #pickers></mat-datepicker>
+    </mat-form-field>
+  </div>
+
+    <div class="col-lg-6">
+      <div class="input-fields-height">
+        <div class="row" >
+          <div class="col-9">
+            <mat-form-field style="width: 100%">
+              <mat-label>Approval Document</mat-label>
+              <button mat-icon-button matPrefix (click)="f_input.click()">
+                <mat-icon>attach_file</mat-icon>
+              </button>
+              <input type="text" readonly matInput formControlname="documents" />
+              <input
+                type="file"
+                multiple
+                hidden
+                #f_input
+                (change)="handleFileInputChang(f_input.files, $event)"
+              />
+              <mat-error>this field is required</mat-error>
+            </mat-form-field>
+          </div>
+          <div class="col-3">
+            <button
+              mat-flat-button
+              color="primary"
+              (click)="uploadDoc(f_input.files)"
+            >
+              <mat-icon>upload</mat-icon>
+              Upload
+            </button>
+          </div>
+        </div>
+    </div>
+    </div>
+
+    <div class="col-lg-6">
+      <mat-form-field class="input-fields-height">
+        <mat-label>Implementation Notes</mat-label>
+        <textarea matInput matTextareaAutosize formControlName="implementation_note"  placeholder="Implementation Note"></textarea>
+
+      </mat-form-field>
+    </div>
+
+  </div>
+
+
+
+
+<!-- <mat-form-field appearance="fill">
+  <mat-label>Additional Details</mat-label>
+  <textarea matInput id="additionalDetails" formControlName="additionalDetails" placeholder="Enter additional details"></textarea>
+</mat-form-field>
+<mat-form-field appearance="fill">
+  <mat-label>Approval Document</mat-label>
+  <input matInput  id="approvalDocument" formControlName="approvalDocument">
+</mat-form-field> -->
+<button mat-flat-button
+color="primary"  type="submit">Submit</button>
+</div>
+</form>
+
+
+
+</div>
+</div>
+
+
+</div>
