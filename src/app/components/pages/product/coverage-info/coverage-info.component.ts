@@ -1,27 +1,50 @@
 import { CommonModule } from '@angular/common';
-import { Component, OnInit ,signal} from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
+import { Component, Input, OnDestroy, OnInit, signal } from '@angular/core';
+import {
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  FormsModule,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
-import {MatRadioModule} from '@angular/material/radio';
-import {MatCheckboxModule} from '@angular/material/checkbox';
-import { MAT_FORM_FIELD_DEFAULT_OPTIONS, MatFormFieldModule } from '@angular/material/form-field';
+import { MatRadioModule } from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import {
+  MAT_FORM_FIELD_DEFAULT_OPTIONS,
+  MatFormFieldModule,
+} from '@angular/material/form-field';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatLineModule, MatNativeDateModule } from '@angular/material/core';
 import { MatStepperModule } from '@angular/material/stepper';
-import { MatSidenav, MatSidenavContainer, MatSidenavModule } from '@angular/material/sidenav';
+import {
+  MatSidenav,
+  MatSidenavContainer,
+  MatSidenavModule,
+} from '@angular/material/sidenav';
 import { MatListModule } from '@angular/material/list';
 import { MatIconModule } from '@angular/material/icon';
 import { GetSetService } from '../../../../service/get-set.service';
 import { MatExpansionModule } from '@angular/material/expansion';
-interface InputField{
+import { FormDataService } from '../../../../service/form-data.service';
+import { Subscription } from 'rxjs';
+import { ShareproductdataService } from '../../../../service/shareproductdata.service';
+import { EditLabelComponent } from '../../../../shared/edit-label/edit-label.component';
+import { MatDialog } from '@angular/material/dialog';
+import { MatTooltipModule } from '@angular/material/tooltip';
+interface InputField {
   label: string;
   formControlName: string;
   type: 'select' | 'text' | 'radio' | 'checkbox';
   options?: Options[] | [];
-  isVisible?: boolean,
-  category: string
+  isVisible?: boolean;
+  isMandatory: boolean;
+
+  category: string;
+  defaultVal?: any;
 }
 
 interface Options {
@@ -32,7 +55,8 @@ interface Options {
 @Component({
   selector: 'app-coverage-info',
   standalone: true,
-  imports: [CommonModule,
+  imports: [
+    CommonModule,
     MatInputModule,
     ReactiveFormsModule,
     FormsModule,
@@ -49,92 +73,218 @@ interface Options {
     MatIconModule,
     MatListModule,
     MatSidenavModule,
-  MatStepperModule],
+    MatStepperModule,
+    MatTooltipModule,
+  ],
   templateUrl: './coverage-info.component.html',
-  styleUrl: './coverage-info.component.scss'
+  styleUrl: './coverage-info.component.scss',
 })
-
-export class CoverageInfoComponent {
+export class CoverageInfoComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   coverageInfoForm: FormGroup;
-   isBlankTemplete='';
-   isPageBlank = true; //
+  isBlankTemplete = '';
+  userRole='';
+  controlComments=[];
+  isPageBlank = true; //
+  showsearchbar = true;
+  private formService$ = new Subscription();
+  @Input() productData!: any;
+  @Input() mode!: string;
 
-  optionalFieldsList: InputField[] =
-  [
-    {label: "Coverage Code", formControlName: 'coverageCode', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Name", formControlName: 'cover_name1', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Type", formControlName: 'cover_type', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Amount", formControlName: 'coverageAmount', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Term", formControlName: 'coverageTerm', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Efective Date", formControlName: 'coverageEffectiveDate', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Expiry Date", formControlName: 'coverageExpiryDate', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Premium", formControlName: 'coveragePremium', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Waiting Time", formControlName: 'waiting_period', type: 'text', isVisible: false, category: 'basicInformation'},
-    {label: "Coverage Condition", formControlName: 'coverage_condition', type: 'text', isVisible: false, category: 'basicInformation'},
-
-    {label: "Coverage Structure", formControlName: 'coverage_struc', type: 'text', isVisible: false, category: 'coverage_struc'},
-    {label: "Beneficiary Category", formControlName: 'Beneficiary', type: 'text', isVisible: false, category: 'coverage_struc'},
-    {label: "Supplemental Death Benefit", formControlName: 'Death_benefit', type: 'text', isVisible: false, category: 'coverage_struc'},
-
-  ]
+  optionalFieldsList: InputField[] = [
+    {
+      label: 'Coverage Code',
+      formControlName: 'coverageCode',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: 'N18A',
+    },
+    {
+      label: 'Coverage Name',
+      formControlName: 'cover_name1',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: 'Pure Protection RP-V01',
+    },
+    {
+      label: 'Coverage Type',
+      formControlName: 'cover_type',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: 'Death_benefits',
+    },
+    {
+      label: 'Min Age',
+      formControlName: 'min',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '18',
+    },
+    {
+      label: 'Max Age',
+      formControlName: 'max',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '75',
+    },
+    {
+      label: 'Coverage Amount',
+      formControlName: 'coverageAmount',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '500000',
+    },
+    {
+      label: 'Coverage Term',
+      formControlName: 'coverageTerm',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '15 years',
+    },
+    {
+      label: 'Coverage Efective Date',
+      formControlName: 'coverageEffectiveDate',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '12/09/2024',
+    },
+    {
+      label: 'Coverage Expiry Date',
+      formControlName: 'coverageExpiryDate',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '9/13/2024',
+    },
+    {
+      label: 'Coverage Premium',
+      formControlName: 'coveragePremium',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '500',
+    },
+    {
+      label: 'Waiting Time',
+      formControlName: 'waiting_period',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal: '90',
+    },
+    {
+      label: 'Coverage Condition',
+      formControlName: 'coverage_condition',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'basicInformation',
+      defaultVal:
+        'If the insured dies in a car accident on 15th June 2024 and the death occurs within 180 days due to injuries from that accident, the Accidental Death Benefit of ₹50,000 will be payable to the beneficiaries.',
+    },
+    {
+      label: 'Coverage Structure',
+      formControlName: 'coverage_struc',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Coverage structure',
+      defaultVal: 'my cover',
+    },
+    {
+      label: 'Beneficiary Category',
+      formControlName: 'Beneficiary',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Coverage structure',
+      defaultVal: 'my cover',
+    },
+    {
+      label: 'Supplemental Death Benefit',
+      formControlName: 'Death_benefit',
+      type: 'text',
+      isVisible: false,
+      isMandatory: false,
+      category: 'Coverage structure',
+      defaultVal: 'my cover',
+    },
+  ];
 
   // filteredFields = this.optionalFieldsList;
   readonly panelOpenState = signal(true);
-  searchFilterList = this.optionalFieldsList;
-  templeteFeilds=[
-      'coverageCode',
-      'cover_name1',
-      'cover_type' ,
-      'coverageAmount',
-      'coverageTerm',
-      'coverageEffectiveDate',
-      'coverageExpiryDate',
-      'coveragePremium',
-      'waiting_period',
-      'coverage_condition',
+  searchFilterList = [];
+  groupCategoryList: { [key: string]: any[] } = {};
+  templeteFeilds = [
+    'coverageCode',
+    'cover_name1',
+    'cover_type',
+    'min',
+    'max',
+    'coverageAmount',
+    'coverageTerm',
+    'coverageEffectiveDate',
+    'coverageExpiryDate',
+    'coveragePremium',
+    'waiting_period',
+    'coverage_condition',
+  ];
 
-
-  ]
-
-  constructor(private _fb: FormBuilder,private getSetService: GetSetService) {
+  constructor(
+    private _fb: FormBuilder,
+    private getSetService: GetSetService,
+    private shareproductData: ShareproductdataService,
+    private formDataService: FormDataService,
+    private dialog: MatDialog
+  ) {
     this.coverageInfoForm = new FormGroup({});
     this.isBlankTemplete = localStorage.getItem('createMode');
   }
 
   ngOnInit(): void {
     this.initialiseForm();
-this.initializeSearchForm();
-if(this.isBlankTemplete === 'create-by-template'){
-      this.optionalFieldsList.forEach(feild=>{
-        const isFeildExist = this.templeteFeilds.some(tempFeild => feild.formControlName === tempFeild);
-        if(isFeildExist){
-          this.addRemoveControls(true,feild)
+    this.initializeSearchForm();
+
+    this.formService$ = this.formDataService.callSaveFunction$.subscribe(
+      (data) => {
+        if (data === '2') {
+          this.saveData();
         }
-      })
-    }
+      }
+    );
+
+    this.generateFormFeilds();
+    this.groupFieldsByCategory();
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+this.fetchComments();
+
   }
 
-
-  initialiseForm(){
-    this.coverageInfoForm = this._fb.group({
-      // coverageCode: new FormControl('',[Validators.required]),
-      // cover_name1: new FormControl('',[Validators.required]),
-      // cover_type: new FormControl('',[Validators.required]),
-      // coverageAmount: new FormControl('',[Validators.required]),
-      // coverageTerm: new FormControl('',[Validators.required]),
-      // coverageEffectiveDate:new FormControl('',[Validators.required]),
-      // coverageExpiryDate:new FormControl('',[Validators.required]),
-      // coveragePremium: new FormControl('',[Validators.required]),
-      // waiting_period: new FormControl('',[Validators.required]),
-      // coverage_condition:new FormControl(''),
-      // Death_benefit:new FormControl('')
-
-    })
+  initialiseForm() {
+    this.coverageInfoForm = this._fb.group({});
   }
-  initializeSearchForm(){
+  initializeSearchForm() {
     this.searchForm = this._fb.group({
-      search: ['']
+      search: [''],
     });
   }
   // applyFilter(searchTerm) {
@@ -144,107 +294,243 @@ if(this.isBlankTemplete === 'create-by-template'){
 
   // }
 
-  search(event){
-
+  search(event) {
     const value = event.target.value.toLocaleLowerCase();
-    this.searchFilterList = this.optionalFieldsList.filter(field => field.label.toLocaleLowerCase().includes(value));
-  console.log("filter",this.searchFilterList)
+    this.searchFilterList = this.optionalFieldsList.filter((field) =>
+      field.label.toLocaleLowerCase().includes(value)
+    );
+    console.log('filter', this.searchFilterList);
   }
 
-  cancelSearch(){
+  cancelSearch() {
     this.searchForm.reset();
-    this.searchFilterList = this.optionalFieldsList;
+    if (this.isBlankTemplete === 'create-by-template') {
+      this.searchFilterList = this.optionalFieldsList.filter(
+        (field) =>
+          !this.templeteFeilds.some((item) => item === field.formControlName)
+      );
+    } else {
+      this.searchFilterList = this.optionalFieldsList;
+    }
   }
+  generateFormFeilds() {
+    if (this.isBlankTemplete === 'create-by-template') {
+      // this.searchFilterList = this.optionalFieldsList.filter(field => !this.templeteFeilds.some(item => item === field.formControlName))
+      this.optionalFieldsList.forEach((feild) => {
+        if (this.mode.includes('edit-draft')) {
+          this.templeteFeilds = Object.keys(this.productData);
+          feild.defaultVal = this.productData[feild.formControlName];
+        }
+        if (this.mode.includes('edit-product')) {
+          this.templeteFeilds = Object.keys(this.productData);
+          feild.defaultVal = this.productData[feild.formControlName];
+          this.coverageInfoForm.disable();
+        }
 
-
+        const isFeildExist = this.templeteFeilds.some(
+          (tempFeild) => feild.formControlName === tempFeild
+        );
+        if (isFeildExist) {
+          this.addRemoveControls(true, feild);
+        }
+      });
+      this.searchFilterList = this.optionalFieldsList.filter(
+        (field) =>
+          !this.templeteFeilds.some((item) => item === field.formControlName)
+      );
+    } else {
+      // Taking all fields
+      this.searchFilterList = this.optionalFieldsList;
+    }
+  }
+  groupFieldsByCategory() {
+    this.searchFilterList.forEach((item) => {
+      if (!this.groupCategoryList[item.category]) {
+        this.groupCategoryList[item.category] = [];
+      }
+      this.groupCategoryList[item.category].push(item);
+    });
+  }
 
   //getters
-  get coverageCode(){
+  get coverageCode() {
     return this.coverageInfoForm.get('coverageCode');
   }
-  get cover_name1(){
+  get cover_name1() {
     return this.coverageInfoForm.get('cover_name1');
   }
-  get cover_type(){
+  get cover_type() {
     return this.coverageInfoForm.get('cover_type');
   }
-  get coverageAmount(){
+  get min() {
+    return this.coverageInfoForm.get('min');
+  }
+  get max() {
+    return this.coverageInfoForm.get('max');
+  }
+  get coverageAmount() {
     return this.coverageInfoForm.get('coverageAmount');
   }
-  get coverageTerm(){
+  get coverageTerm() {
     return this.coverageInfoForm.get('coverageTerm');
   }
-  get coverageEffectiveDate(){
+  get coverageEffectiveDate() {
     return this.coverageInfoForm.get('coverageEffectiveDate');
   }
-  get coverageExpiryDate(){
+  get coverageExpiryDate() {
     return this.coverageInfoForm.get('coverageExpiryDate');
   }
-  get coveragePremium(){
+  get coveragePremium() {
     return this.coverageInfoForm.get('coveragePremium');
   }
-  get waiting_period(){
+  get waiting_period() {
     return this.coverageInfoForm.get('waiting_period');
   }
-  get coverage_condition(){
+  get coverage_condition() {
     return this.coverageInfoForm.get('coverage_condition');
   }
 
-  get coverage_struc(){
+  get coverage_struc() {
     return this.coverageInfoForm.get('coverage_struc');
   }
-  get Beneficiary(){
+  get Beneficiary() {
     return this.coverageInfoForm.get('Beneficiary');
   }
-  get Death_benefit(){
+  get Death_benefit() {
     return this.coverageInfoForm.get('Death_benefit');
   }
-  get underwritingGuidelines(){
+  get underwritingGuidelines() {
     return this.coverageInfoForm.get('underwritingGuidelines');
   }
-  get underwritingRequirements(){
+  get underwritingRequirements() {
     return this.coverageInfoForm.get('underwritingRequirements');
   }
-  get riskAssessCriteria(){
+  get riskAssessCriteria() {
     return this.coverageInfoForm.get('riskAssessCriteria');
   }
-  get refundablePrem(){
+  get refundablePrem() {
     return this.coverageInfoForm.get('refundablePrem');
   }
-  get taxBenefits(){
+  get taxBenefits() {
     return this.coverageInfoForm.get('taxBenefits');
   }
-  get renewal(){
+  get renewal() {
     return this.coverageInfoForm.get('renewal');
   }
 
-  addRemoveControls(event: any, field: InputField){
+  addRemoveControls(
+    event: any,
+    field: InputField,
+    action = 'function',
+    index?
+  ) {
     field.isVisible = event;
-    if(event){
-      this.coverageInfoForm.addControl(field.formControlName, new FormControl('', [Validators.required]));
+    if (event) {
+      this.coverageInfoForm.addControl(
+        field.formControlName,
+        new FormControl(
+          field.defaultVal || '',
+          field.isMandatory ? Validators.required : []
+        )
+      );
+      if (action === 'checkbox') {
+        this.groupCategoryList[field.category].splice(index, 1);
+        if (this.groupCategoryList[field.category].length === 0) {
+          delete this.groupCategoryList[field.category];
+        }
+      }
     } else {
       this.coverageInfoForm.removeControl(field.formControlName);
+      const index = this.optionalFieldsList.findIndex(
+        (x) => x.formControlName == field.formControlName
+      );
+      if (
+        index != -1 &&
+        this.optionalFieldsList[index].hasOwnProperty('comments')
+      ) {
+        delete this.optionalFieldsList[index]['comments'];
+      }
     }
+
     const numberOfFields = Object.keys(this.coverageInfoForm.controls).length;
-    if(numberOfFields > 0){
+    if (numberOfFields > 0) {
       this.isPageBlank = false;
     } else {
       this.isPageBlank = true;
     }
   }
 
-  selectUnselectGroup(event, field){
-    const relFields = this.optionalFieldsList.filter(item => item.category === field.category);
-    if(event.checked){
-      relFields.forEach(item => {
-        this.addRemoveControls(true, item);
-      })
+  selectUnselectGroup(event, category) {
+    const relFields = this.searchFilterList.filter(
+      (item) => item.category === category
+    );
+    if (event.checked) {
+      relFields.forEach((item) => {
+        this.addRemoveControls(true, item, 'checkbox');
+      });
     } else {
-      relFields.forEach(item => {
+      relFields.forEach((item) => {
         this.addRemoveControls(false, item);
-      })
+      });
     }
   }
 
+  saveData() {
+    this.formDataService.setFormData(
+      'coverageInfo',
+      this.coverageInfoForm.value
+    );
+  }
 
+  nextData() {
+    this.saveData();
+    this.shareproductData.updateData(this.coverageInfoForm.value.productCode);
+  }
+
+  ngOnDestroy(): void {
+    this.formService$.unsubscribe();
+  }
+  deleteControl(field) {
+    this.addRemoveControls(false, field);
+    if (!this.groupCategoryList[field.category]) {
+      this.groupCategoryList[field.category] = [];
+    }
+    this.groupCategoryList[field.category].push(field);
+  }
+
+  fetchComments(){
+    this.controlComments = this.formDataService.getComments();
+  }
+
+  hasComments(formControlName){
+    return this.controlComments.some(comment => comment.formControlName === formControlName)? true : false;
+  }
+
+  openCommentDialog(controlName, event?): void {
+    if (event) {
+      event.stopPropagation();
+    }
+    let comment = this.formDataService.getComments().find(comment => comment.formControlName === controlName);
+    const dialogRef = this.dialog.open(EditLabelComponent, {
+      width: '500px',
+      disableClose: true,
+      data: {
+        comment: comment
+      },
+    });
+
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result != 'cancel' && result != '') {
+        if(!comment){
+          comment = {
+            formControlName: controlName,
+            comments: [result]
+          }
+        } else {
+          comment.comments.push(result);
+        }
+        this.formDataService.addComment(comment);
+      }
+    });
+  }
 }

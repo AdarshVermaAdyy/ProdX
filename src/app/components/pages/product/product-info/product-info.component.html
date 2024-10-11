@@ -1,0 +1,3116 @@
+<div
+  class="offcanvas offcanvas-end"
+  tabindex="-1"
+  id="productInfoCanva"
+  aria-labelledby="productInfoCanvaLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="productInfoCanvaLabel">
+      Backdrop with scrolling
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
+  <div class="offcanvas-body">
+    <div class="field-list-wrapper">
+      <div>
+        <form *ngIf="isFormVisible" [formGroup]="searchForm">
+          <mat-form-field class="input-fields-height">
+            <mat-label>Search</mat-label>
+            <input matInput formControlName="search" (input)="search($event)" />
+            <button mat-icon-button matSuffix (click)="cancelSearch()">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-form-field>
+        </form>
+      </div>
+      <div *ngFor="let category of groupCategoryList | keyvalue; let i = index">
+        <mat-checkbox (change)="selectUnselectGroup($event, category.key)">
+          <h4 class="checkbox-list-heading">{{ category.key }}</h4>
+        </mat-checkbox>
+        <div *ngFor="let field of category.value; let i = index">
+          <mat-checkbox
+            [checked]="field.isVisible"
+            (change)="addRemoveControls($event.checked, field, 'checkbox', i)"
+            style="margin-left: 30px"
+          >
+            {{ field.label }}
+          </mat-checkbox>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="container-fluid d-flex" style="flex-direction: column">
+  <div class="mt-3 me-3 d-flex justify-content-end">
+    <button
+      mat-stroked-button
+      data-bs-toggle="offcanvas"
+      data-bs-target="#productInfoCanva"
+      aria-controls="productInfoCanva"
+    >
+      Add Fields
+    </button>
+  </div>
+  <div class="form-wrapper" *ngIf="!isPageBlank">
+    <form [formGroup]="productInfoForm">
+      <ng-container>
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Product Boundary Condition </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <mat-label>Premium Payment Frequency :</mat-label>
+            </div>
+            <div class="d-flex checkboxOptional-group">
+              <mat-checkbox
+                (change)="onSingleChange($event.checked)"
+                [disabled]="isOtherSelected"
+                formControlName="single"
+              >
+                Single
+              </mat-checkbox>
+              <mat-checkbox
+                (change)="onChangeFrequency('Yearly')"
+                [disabled]="isSingleSelected"
+                formControlName="yearly"
+                [checked]="selectedFrequency.includes('Yearly')"
+              >
+                Yearly
+              </mat-checkbox>
+              <mat-checkbox
+                (change)="onChangeFrequency('Halfyearly')"
+                [disabled]="isSingleSelected"
+                formControlName="halfYearly"
+                [checked]="selectedFrequency.includes('Halfyearly')"
+              >
+                Half-Yearly
+              </mat-checkbox>
+              <mat-checkbox
+                (change)="onChangeFrequency('Quaterly')"
+                [disabled]="isSingleSelected"
+                formControlName="quarterly"
+                [checked]="selectedFrequency.includes('Quaterly')"
+              >
+                Quaterly
+              </mat-checkbox>
+              <mat-checkbox
+                (change)="onChangeFrequency('Monthly')"
+                [disabled]="isSingleSelected"
+                formControlName="monthly"
+                [checked]="selectedFrequency.includes('Monthly')"
+              >
+                Monthly
+              </mat-checkbox>
+            </div>
+            <div *ngIf="isSingleSelected">
+              <mat-accordion class="dynamic-formngContainer">
+                <mat-expansion-panel
+                  (opened)="innerPanelOpenState.set(true)"
+                  (closed)="innerPanelOpenState.set(false)"
+                  expanded="true"
+                  class="mt-3"
+                >
+                  <h3>Single Selected</h3>
+                  <div class="row">
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Min Entity Age</mat-label>
+                        <input
+                          matInput
+                          id="minEntityAge_single"
+                          type="number"
+                          [formControlName]="'minEntityAge_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            minEntityAge_single?.invalid &&
+                            (minEntityAge_single?.dirty ||
+                              minEntityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="minEntityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Max Entity Age</mat-label>
+                        <input
+                          matInput
+                          id="maxEntityAge_single"
+                          type="number"
+                          [formControlName]="'maxEntityAge_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                          maxEntityAge_single?.invalid &&
+                            (maxEntityAge_single?.dirty || maxEntityAge_single?.touched)
+                          "
+                        >
+                          <span *ngIf="maxEntityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Min Maturity Age</mat-label>
+                        <input
+                          matInput
+                          id="minMaturityAge_single"
+                          type="number"
+                          [formControlName]="'minMaturityAge_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            minMaturityAge_single?.invalid &&
+                            (minMaturityAge_single?.dirty ||
+                              minMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="minMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Max Maturity Age</mat-label>
+                        <input
+                          matInput
+                          id="maxMaturityAge_single"
+                          type="number"
+                          [formControlName]="'maxMaturityAge_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Min Premium</mat-label>
+                        <input
+                          matInput
+                          id="minPremium_single"
+                          type="number"
+                          [formControlName]="'minPremium_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Max Premium</mat-label>
+                        <input
+                          matInput
+                          id="maxPremium_single"
+                          type="number"
+                          [formControlName]="'maxPremium_single'"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-label>Premium Payment Type : </mat-label>
+                      <mat-radio-group
+                        aria-label="Select an option"
+                        [formControlName]="'paymentType_single'"
+                      >
+                        <mat-radio-button value="regular"
+                          >Regular</mat-radio-button
+                        >
+                        <mat-radio-button value="limited"
+                          >Limited</mat-radio-button
+                        >
+                      </mat-radio-group>
+                      <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>PT (In Years)</mat-label>
+                        <mat-select [formControlName]="'pt_single'">
+                          <mat-option value="5">5</mat-option>
+                          <mat-option value="10">10</mat-option>
+                          <mat-option value="15">15</mat-option>
+                          <mat-option value="20">20</mat-option>
+                        </mat-select>
+
+                        <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Add PPT Combination (In Years)</mat-label>
+                        <mat-select [formControlName]="'ppt_single'">
+                          <mat-option value="5">5</mat-option>
+                          <mat-option value="10">10</mat-option>
+                          <mat-option value="15">15</mat-option>
+                          <mat-option value="20">20</mat-option>
+                        </mat-select>
+
+                        <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Min Sum Insured</mat-label>
+                        <input
+                          [formControlName]="'minSumAssured_single'"
+                          matInput
+                          id="minSumAssured_single"
+                          type="number"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-3">
+                      <mat-form-field>
+                        <mat-label>Max Sum Insured</mat-label>
+                        <input
+                          [formControlName]="'maxSumAssured_single'"
+                          matInput
+                          id="maxSumAssured_single"
+                          type="number"
+                        />
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Grace Period</mat-label>
+                        <mat-select [formControlName]="'gracePeriod_single'">
+                          <mat-option value="5">5</mat-option>
+                          <mat-option value="10">10</mat-option>
+                          <mat-option value="15">15</mat-option>
+                          <mat-option value="20">20</mat-option>
+                        </mat-select>
+
+                        <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Back Dating</mat-label>
+                        <mat-select [formControlName]="'backDating_single'">
+                          <mat-option value="Yes">Yes</mat-option>
+                          <mat-option value="No">No</mat-option>
+                        </mat-select>
+
+                        <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Gender</mat-label>
+                        <mat-select [formControlName]="'gender_single'">
+                          <mat-option value="male">Male</mat-option>
+                          <mat-option value="female">Female</mat-option>
+                          <mat-option value="transgender"
+                            >transGender</mat-option
+                          >
+                        </mat-select>
+
+                        <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Product Start Date</mat-label>
+                        <input
+                          matInput
+                          [formControlName]="'productStartDate_single'"
+                          [matDatepicker]="productStartdatepicker"
+                        />
+
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="productStartdatepicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker
+                          #productStartdatepicker
+                        ></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                    <div class="col-md-6">
+                      <mat-form-field class="input-fields-height">
+                        <mat-label>Product End Date</mat-label>
+                        <input
+                          [formControlName]="'productEndDate_single'"
+                          matInput
+                          [matDatepicker]="productEndDatepicker"
+                        />
+
+                        <mat-datepicker-toggle
+                          matSuffix
+                          [for]="productEndDatepicker"
+                        ></mat-datepicker-toggle>
+                        <mat-datepicker #productEndDatepicker></mat-datepicker>
+                      </mat-form-field>
+                    </div>
+                  </div>
+                </mat-expansion-panel>
+              </mat-accordion>
+            </div>
+
+            <div *ngIf="isOtherSelected">
+              <ng-container *ngFor="let option of selectedFrequency">
+                <mat-accordion class="dynamic-formngContainer">
+                  <mat-expansion-panel
+                    (opened)="innerPanelOpenState.set(true)"
+                    (closed)="innerPanelOpenState.set(false)"
+                    expanded="true"
+                    class="mt-3"
+                  >
+                    <h3>{{ option }} Selected</h3>
+                    <div class="row">
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Min Entity Age</mat-label>
+                          <input
+                            matInput
+                            id="minEntityAge"
+                            type="number"
+                            [formControlName]="
+                              'minEntityAge_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            minEntityAge_single?.invalid &&
+                            (minEntityAge_single?.dirty ||
+                              minEntityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="minEntityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Max Entity Age</mat-label>
+                          <input
+                            matInput
+                            id="maxEntityAge_single"
+                            type="number"
+                            [formControlName]="
+                              'maxEntityAge_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                          maxEntityAge_single?.invalid &&
+                            (maxEntityAge_single?.dirty || maxEntityAge_single?.touched)
+                          "
+                        >
+                          <span *ngIf="maxEntityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Min Maturity Age</mat-label>
+                          <input
+                            matInput
+                            id="minMaturityAge_single"
+                            type="number"
+                            [formControlName]="
+                              'minMaturityAge_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            minMaturityAge_single?.invalid &&
+                            (minMaturityAge_single?.dirty ||
+                              minMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="minMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Max Maturity Age</mat-label>
+                          <input
+                            matInput
+                            id="maxMaturityAge_single"
+                            type="number"
+                            [formControlName]="
+                              'maxMaturityAge_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Min Premium</mat-label>
+                          <input
+                            matInput
+                            id="minPremium_single"
+                            type="number"
+                            [formControlName]="
+                              'minPremium_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Max Premium</mat-label>
+                          <input
+                            matInput
+                            id="maxPremium_single"
+                            type="number"
+                            [formControlName]="
+                              'maxPremium_' + option.toLowerCase()
+                            "
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-label>Premium Payment Type : </mat-label>
+                        <mat-radio-group
+                          aria-label="Select an option"
+                          [formControlName]="
+                            'paymentType_' + option.toLowerCase()
+                          "
+                        >
+                          <mat-radio-button value="regular"
+                            >Regular</mat-radio-button
+                          >
+                          <mat-radio-button value="limited"
+                            >Limited</mat-radio-button
+                          >
+                        </mat-radio-group>
+                        <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>PT (In Years)</mat-label>
+                          <mat-select
+                            [formControlName]="'pt_' + option.toLowerCase()"
+                          >
+                            <mat-option value="5">5</mat-option>
+                            <mat-option value="10">10</mat-option>
+                            <mat-option value="15">15</mat-option>
+                            <mat-option value="20">20</mat-option>
+                          </mat-select>
+
+                          <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Add PPT Combination (In Years)</mat-label>
+                          <mat-select
+                            [formControlName]="'ppt_' + option.toLowerCase()"
+                          >
+                            <mat-option value="5">5</mat-option>
+                            <mat-option value="10">10</mat-option>
+                            <mat-option value="15">15</mat-option>
+                            <mat-option value="20">20</mat-option>
+                          </mat-select>
+
+                          <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Min Sum Insured</mat-label>
+                          <input
+                            [formControlName]="
+                              'minSumAssured_' + option.toLowerCase()
+                            "
+                            matInput
+                            id="minSumInsured_single"
+                            type="number"
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-3">
+                        <mat-form-field>
+                          <mat-label>Max Sum Insured</mat-label>
+                          <input
+                            [formControlName]="
+                              'maxSumAssured_' + option.toLowerCase()
+                            "
+                            matInput
+                            id="maxSumInsured_single"
+                            type="number"
+                          />
+                          <!-- <mat-error
+                          *ngIf="
+                            maxMaturityAge_single?.invalid &&
+                            (maxMaturityAge_single?.dirty ||
+                              maxMaturityAge_single?.touched)
+                          "
+                        >
+                          <span
+                            *ngIf="maxMaturityAge_single?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Grace Period</mat-label>
+                          <mat-select
+                            [formControlName]="
+                              'gracePeriod_' + option.toLowerCase()
+                            "
+                          >
+                            <mat-option value="5">5</mat-option>
+                            <mat-option value="10">10</mat-option>
+                            <mat-option value="15">15</mat-option>
+                            <mat-option value="20">20</mat-option>
+                          </mat-select>
+
+                          <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Bank Dating</mat-label>
+                          <mat-select
+                            [formControlName]="
+                              'backDating_' + option.toLowerCase()
+                            "
+                          >
+                            <mat-option value="Yes">Yes</mat-option>
+                            <mat-option value="No">No</mat-option>
+                          </mat-select>
+
+                          <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Gender</mat-label>
+                          <mat-select
+                            [formControlName]="'gender_' + option.toLowerCase()"
+                          >
+                            <mat-option value="male">Male</mat-option>
+                            <mat-option value="female">Female</mat-option>
+                            <mat-option value="transgender"
+                              >transGender</mat-option
+                            >
+                          </mat-select>
+
+                          <!-- <mat-error
+                          *ngIf="
+                            letters?.invalid && (letters?.dirty || letters?.touched)
+                          "
+                        >
+                          <span *ngIf="letters?.errors?.['required']"
+                            >This information is required.</span
+                          >
+                        </mat-error> -->
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Product Start Date</mat-label>
+                          <input
+                            [formControlName]="
+                              'productStartDate_' + option.toLowerCase()
+                            "
+                            matInput
+                            [matDatepicker]="productStartdatepicker"
+                          />
+
+                          <mat-datepicker-toggle
+                            matSuffix
+                            [for]="productStartdatepicker"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker
+                            #productStartdatepicker
+                          ></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                      <div class="col-md-6">
+                        <mat-form-field class="input-fields-height">
+                          <mat-label>Product End Date</mat-label>
+                          <input
+                            [formControlName]="
+                              'productEndDate_' + option.toLowerCase()
+                            "
+                            matInput
+                            [matDatepicker]="productEndDatepicker"
+                          />
+
+                          <mat-datepicker-toggle
+                            matSuffix
+                            [for]="productEndDatepicker"
+                          ></mat-datepicker-toggle>
+                          <mat-datepicker
+                            #productEndDatepicker
+                          ></mat-datepicker>
+                        </mat-form-field>
+                      </div>
+                    </div>
+                  </mat-expansion-panel>
+                </mat-accordion>
+              </ng-container>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          fieldsList[0].isVisible ||
+          fieldsList[1].isVisible ||
+          fieldsList[2].isVisible ||
+          fieldsList[3].isVisible ||
+          fieldsList[4].isVisible ||
+          fieldsList[5].isVisible ||
+          fieldsList[6].isVisible ||
+          fieldsList[7].isVisible ||
+          fieldsList[8].isVisible ||
+          fieldsList[9].isVisible ||
+          fieldsList[10].isVisible ||
+          fieldsList[11].isVisible ||
+          fieldsList[12].isVisible ||
+          fieldsList[13].isVisible ||
+          fieldsList[14].isVisible ||
+          fieldsList[15].isVisible ||
+          fieldsList[16].isVisible ||
+          fieldsList[17].isVisible ||
+          fieldsList[33].isVisible ||
+          fieldsList[34].isVisible
+        "
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            expanded="true"
+            class="mt-3"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title
+                >Product Service - Non-financial Alterations
+              </mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="fieldsList[0].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Name</mat-label>
+                  <mat-select
+                    placeholder="Change of Name"
+                    formControlName="changeOfName"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[0].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfName', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[0].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfName', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[0].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfName?.invalid &&
+                      (changeOfName?.dirty || changeOfName?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfName?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6" *ngIf="fieldsList[1].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Appointee Change</mat-label>
+                  <mat-select
+                    placeholder="Appointee Change"
+                    formControlName="appointeeChange"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[1].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('appointeeChange', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[1].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('appointeeChange', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[1].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      appointeeChange?.invalid &&
+                      (appointeeChange?.dirty || appointeeChange?.touched)
+                    "
+                  >
+                    <span *ngIf="appointeeChange?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[2].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Letters</mat-label>
+                  <mat-select placeholder="Letters" formControlName="letters">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[2].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('letters', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[2].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('letters', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[2].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      letters?.invalid && (letters?.dirty || letters?.touched)
+                    "
+                  >
+                    <span *ngIf="letters?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[3].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Nach Registration</mat-label>
+                  <mat-select
+                    placeholder="Nach Registration"
+                    formControlName="nachRegisteration"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[3].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('nachRegisteration', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[3].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('nachRegisteration', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[3].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      nachRegisteration?.invalid &&
+                      (nachRegisteration?.dirty || nachRegisteration?.touched)
+                    "
+                  >
+                    <span *ngIf="nachRegisteration?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[4].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Owner</mat-label>
+                  <mat-select
+                    placeholder="Change of Owner"
+                    formControlName="changeOfOwner"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[4].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfOwner', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[4].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfOwner', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[4].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfOwner?.invalid &&
+                      (changeOfOwner?.dirty || changeOfOwner?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfOwner?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[5].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Nominee</mat-label>
+                  <mat-select
+                    placeholder="Change of Nominee"
+                    formControlName="changeOfNominee"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[5].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfNominee', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[5].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfNominee', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[5].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfNominee?.invalid &&
+                      (changeOfNominee?.dirty || changeOfNominee?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfNominee?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[6].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Assignment/Reassignment</mat-label>
+                  <mat-select
+                    placeholder="Assignment/Reassignment"
+                    formControlName="assignment"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[6].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('assignment', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[6].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('assignment', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[6].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      assignment?.invalid &&
+                      (assignment?.dirty || assignment?.touched)
+                    "
+                  >
+                    <span *ngIf="assignment?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[7].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Address</mat-label>
+                  <mat-select
+                    placeholder="Change of Address"
+                    formControlName="changeOfAddress"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[7].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfAddress', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[7].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfAddress', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[7].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfAddress?.invalid &&
+                      (changeOfAddress?.dirty || changeOfAddress?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfAddress?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[8].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Freq</mat-label>
+                  <mat-select
+                    placeholder="Change of Freq"
+                    formControlName="changeOfFrequency"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[8].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfFrequency', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[8].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfFrequency', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[8].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfFrequency?.invalid &&
+                      (changeOfFrequency?.dirty || changeOfFrequency?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfFrequency?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[9].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Contact Details</mat-label>
+                  <mat-select
+                    placeholder="Change of Contact Details"
+                    formControlName="changeOfContact"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[9].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfContact', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[9].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfContact', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[9].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfContact?.invalid &&
+                      (changeOfContact?.dirty || changeOfContact?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfContact?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[10].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change in PAN</mat-label>
+                  <mat-select
+                    placeholder="Change in PAN"
+                    formControlName="changeOfPan"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[10].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfPan', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[10].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfPan', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[10].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfPan?.invalid &&
+                      (changeOfPan?.dirty || changeOfPan?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfPan?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[11].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Duplicate policy Number</mat-label>
+                  <mat-select
+                    placeholder="Duplicate policy Number"
+                    formControlName="duplicatePolicyNumber"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[11].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('duplicatePolicyNumber', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[11].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('duplicatePolicyNumber', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[11].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      duplicatePolicyNumber?.invalid &&
+                      (duplicatePolicyNumber?.dirty ||
+                        duplicatePolicyNumber?.touched)
+                    "
+                  >
+                    <span *ngIf="duplicatePolicyNumber?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[12].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>EIA</mat-label>
+                  <mat-select placeholder="EIA" formControlName="eia">
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[12].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('eia', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[12].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('eia', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[12].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="eia?.invalid && (eia?.dirty || eia?.touched)"
+                  >
+                    <span *ngIf="eia?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[13].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change in Occupation</mat-label>
+                  <mat-select
+                    placeholder="Change in Occupation"
+                    formControlName="changeOfOccupation"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[13].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfOccupation', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[13].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfOccupation', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[13].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfOccupation?.invalid &&
+                      (changeOfOccupation?.dirty || changeOfOccupation?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfOccupation?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[14].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of PEP</mat-label>
+                  <mat-select
+                    placeholder="Change of PEP"
+                    formControlName="changeOfPep"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[14].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfPep', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[14].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfPep', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[14].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfPep?.invalid &&
+                      (changeOfPep?.dirty || changeOfPep?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfPep?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[15].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change in UID</mat-label>
+                  <mat-select
+                    placeholder="Change in UID"
+                    formControlName="changeOfUid"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[15].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfUid', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[15].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfUid', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[15].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfUid?.invalid &&
+                      (changeOfUid?.dirty || changeOfUid?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfUid?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[16].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Certification of Existance</mat-label>
+                  <mat-select
+                    placeholder="Certification of Existance"
+                    formControlName="certificationOfExistance"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[16].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="
+                      openCommentDialog('certificationOfExistance', $event)
+                    "
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[16].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="
+                      openCommentDialog('certificationOfExistance', $event)
+                    "
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[16].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      certificationOfExistance?.invalid &&
+                      (certificationOfExistance?.dirty ||
+                        certificationOfExistance?.touched)
+                    "
+                  >
+                    <span *ngIf="certificationOfExistance?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[17].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Policy Search UI</mat-label>
+                  <mat-select
+                    placeholder="Policy Search UI"
+                    formControlName="policySearchUI"
+                  >
+                    <mat-option value="Yes">Yes</mat-option>
+                    <mat-option value="No">No</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[17].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('policySearchUI', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[17].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('policySearchUI', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[17].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      policySearchUI?.invalid &&
+                      (policySearchUI?.dirty || policySearchUI?.touched)
+                    "
+                  >
+                    <span *ngIf="policySearchUI?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[33].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Comunication Preferences</mat-label>
+                  <mat-select
+                    placeholder="Comunication Preferences"
+                    formControlName="comPreference"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[33].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('comPreference', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[33].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('comPreference', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[33].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[33])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      comPreference?.invalid &&
+                      (comPreference?.dirty || comPreference?.touched)
+                    "
+                  >
+                    <span *ngIf="comPreference?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[34].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Beneficiary Update Process</mat-label>
+                  <mat-select
+                    placeholder="Beneficiary Update Process"
+                    formControlName="beneficiaryUpdateProcess"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[34].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="
+                      openCommentDialog('beneficiaryUpdateProcess', $event)
+                    "
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[34].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="
+                      openCommentDialog('beneficiaryUpdateProcess', $event)
+                    "
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[34].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[34])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      beneficiaryUpdateProcess?.invalid &&
+                      (beneficiaryUpdateProcess?.dirty ||
+                        beneficiaryUpdateProcess?.touched)
+                    "
+                  >
+                    <span *ngIf="beneficiaryUpdateProcess?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="fieldsList[18].isVisible || fieldsList[19].isVisible"
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            class="mt-3"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Forefeature/Reinstatement</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="fieldsList[18].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Lapse</mat-label>
+                  <mat-select placeholder="Lapse" formControlName="lapse">
+                    <mat-option value="LAPSE30">LAPSE30</mat-option>
+                    <mat-option value="LAPSE1530">LAPSE1530</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[18].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('lapse', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[18].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('lapse', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[18].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="lapse?.invalid && (lapse?.dirty || lapse?.touched)"
+                  >
+                    <span *ngIf="lapse?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[19].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Revival</mat-label>
+                  <mat-select placeholder="Revival" formControlName="revival">
+                    <mat-option value="REVIV30">REVIV30</mat-option>
+                    <mat-option value="REVIV75">REVIV75</mat-option>
+                    <mat-option value="REVIVTS">REVIVTS</mat-option>
+                    <mat-option value="REVIVT5">REVIVT5</mat-option>
+                    <mat-option value="REVIVT3">REVIVT3</mat-option>
+                    <mat-option value="REVIVE">REVIVE</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[19].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('revival', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[19].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('revival', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[19].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      revival?.invalid && (revival?.dirty || revival?.touched)
+                    "
+                  >
+                    <span *ngIf="revival?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          fieldsList[20].isVisible ||
+          fieldsList[21].isVisible ||
+          fieldsList[22].isVisible ||
+          fieldsList[23].isVisible ||
+          fieldsList[24].isVisible
+        "
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            class="mt-3"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title
+                >Product Servicing- Major Alterations</mat-panel-title
+              >
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="fieldsList[20].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Increase/Decrease in Service</mat-label>
+                  <mat-select
+                    placeholder="Increase/Decrease in Service"
+                    formControlName="incDecInService"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[20].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('incDecInService', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[20].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('incDecInService', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[20].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      incDecInService?.invalid &&
+                      (incDecInService?.dirty || incDecInService?.touched)
+                    "
+                  >
+                    <span *ngIf="incDecInService?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[21].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of DOB</mat-label>
+                  <mat-select
+                    placeholder="Change of DOB"
+                    formControlName="changeOfDob"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[21].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfDob', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[21].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfDob', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[21].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfDob?.invalid &&
+                      (changeOfDob?.dirty || changeOfDob?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfDob?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[22].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Gender</mat-label>
+                  <mat-select
+                    placeholder="Change of Gender"
+                    formControlName="changeOfGender"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[22].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfGender', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[22].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfGender', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[22].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfGender?.invalid &&
+                      (changeOfGender?.dirty || changeOfGender?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfGender?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[23].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of PT/FT</mat-label>
+                  <mat-select
+                    placeholder="Change of PT/FT"
+                    formControlName="changeofPt"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[23].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeofPt', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[23].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeofPt', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[23].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeofPt?.invalid &&
+                      (changeofPt?.dirty || changeofPt?.touched)
+                    "
+                  >
+                    <span *ngIf="changeofPt?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[24].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Change of Premium</mat-label>
+                  <mat-select
+                    placeholder="Change of Premium"
+                    formControlName="changeOfPremium"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[24].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('changeOfPremium', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[24].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('changeOfPremium', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[24].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      changeOfPremium?.invalid &&
+                      (changeOfPremium?.dirty || changeOfPremium?.touched)
+                    "
+                  >
+                    <span *ngIf="changeOfPremium?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          fieldsList[25].isVisible ||
+          fieldsList[26].isVisible ||
+          fieldsList[27].isVisible ||
+          fieldsList[28].isVisible ||
+          fieldsList[29].isVisible ||
+          fieldsList[35].isVisible
+        "
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            class="mt-3"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Termination/Cancellation/Claims</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="fieldsList[25].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Free Look Period Cancell</mat-label>
+                  <mat-select
+                    placeholder="Free Look Period Cancell"
+                    formControlName="freeLookPeriodCancell"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[25].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('freeLookPeriodCancell', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[25].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('freeLookPeriodCancell', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[25].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      freeLookPeriodCancell?.invalid &&
+                      (freeLookPeriodCancell?.dirty ||
+                        freeLookPeriodCancell?.touched)
+                    "
+                  >
+                    <span *ngIf="freeLookPeriodCancell?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[26].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Death Claim</mat-label>
+                  <mat-select
+                    placeholder="Death Claim"
+                    formControlName="deathClaim"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[26].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('deathClaim', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[26].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('deathClaim', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[26].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      deathClaim?.invalid &&
+                      (deathClaim?.dirty || deathClaim?.touched)
+                    "
+                  >
+                    <span *ngIf="deathClaim?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[27].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Surrender</mat-label>
+                  <mat-select
+                    placeholder="Surrender"
+                    formControlName="surrender"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[27].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('surrender', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[27].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('surrender', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[27].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      surrender?.invalid &&
+                      (surrender?.dirty || surrender?.touched)
+                    "
+                  >
+                    <span *ngIf="surrender?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[28].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Maturity</mat-label>
+                  <mat-select placeholder="Maturity" formControlName="maturity">
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[28].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('maturity', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[28].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('maturity', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[28].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      maturity?.invalid &&
+                      (maturity?.dirty || maturity?.touched)
+                    "
+                  >
+                    <span *ngIf="maturity?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[29].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Policy Cancellation</mat-label>
+                  <mat-select
+                    placeholder="Change of Premium"
+                    formControlName="policyCancellation"
+                  >
+                    <mat-option value="Allowed">Allowed</mat-option>
+                    <mat-option value="Not Allowed">Not Allowed</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[29].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('policyCancellation', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[29].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('policyCancellation', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[29].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      policyCancellation?.invalid &&
+                      (policyCancellation?.dirty || policyCancellation?.touched)
+                    "
+                  >
+                    <span *ngIf="policyCancellation?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[35].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Termination Reason Code</mat-label>
+                  <mat-select
+                    placeholder="Termination Reason Code"
+                    formControlName="terminationReasonCode"
+                  >
+                    <mat-option value="TERM1">TERM1</mat-option>
+                    <mat-option value="TERM2">TERM2</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[35].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('terminationReasonCode', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[35].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('terminationReasonCode', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[35].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[35])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      terminationReasonCode?.invalid &&
+                      (terminationReasonCode?.dirty ||
+                        terminationReasonCode?.touched)
+                    "
+                  >
+                    <span *ngIf="terminationReasonCode?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          fieldsList[36].isVisible ||
+          fieldsList[37].isVisible ||
+          fieldsList[38].isVisible ||
+          fieldsList[39].isVisible ||
+          fieldsList[40].isVisible ||
+          fieldsList[41].isVisible
+        "
+      >
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            class="mt-3"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Premiumand Payment Detail</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="fieldsList[36].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Premium Adjustment Option</mat-label>
+                  <mat-select
+                    placeholder="Premium Adjustment Option"
+                    formControlName="premiumAdjustmentOption"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[36].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="
+                      openCommentDialog('premiumAdjustmentOption', $event)
+                    "
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[36].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="
+                      openCommentDialog('premiumAdjustmentOption', $event)
+                    "
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[36].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[36])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      premiumAdjustmentOption?.invalid &&
+                      (premiumAdjustmentOption?.dirty ||
+                        premiumAdjustmentOption?.touched)
+                    "
+                  >
+                    <span *ngIf="premiumAdjustmentOption?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[37].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Premium Loading</mat-label>
+                  <mat-select
+                    placeholder="Premium Loading"
+                    formControlName="premiumLoading"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[37].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('premiumLoading', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[37].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('premiumLoading', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[37].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[37])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      premiumLoading?.invalid &&
+                      (premiumLoading?.dirty || premiumLoading?.touched)
+                    "
+                  >
+                    <span *ngIf="premiumLoading?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[38].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Premium Payment Methods</mat-label>
+                  <mat-select
+                    placeholder="Premium Payment Methods"
+                    formControlName="premiumPaymentMethods"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[38].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('premiumPaymentMethods', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[38].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('premiumPaymentMethods', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[38].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[38])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      premiumPaymentMethods?.invalid &&
+                      (premiumPaymentMethods?.dirty ||
+                        premiumPaymentMethods?.touched)
+                    "
+                  >
+                    <span *ngIf="premiumPaymentMethods?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[39].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Payment Frequency Change</mat-label>
+                  <mat-select
+                    placeholder="Payment Frequency Change"
+                    formControlName="paymentFreqChange"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[39].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('paymentFreqChange', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[39].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('paymentFreqChange', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[39].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[39])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      paymentFreqChange?.invalid &&
+                      (paymentFreqChange?.dirty || paymentFreqChange?.touched)
+                    "
+                  >
+                    <span *ngIf="paymentFreqChange?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[40].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Partial Payment Option</mat-label>
+                  <mat-select
+                    placeholder="Partial Payment Option"
+                    formControlName="partialPaymentOption"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[40].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('partialPaymentOption', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[40].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('partialPaymentOption', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[40].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[40])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      partialPaymentOption?.invalid &&
+                      (partialPaymentOption?.dirty ||
+                        partialPaymentOption?.touched)
+                    "
+                  >
+                    <span *ngIf="partialPaymentOption?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="fieldsList[41].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Payment Rescheduling</mat-label>
+                  <mat-select
+                    placeholder="Payment Rescheduling"
+                    formControlName="paymentRescheduling"
+                  >
+                    <mat-option value="POLC">POLC</mat-option>
+                    <mat-option value="NA">NA</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!fieldsList[41].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('paymentRescheduling', $event)"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="fieldsList[41].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('paymentRescheduling', $event)"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: fieldsList[41].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(fieldsList[41])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      paymentRescheduling?.invalid &&
+                      (paymentRescheduling?.dirty ||
+                        paymentRescheduling?.touched)
+                    "
+                  >
+                    <span *ngIf="paymentRescheduling?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <div class="form-btn-wrapper">
+        <!-- <button mat-flat-button color="primary" class="mt-3">Save as
+                    Draft</button> -->
+        <button
+          mat-flat-button
+          color="primary"
+          class="mt-3"
+          matStepperNext
+          (click)="nextData()"
+        >
+          Next
+        </button>
+      </div>
+    </form>
+  </div>
+  <div
+    class="form-wrapper d-flex justify-content-center w-100"
+    *ngIf="isPageBlank"
+  >
+    Begin crafting your product by selecting fields from the left sidebar to add
+    them to your template.
+  </div>
+</div>

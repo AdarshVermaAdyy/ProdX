@@ -1,0 +1,132 @@
+
+
+<div class="container">
+
+  <div class="row table-row">
+
+
+            <!-- category filter -->
+             <form [formGroup]="productForm">
+
+              <div class="col"><h2> Submitted Product to IRDA</h2></div>
+
+              <div class="col"><h3>Product Information </h3></div>
+
+              <div class="row">
+                <div class="col-md-6">
+              <!-- <mat-label>Product Name : </mat-label> -->
+              <mat-form-field >
+                <mat-label>Product Name</mat-label>
+                <input matInput formControlName="productName"  placeholder="Product Name">
+                <!-- <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
+                    <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            <div class="col-md-6">
+              <!-- <mat-label>Product Category : </mat-label> -->
+              <mat-form-field>
+                <mat-label>Product Category</mat-label>
+                <input matInput formControlName="productCategory"  placeholder="Product Category">
+                <!-- <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
+                    <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
+                </mat-error> -->
+              </mat-form-field>
+            </div>
+            </div>
+            <div class="col"><h3>IRDA Submission Details </h3></div>
+
+            <div class="row">
+              <div class="col-lg-6">
+
+            <mat-form-field class="input-fields-height">
+              <mat-label>Submission Date</mat-label>
+              <input matInput [matDatepicker]="picker" formControlName="submissionDate">
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                 <mat-datepicker #picker></mat-datepicker>
+              <!-- <mat-error *ngIf="coverageEffectiveDate?.invalid && (coverageEffectiveDate?.dirty || coverageEffectiveDate?.touched)">
+                  <span *ngIf="coverageEffectiveDate?.errors?.['required']">Please enter date </span>
+              </mat-error> -->
+          </mat-form-field>
+        </div>
+          <div class="col-lg-6">
+            <mat-form-field class="filter-box input-fields-height">
+              <mat-label>IRDA Reference Number</mat-label>
+              <input matInput formControlName="irdaReferenceNumber"  placeholder="Product Category">
+              <!-- <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
+                  <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
+              </mat-error> -->
+            </mat-form-field>
+          </div>
+          </div>
+
+          <div class="col"><h3>Documents Submitted:</h3></div>
+
+          <div class="row">
+            <div class="col-lg-6">
+
+          <div class="input-fields-height">
+            <div class="row" >
+              <div class="col-9">
+                <mat-form-field style="width: 100%">
+                  <mat-label>Select File</mat-label>
+                  <button mat-icon-button matPrefix (click)="f_input.click()">
+                    <mat-icon>attach_file</mat-icon>
+                  </button>
+                  <input type="text" readonly matInput formControlname="documents" />
+                  <input
+                    type="file"
+                    multiple
+                    hidden
+                    #f_input
+                    (change)="handleFileInputChange(f_input.files, $event)"
+                  />
+                  <mat-error>this field is required</mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-3">
+                <button
+                  mat-flat-button
+                  color="primary"
+                  (click)="uploadDoc(f_input.files)"
+                >
+                  <mat-icon>upload</mat-icon>
+                  Upload
+                </button>
+              </div>
+            </div>
+        </div>
+      </div>
+        <div class="col-lg-6">
+          <mat-form-field class="filter-box input-fields-height">
+            <mat-label>Add Comments</mat-label>
+            <input matInput formControlName="comments"  placeholder=" Add Comments">
+            <!-- <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
+                <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
+            </mat-error> -->
+          </mat-form-field>
+        </div>
+        </div>
+
+
+             </form>
+
+
+      </div>
+
+      <div class="row">
+        <div class="col-3">
+          <button
+            mat-flat-button
+            color="primary"
+            (click)="uploadDoc(f_input.files)"
+          >
+            Submit
+          </button>
+        </div>
+      </div>
+
+
+</div>
+
+

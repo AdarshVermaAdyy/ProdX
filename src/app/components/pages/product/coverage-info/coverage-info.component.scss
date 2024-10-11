@@ -58,7 +58,23 @@ mat-form-field{
   margin-top: 10px;
 }
 
-.offcanvas{
-  position: fixed !important;
-  left: 4rem;
+// .offcanvas{
+//   position: fixed !important;
+//   left: 4rem;
+// }
+
+.add-comment{
+  display: none;
+}
+
+mat-form-field:hover .add-comment{
+  display: block;
+}
+.notification-icon {
+  position: absolute;
+  top: 0; /* Adjust based on input height */
+  right: -5px; /* Adjust for padding */
+  font-size: 3px; /* Adjust size */
+  color: #ffcc00; /* Color for the indication */
+  pointer-events: none; /* Prevents icon from interfering with input */
 }

@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -26,18 +26,19 @@ import { BreadcrumbComponent } from '../../../shared/breadcrumb/breadcrumb.compo
     MatIconModule,
     MatBadgeModule,
     MatInputModule,
-    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,RouterOutlet,MatMenuModule,MatDialogModule,
+    MatListModule,CommonModule,MatFormFieldModule,MatButtonModule,MatDividerModule,MatMenuModule,MatDialogModule,
     RouterModule,
     BreadcrumbComponent
   ],
   templateUrl: './sidenav.component.html',
   styleUrl: './sidenav.component.scss'
 })
-export class SidenavComponent {
+export class SidenavComponent implements OnInit{
   isExpanded = false;
   showSubmenu: boolean = false;
   isShowing = false;
   showSubSubMenu: boolean = false;
+  userRole = '';
   notificationArray = [{title: "Notification",msg: "This is a notification",icon:"edit"},
     {title: "Notification",msg: "This is a notification",icon:"edit"},
     {title: "Notification",msg: "This is a notification",icon:"edit"},
@@ -45,28 +46,32 @@ export class SidenavComponent {
   ]
 
   isRibbonAllowed : boolean=false;
-
+  
   constructor(private matdialog: MatDialog){}
+
+  ngOnInit(): void {
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+  }
 
   openDialog(){
     const dialogRef = this.matdialog.open(ConfirmationDialogComponent,{
       data: {
-        title : "Logout",message : "Are you sure, you want to logout?"
+        title : "Logout",message : "Are you sure, you want to logout?", action:'logout'
       }
     });
   }
 
-  mouseenter() {
-    if (!this.isExpanded) {
-      this.isShowing = true;
-    }
-  }
+  // mouseenter() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = true;
+  //   }
+  // }
 
-  mouseleave() {
-    if (!this.isExpanded) {
-      this.isShowing = false;
-    }
-  }
+  // mouseleave() {
+  //   if (!this.isExpanded) {
+  //     this.isShowing = false;
+  //   }
+  // }
   @ViewChild('sidenav') sidenav:any= MatSidenav;
 
   toggleSidenav() {

@@ -1,266 +1,725 @@
-<div class="container-fluid d-flex"  style="flex-direction: column;">
+<div
+  class="offcanvas offcanvas-end"
+  data-bs-scroll="true"
+  tabindex="-1"
+  id="offcanvasWithBothOption"
+  aria-labelledby="offcanvasWithBothOptionLabel"
+>
+  <div class="offcanvas-header">
+    <h5 class="offcanvas-title" id="offcanvasWithBothOptionLabel">
+      Backdrop with scrolling
+    </h5>
+    <button
+      type="button"
+      class="btn-close"
+      data-bs-dismiss="offcanvas"
+      aria-label="Close"
+    ></button>
+  </div>
 
-  <div class="mt-3">
-    <button mat-stroked-button data-bs-toggle="offcanvas" data-bs-target="#offcanvasWithBothOption" aria-controls="offcanvasWithBothOption">
-        Add Fields
-     </button>
-</div>
-
-  <div class="offcanvas offcanvas-start" data-bs-scroll="true" tabindex="-1" id="offcanvasWithBothOption"
-  aria-labelledby="offcanvasWithBothOptionLabel">
-        <div class="offcanvas-header">
-        <h5 class="offcanvas-title" id="offcanvasWithBothOptionLabel">Backdrop with scrolling</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
-    </div>
-
-    <div class="offcanvas-body">
-
-  <div class="field-list-wrapper">
-    <div>
-      <form [formGroup]="searchForm">
+  <div class="offcanvas-body" >
+    <div class="field-list-wrapper">
+      <div>
+        <form [formGroup]="searchForm">
           <mat-form-field class="input-fields-height">
-              <mat-label>Search</mat-label>
-              <input matInput formControlName="search" (input)="search($event)" />
-              <button mat-icon-button matSuffix (click)="cancelSearch()">
-                  <mat-icon>cancel</mat-icon>
-              </button>
+            <mat-label>Search</mat-label>
+            <input matInput formControlName="search" (input)="search($event)" />
+            <button mat-icon-button matSuffix (click)="cancelSearch()">
+              <mat-icon>cancel</mat-icon>
+            </button>
           </mat-form-field>
-      </form>
-  </div>
-      <div *ngFor="let field of searchFilterList; let i = index">
-          <mat-checkbox *ngIf="field.formControlName === 'coverageCode'" (change)="selectUnselectGroup($event, field)">
-              <h4 class="checkbox-list-heading">Coverage Details & Info</h4>
-          </mat-checkbox>
-          <mat-checkbox *ngIf="field.formControlName === 'coverage_struc'" (change)="selectUnselectGroup($event, field)">
-            <h4 class="checkbox-list-heading">Coverage Details</h4>
-        </mat-checkbox>
-          <mat-checkbox [checked]="field.isVisible" (change)="addRemoveControls($event.checked, field)" style="margin-left: 30px;">
-              {{field.label}}
-          </mat-checkbox>
+        </form>
       </div>
-  </div>
+      <div *ngFor="let category of groupCategoryList | keyvalue; let i = index">
+        <mat-checkbox (change)="selectUnselectGroup($event, category.key)">
+          <h4 class="checkbox-list-heading">{{ category.key }}</h4>
+        </mat-checkbox>
+        <div *ngFor="let field of category.value; let i = index">
+          <mat-checkbox
+            [checked]="field.isVisible"
+            (change)="addRemoveControls($event.checked, field, 'checkbox', i)"
+            style="margin-left: 30px"
+          >
+            {{ field.label }}
+          </mat-checkbox>
         </div>
       </div>
+    </div>
+  </div>
+</div>
 
+<div class="container-fluid d-flex" style="flex-direction: column" >
+  <div class="mt-3 me-3 d-flex justify-content-end"  *ngIf="userRole!=='Actuary'">
+    <button
+      mat-stroked-button
+      data-bs-toggle="offcanvas"
+      data-bs-target="#offcanvasWithBothOption"
+      aria-controls="offcanvasWithBothOption"
+    >
+      Add Fields
+    </button>
+  </div>
 
   <div class="form-wrapper" *ngIf="!isPageBlank">
-      <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
+    <!-- <motif-toast [autoHide]="true" type='error' [duration]="5000" [show]="showErrorToast" actionText="Learn more"
           ariaLabelCloseButton="Close info toast message">
           <ng-container>
               Please fill all mandatory fields.
           </ng-container>
       </motif-toast> -->
 
-      <form [formGroup]="coverageInfoForm">
-        <ng-container
-        *ngIf="optionalFieldsList[0].isVisible || optionalFieldsList[1].isVisible || optionalFieldsList[2].isVisible
-        || optionalFieldsList[3].isVisible|| optionalFieldsList[4].isVisible|| optionalFieldsList[5].isVisible
-        || optionalFieldsList[6].isVisible|| optionalFieldsList[7].isVisible|| optionalFieldsList[8].isVisible
-        || optionalFieldsList[9].isVisible">
+    <form [formGroup]="coverageInfoForm">
+      <ng-container
+        *ngIf="
+          optionalFieldsList[0].isVisible ||
+          optionalFieldsList[1].isVisible ||
+          optionalFieldsList[2].isVisible ||
+          optionalFieldsList[3].isVisible ||
+          optionalFieldsList[4].isVisible ||
+          optionalFieldsList[5].isVisible ||
+          optionalFieldsList[6].isVisible ||
+          optionalFieldsList[7].isVisible ||
+          optionalFieldsList[8].isVisible ||
+          optionalFieldsList[9].isVisible ||
+          optionalFieldsList[10].isVisible ||
+          optionalFieldsList[11].isVisible
+        "
+      >
         <mat-accordion>
-          <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
-              expanded="true">
-              <mat-expansion-panel-header>
-                  <mat-panel-title>Coverage details & Information</mat-panel-title>
-              </mat-expansion-panel-header>
-        <div class="row">
-          <!-- <div class="col" style="align-content: center;">
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Coverage details & Information</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <!-- <div class="col" style="align-content: center;">
             <h2>Coverage & Information</h2>
           </div> -->
-          <!-- <div class="col">
+              <!-- <div class="col">
               <mat-form-field style="float: right;">
 
                   <mat-label>Filter</mat-label>
                   <input matInput (keyup)="applyFilter($event)" placeholder="Seach Here" #input>
                 </mat-form-field>
           </div> -->
-      </div>
-
-<div class="row" >
-              <div class="col-md-6"  *ngIf="optionalFieldsList[0].isVisible">
-                  <mat-form-field class="input-fields-height">
-                      <mat-label>Coverage Code 1</mat-label>
-                      <input matInput formControlName="coverageCode"  placeholder="Product Code">
-                      <mat-error *ngIf="coverageCode?.invalid && (coverageCode?.dirty || coverageCode?.touched)">
-                          <span *ngIf="coverageCode?.errors?.['required']">This information is required.</span>
-                      </mat-error>
-                    </mat-form-field>
-
-              </div>
-              <div class="col-md-6"  *ngIf="optionalFieldsList[1].isVisible">
-                <mat-form-field class="input-fields-height" >
-                    <mat-label>Coverage Name 1</mat-label>
-                    <input matInput formControlName="cover_name1"  placeholder="Coverage Name ">
-
-                    <mat-error *ngIf="cover_name1?.invalid && (cover_name1?.dirty || cover_name1?.touched)">
-                        <span *ngIf="cover_name1?.errors?.['required']">This information is required.</span>
-                    </mat-error>
-                </mat-form-field>
             </div>
-            <div class="col-md-6" *ngIf="optionalFieldsList[2].isVisible">
-              <mat-form-field class="input-fields-height">
-                  <mat-label>Coverage Type</mat-label>
-                  <mat-select placeholder="Coverage Type" formControlName="cover_type">
-                      <mat-option value="Death_benefits">Death Benefit
-                      </mat-option>
-                      <mat-option value="Accidental_benefit">Accidental Death Benefitt</mat-option>
-                      <mat-option value="Waiver_benefit"> Waiver of Premium</mat-option>
-                      <mat-option value="Illness_benefits">Critical Illness Benefit</mat-option>
-                      <mat-option value="renewal_options">Renewal Option</mat-option>
-                      <mat-option value="coversion_options">Conversion Option</mat-option>
-                      <mat-option value="family_benefit">Family Income Benefit</mat-option>
-                      <mat-option value="premium_benifts">Return of Premium</mat-option>
-                      <mat-option value="term_benifts">Flexible Term Option</mat-option>
-                      <mat-option value="Income_protection_benifts"> Income Protection Benefit</mat-option>
 
-                  </mat-select>
-                  <mat-error *ngIf="cover_type?.invalid && (cover_type?.dirty || cover_type?.touched)">
-                      <span *ngIf="cover_type?.errors?.['required']">This information is required.</span>
+            <div class="row">
+              <div class="col-md-6" *ngIf="optionalFieldsList[0].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Code 1</mat-label>
+                  <input
+                    matInput
+                    formControlName="coverageCode"
+                    placeholder="Product Code"
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[0].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverageCode')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[0].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      coverageCode?.invalid &&
+                      (coverageCode?.dirty || coverageCode?.touched)
+                    "
+                  >
+                    <span *ngIf="coverageCode?.errors?.['required']"
+                      >This information is required.</span
+                    >
                   </mat-error>
-              </mat-form-field>
-          </div>
-
-          <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
-            <mat-form-field class="input-fields-height">
-                <mat-label>Coverage Amount</mat-label>
-                <input matInput type="number" formControlName="coverageAmount"  placeholder="Product Code">
-
-                <mat-error *ngIf="coverageAmount?.invalid && (coverageAmount?.dirty || coverageAmount?.touched)">
-                    <span *ngIf="coverageAmount?.errors?.['required']">This information is required.</span>
-                </mat-error>
-            </mat-form-field>
-        </div>
-        <div class="col-md-6" *ngIf="optionalFieldsList[4].isVisible">
-          <mat-form-field class="input-fields-height" >
-              <mat-label>Coverage Term</mat-label>
-              <input matInput  formControlName="coverageTerm"/>
-              <mat-error *ngIf="coverageTerm?.invalid && (coverageTerm?.dirty || coverageTerm?.touched)">
-                  <span *ngIf="coverageTerm?.errors?.['required']">This information is required.</span>
-              </mat-error>
-          </mat-form-field>
-      </div>
-      <div class="col-md-6" *ngIf="optionalFieldsList[5].isVisible">
-          <mat-form-field class="input-fields-height">
-              <mat-label>Coverage Effective Date</mat-label>
-              <input matInput [matDatepicker]="picker" formControlName="coverageEffectiveDate">
-                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                 <mat-datepicker #picker></mat-datepicker>
-              <mat-error *ngIf="coverageEffectiveDate?.invalid && (coverageEffectiveDate?.dirty || coverageEffectiveDate?.touched)">
-                  <span *ngIf="coverageEffectiveDate?.errors?.['required']">Please enter date </span>
-              </mat-error>
-          </mat-form-field>
-      </div>
-
-      <div class="col-md-6" *ngIf="optionalFieldsList[6].isVisible">
-        <mat-form-field class="input-fields-height">
-            <mat-label>Coverage Expiry Date</mat-label>
-            <input matInput [matDatepicker]="pickers" formControlName="coverageExpiryDate">
-              <mat-datepicker-toggle matSuffix [for]="pickers"></mat-datepicker-toggle>
-               <mat-datepicker #pickers></mat-datepicker>
-            <mat-error *ngIf="coverageExpiryDate?.invalid && (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)">
-                <span *ngIf="coverageExpiryDate?.errors?.['required']">Please enter date .</span>
-            </mat-error>
-        </mat-form-field>
-    </div>
-
-    <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
-      <mat-form-field class="input-fields-height">
-          <mat-label>Coverage Premium</mat-label>
-          <input matInput type="number" formControlName="coveragePremium"  placeholder=" Coverage Premium"/>
-          <mat-error *ngIf="coveragePremium?.invalid && (coveragePremium?.dirty || coveragePremium?.touched)">
-              <span *ngIf="coveragePremium?.errors?.['required']">This information is required.</span>
-          </mat-error>
-      </mat-form-field>
-
-
-
-  </div>
-  <div class="col-md-6" *ngIf="optionalFieldsList[8].isVisible">
-    <mat-form-field class="input-fields-height">
-        <mat-label>Waiting Period</mat-label>
-        <mat-select placeholder="Waiting Period" formControlName="waiting_period">
-            <mat-option value="Death_benefits">No Waiting Period</mat-option>
-            <mat-option value="Accidental_benefit">30 Days</mat-option>
-            <mat-option value="Waiver_benefit"> 60 Days</mat-option>
-            <mat-option value="Illness_benefits">90 Days</mat-option>
-            <mat-option value="renewal_options">180 Days</mat-option>
-            <mat-option value="coversion_options">1 Year</mat-option>
-
-
-        </mat-select>
-        <mat-error *ngIf="waiting_period?.invalid && (waiting_period?.dirty || waiting_period?.touched)">
-            <span *ngIf="waiting_period?.errors?.['required']">This information is required.</span>
-        </mat-error>
-    </mat-form-field>
-</div>
-
-
-
-          </div>
-          <div class="row">
-            <div class="col-md-6" *ngIf="optionalFieldsList[9].isVisible">
-              <mat-form-field class="input-fields-height">
-                <mat-label>Coverage Condition</mat-label>
-                <textarea matInput matTextareaAutosize formControlName="coverage_condition"  placeholder="Coverage Condition"></textarea>
-                <mat-error *ngIf="coverage_condition?.invalid && (coverage_condition?.dirty || coverage_condition?.touched)">
-                    <span *ngIf="coverage_condition?.errors?.['required']">This information is required.</span>
-                </mat-error>
-              </mat-form-field>
-
-
-            </div>
-          </div>
-
-
-
-        </mat-expansion-panel>
-        </mat-accordion>
-
-        </ng-container>
-
-
-
-          <ng-container *ngIf="optionalFieldsList[10].isVisible || optionalFieldsList[11].isVisible || optionalFieldsList[12].isVisible">
-              <h2 > </h2>
-              <mat-accordion>
-                <mat-expansion-panel (opened)="panelOpenState.set(true)" (closed)="panelOpenState.set(false)"
-                    expanded="true">
-                    <mat-expansion-panel-header>
-                        <mat-panel-title>Coverage details</mat-panel-title>
-                    </mat-expansion-panel-header>
-              <div class="row">
-                  <div class="col-md-6" *ngIf="optionalFieldsList[10].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Coverage Structure</mat-label>
-                          <input matInput  formControlName="coverage_struc"/>
-                          <mat-error *ngIf="coverage_struc?.invalid && (coverage_struc?.dirty || coverage_struc?.touched)">
-                              <span *ngIf="coverage_struc?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[11].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Beneficiary Details</mat-label>
-                          <input matInput formControlName="Beneficiary"/>
-                          <mat-error *ngIf="Beneficiary?.invalid && (Beneficiary?.dirty || Beneficiary?.touched)">
-                              <span *ngIf="Beneficiary?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
-                  <div class="col-md-6" *ngIf="optionalFieldsList[12].isVisible">
-                      <mat-form-field class="input-fields-height">
-                          <mat-label>Product Tageline</mat-label>
-                          <input matInput formControlName="Death_benefit"/>
-                          <mat-error *ngIf="Death_benefit?.invalid && (Death_benefit?.dirty || Death_benefit?.touched)">
-                              <span *ngIf="Death_benefit?.errors?.['required']">This information is required.</span>
-                          </mat-error>
-                      </mat-form-field>
-                  </div>
+                </mat-form-field>
               </div>
-                </mat-expansion-panel></mat-accordion>
-          </ng-container>
+              <div class="col-md-6" *ngIf="optionalFieldsList[1].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Name 1</mat-label>
+                  <input
+                    matInput
+                    formControlName="cover_name1"
+                    placeholder="Coverage Name "
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[1].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('cover_name1')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[1].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
 
-          <!-- <ng-container *ngIf="optionalFieldsList[3].isVisible || optionalFieldsList[4].isVisible || optionalFieldsList[5].isVisible">
+                  <mat-error
+                    *ngIf="
+                      cover_name1?.invalid &&
+                      (cover_name1?.dirty || cover_name1?.touched)
+                    "
+                  >
+                    <span *ngIf="cover_name1?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[2].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Type</mat-label>
+                  <mat-select
+                    placeholder="Coverage Type"
+                    formControlName="cover_type"
+                  >
+                    <mat-option value="Death_benefits"
+                      >Death Benefit
+                    </mat-option>
+                    <mat-option value="Accidental_benefit"
+                      >Accidental Death Benefitt</mat-option
+                    >
+                    <mat-option value="Waiver_benefit">
+                      Waiver of Premium</mat-option
+                    >
+                    <mat-option value="Illness_benefits"
+                      >Critical Illness Benefit</mat-option
+                    >
+                    <mat-option value="renewal_options"
+                      >Renewal Option</mat-option
+                    >
+                    <mat-option value="coversion_options"
+                      >Conversion Option</mat-option
+                    >
+                    <mat-option value="family_benefit"
+                      >Family Income Benefit</mat-option
+                    >
+                    <mat-option value="premium_benifts"
+                      >Return of Premium</mat-option
+                    >
+                    <mat-option value="term_benifts"
+                      >Flexible Term Option</mat-option
+                    >
+                    <mat-option value="Income_protection_benifts">
+                      Income Protection Benefit</mat-option
+                    >
+                  </mat-select>
+                  <button
+                    *ngIf="!optionalFieldsList[2].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('cover_type')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[2].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      cover_type?.invalid &&
+                      (cover_type?.dirty || cover_type?.touched)
+                    "
+                  >
+                    <span *ngIf="cover_type?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3" *ngIf="optionalFieldsList[3].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Min Age</mat-label>
+                  <input
+                    matInput
+                    formControlName="min"
+                    type="number"
+                    placeholder="Min "
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[3].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('min')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[3].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+                  <mat-error
+                    *ngIf="min?.invalid && (min?.dirty || min?.touched)"
+                  >
+                    <span *ngIf="min?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-3" *ngIf="optionalFieldsList[4].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Max Age</mat-label>
+                  <input
+                    matInput
+                    formControlName="max"
+                    type="number"
+                    placeholder="Max "
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[4].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('max')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[4].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+                  <mat-error
+                    *ngIf="max?.invalid && (max?.dirty || max?.touched)"
+                  >
+                    <span *ngIf="max?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6" *ngIf="optionalFieldsList[5].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Amount</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="coverageAmount"
+                    placeholder="Product Code"
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[5].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverageAmount')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[5].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+                  <mat-error
+                    *ngIf="
+                      coverageAmount?.invalid &&
+                      (coverageAmount?.dirty || coverageAmount?.touched)
+                    "
+                  >
+                    <span *ngIf="coverageAmount?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[6].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Term</mat-label>
+                  <input matInput formControlName="coverageTerm" />
+                  <button
+                    *ngIf="!optionalFieldsList[6].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverageTerm')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[6].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      coverageTerm?.invalid &&
+                      (coverageTerm?.dirty || coverageTerm?.touched)
+                    "
+                  >
+                    <span *ngIf="coverageTerm?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[7].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Effective Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="picker"
+                    formControlName="coverageEffectiveDate"
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[7].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverageEffectiveDate')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[7].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="picker"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #picker></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      coverageEffectiveDate?.invalid &&
+                      (coverageEffectiveDate?.dirty ||
+                        coverageEffectiveDate?.touched)
+                    "
+                  >
+                    <span *ngIf="coverageEffectiveDate?.errors?.['required']"
+                      >Please enter date
+                    </span>
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6" *ngIf="optionalFieldsList[8].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Expiry Date</mat-label>
+                  <input
+                    matInput
+                    [matDatepicker]="pickers"
+                    formControlName="coverageExpiryDate"
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[8].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverageExpiryDate')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[8].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-datepicker-toggle
+                    matSuffix
+                    [for]="pickers"
+                  ></mat-datepicker-toggle>
+                  <mat-datepicker #pickers></mat-datepicker>
+                  <mat-error
+                    *ngIf="
+                      coverageExpiryDate?.invalid &&
+                      (coverageExpiryDate?.dirty || coverageExpiryDate?.touched)
+                    "
+                  >
+                    <span *ngIf="coverageExpiryDate?.errors?.['required']"
+                      >Please enter date .</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+
+              <div class="col-md-6" *ngIf="optionalFieldsList[9].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Premium</mat-label>
+                  <input
+                    matInput
+                    type="number"
+                    formControlName="coveragePremium"
+                    placeholder=" Coverage Premium"
+                  />
+                  <button
+                    *ngIf="!optionalFieldsList[9].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coveragePremium')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[9].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      coveragePremium?.invalid &&
+                      (coveragePremium?.dirty || coveragePremium?.touched)
+                    "
+                  >
+                    <span *ngIf="coveragePremium?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[10].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Waiting Period</mat-label>
+                  <mat-select
+                    placeholder="Waiting Period"
+                    formControlName="waiting_period"
+                  >
+                    <mat-option value="No_wait">No Waiting Period</mat-option>
+                    <mat-option value="30">30 Days</mat-option>
+                    <mat-option value="60"> 60 Days</mat-option>
+                    <mat-option value="90">90 Days</mat-option>
+                    <mat-option value="180">180 Days</mat-option>
+                    <mat-option value="1year">1 Year</mat-option>
+                  </mat-select>
+                  <button
+                    *ngIf="!optionalFieldsList[10].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('waiting_period')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[10].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      waiting_period?.invalid &&
+                      (waiting_period?.dirty || waiting_period?.touched)
+                    "
+                  >
+                    <span *ngIf="waiting_period?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[11].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Condition</mat-label>
+                  <textarea
+                    matInput
+                    matTextareaAutosize
+                    formControlName="coverage_condition"
+                    placeholder="Coverage Condition"
+                  ></textarea>
+                  <button
+                    *ngIf="!optionalFieldsList[11].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverage_condition')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[11].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      coverage_condition?.invalid &&
+                      (coverage_condition?.dirty || coverage_condition?.touched)
+                    "
+                  >
+                    <span *ngIf="coverage_condition?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel>
+        </mat-accordion>
+      </ng-container>
+
+      <ng-container
+        *ngIf="
+          optionalFieldsList[12].isVisible ||
+          optionalFieldsList[13].isVisible ||
+          optionalFieldsList[14].isVisible
+        "
+      >
+        <h2></h2>
+        <mat-accordion>
+          <mat-expansion-panel
+            (opened)="panelOpenState.set(true)"
+            (closed)="panelOpenState.set(false)"
+            expanded="true"
+          >
+            <mat-expansion-panel-header>
+              <mat-panel-title>Coverage details</mat-panel-title>
+            </mat-expansion-panel-header>
+            <div class="row">
+              <div class="col-md-6" *ngIf="optionalFieldsList[12].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Coverage Structure</mat-label>
+                  <input matInput formControlName="coverage_struc" />
+                  <button
+                    *ngIf="!optionalFieldsList[12].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('coverage_struc')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[12].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(optionalFieldsList[12])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      coverage_struc?.invalid &&
+                      (coverage_struc?.dirty || coverage_struc?.touched)
+                    "
+                  >
+                    <span *ngIf="coverage_struc?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[13].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Beneficiary Details</mat-label>
+                  <input matInput formControlName="Beneficiary" />
+                  <button
+                    *ngIf="!optionalFieldsList[13].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('Beneficiary')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[13].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <button
+                    matSuffix
+                    mat-icon-button
+                    aria-label="Clear"
+                    class="delete-field"
+                    (click)="deleteControl(optionalFieldsList[13])"
+                  >
+                    <mat-icon>delete</mat-icon>
+                  </button>
+                  <mat-error
+                    *ngIf="
+                      Beneficiary?.invalid &&
+                      (Beneficiary?.dirty || Beneficiary?.touched)
+                    "
+                  >
+                    <span *ngIf="Beneficiary?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+              <div class="col-md-6" *ngIf="optionalFieldsList[14].isVisible">
+                <mat-form-field class="input-fields-height">
+                  <mat-label>Product Tageline</mat-label>
+                  <input matInput formControlName="Death_benefit" />
+                  <button
+                    *ngIf="!optionalFieldsList[14].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    aria-label="comment"
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    (click)="openCommentDialog('Death_benefit')"
+                  >
+                    <mat-icon>comment</mat-icon>
+                  </button>
+                  <button
+                    *ngIf="optionalFieldsList[14].hasOwnProperty('comments')"
+                    matSuffix
+                    mat-icon-button
+                    matTooltip="Add Comments"
+                    class="add-comment"
+                    aria-label="comments"
+                    (click)="openCommentDialog('Death_benefit')"
+                  >
+                    <mat-icon
+                      [ngStyle]="{
+                        color: optionalFieldsList[14].hasOwnProperty('comments')
+                          ? 'green'
+                          : ''
+                      }"
+                      >mark_chat_read</mat-icon
+                    >
+                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(optionalFieldsList[14].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+                  <mat-error
+                    *ngIf="
+                      Death_benefit?.invalid &&
+                      (Death_benefit?.dirty || Death_benefit?.touched)
+                    "
+                  >
+                    <span *ngIf="Death_benefit?.errors?.['required']"
+                      >This information is required.</span
+                    >
+                  </mat-error>
+                </mat-form-field>
+              </div>
+            </div>
+          </mat-expansion-panel></mat-accordion
+        >
+      </ng-container>
+
+      <!-- <ng-container *ngIf="optionalFieldsList[3].isVisible || optionalFieldsList[4].isVisible || optionalFieldsList[5].isVisible">
               <h2 >Underwriting  Details</h2>
               <div class="row">
                   <div class="col-md-6" *ngIf="optionalFieldsList[3].isVisible">
@@ -326,11 +785,39 @@
               </div>
           </ng-container> -->
 
-          <div class="form-btn-wrapper" *ngIf="optionalFieldsList[0].isVisible||optionalFieldsList[1].isVisible ||optionalFieldsList[2].isVisible||optionalFieldsList[3].isVisible||optionalFieldsList[4].isVisible||optionalFieldsList[5].isVisible||optionalFieldsList[6].isVisible||optionalFieldsList[7].isVisible||optionalFieldsList[8].isVisible||optionalFieldsList[9].isVisible||optionalFieldsList[10].isVisible||optionalFieldsList[11].isVisible||optionalFieldsList[12].isVisible">
-              <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button>
-              <button  mat-flat-button color="primary" class="mt-3" matStepperPrevious>Back</button>
-              <button  mat-flat-button color="primary" class="mt-3" >Next</button>
-          </div>
-      </form>
+      <div
+        class="form-btn-wrapper"
+        *ngIf="
+          optionalFieldsList[0].isVisible ||
+          optionalFieldsList[1].isVisible ||
+          optionalFieldsList[2].isVisible ||
+          optionalFieldsList[3].isVisible ||
+          optionalFieldsList[4].isVisible ||
+          optionalFieldsList[5].isVisible ||
+          optionalFieldsList[6].isVisible ||
+          optionalFieldsList[7].isVisible ||
+          optionalFieldsList[8].isVisible ||
+          optionalFieldsList[9].isVisible ||
+          optionalFieldsList[10].isVisible ||
+          optionalFieldsList[11].isVisible ||
+          optionalFieldsList[12].isVisible
+        "
+      >
+        <!-- <button  mat-flat-button color="primary" class="mt-3" >Save as Draft</button> -->
+        <button mat-flat-button color="primary" class="mt-3" matStepperPrevious>
+          Back
+        </button>
+        <button
+          mat-flat-button
+          color="primary"
+          class="mt-3"
+          matStepperNext
+          (click)="nextData()"
+          matStepperNext
+        >
+          Next
+        </button>
+      </div>
+    </form>
   </div>
 </div>

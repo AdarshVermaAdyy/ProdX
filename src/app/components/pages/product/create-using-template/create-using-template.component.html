@@ -1,34 +1,101 @@
-<app-header-ribbon></app-header-ribbon>
+<app-header-ribbon [stepper]="currentStep"></app-header-ribbon>
 <div class="container">
-    <div class="row">
-        <div class="col">
-            <mat-stepper linear #stepper>
-              <ng-template matStepperIcon="edit">
-                <mat-icon>check</mat-icon>
-              </ng-template>
-              <!-- Product details step -->
-                <mat-step [stepControl]="step1.productDetailsForm">
-                    <ng-template matStepLabel>Product Details</ng-template>
-                        <app-product-details #step1></app-product-details>
-                </mat-step>
+  <div class="row">
+    <div class="col">
+      <mat-stepper
+        linear
+        #stepper
+        [selectedIndex]="selectedStepperIdex"
+        (selectionChange)="onStepChange($event, stepper)"
+      >
+        <ng-template matStepperIcon="edit">
+          <mat-icon>check</mat-icon>
+        </ng-template>
+        <!-- Product details step -->
+        <mat-step
+          [stepControl]="step1.productDetailsForm"
+          [completed]="
+            (this.mode.includes('edit-draft') && selectedStepperIdex > 0) ||
+            step1.productDetailsForm.valid
+          "
+        >
+          <ng-template matStepLabel>Product Details</ng-template>
+          <app-product-details
+            #step1
+            [productData]="productData?.data?.productDetails"
+            [mode]="mode"
+          ></app-product-details>
+        </mat-step>
 
-                <!-- Product Info step -->
-                <mat-step [stepControl]="step2.dynamicForm">
-                  <ng-template matStepLabel>Product Info</ng-template>
-                  <app-prod-info-form #step2></app-prod-info-form>
-                    <!-- <button mat-button matStepperPrevious>Back</button>
+        <!-- Product Info step -->
+        <mat-step
+          [stepControl]="step2.productInfoForm"
+          [completed]="
+            (this.mode.includes('edit-draft') && selectedStepperIdex > 1) ||
+            step2.productInfoForm.valid
+          "
+        >
+          <ng-template matStepLabel>Product Info</ng-template>
+          <app-product-info
+            #step2
+            [productData]="productData?.data?.productInfo"
+            [mode]="mode"
+          ></app-product-info>
+          <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
-                </mat-step>
+        </mat-step>
 
-                <!-- coverage Info step  -->
-                <mat-step [stepControl]="step3.coverageInfoForm">
-                  <ng-template matStepLabel>Coverage Info</ng-template>
-                   <app-coverage-info #step3></app-coverage-info>
-                    <!-- <button mat-button matStepperPrevious>Back</button>
+        <!-- coverage Info step  -->
+        <mat-step
+          [stepControl]="step3.coverageInfoForm"
+          [completed]="
+            (this.mode.includes('edit-draft') && selectedStepperIdex > 2) ||
+            step3.coverageInfoForm.valid
+          "
+        >
+          <ng-template matStepLabel>Coverage Info</ng-template>
+          <app-coverage-info
+            #step3
+            [productData]="productData?.data?.coverageInfo"
+            [mode]="mode"
+          ></app-coverage-info>
+          <!-- <button mat-button matStepperPrevious>Back</button>
                     <button mat-button matStepperNext>Next</button> -->
-                </mat-step>
-              </mat-stepper>
-        </div>
+        </mat-step>
+
+        <mat-step
+          [stepControl]="step4.riderDetailsForm"
+          [completed]="
+            (this.mode.includes('edit-draft') && selectedStepperIdex > 3) ||
+            step4.riderDetailsForm.valid
+          "
+        >
+          <ng-template matStepLabel>Rider & Information</ng-template>
+          <app-rider-information
+            #step4
+            [productData]="productData?.data?.riderinfo"
+            [mode]="mode"
+          ></app-rider-information>
+          <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+        </mat-step>
+
+        <!-- Document step  -->
+        <mat-step>
+          <ng-template matStepLabel>Review Documents</ng-template>
+          <app-review-document #step5></app-review-document>
+
+          <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+        </mat-step>
+        <mat-step *ngIf="userRole==='Actuary'" >
+          <ng-template matStepLabel>Upload Rate Tables</ng-template>
+        <app-rate-table #step6></app-rate-table>
+
+          <!-- <button mat-button matStepperPrevious>Back</button>
+                    <button mat-button matStepperNext>Next</button> -->
+        </mat-step>
+      </mat-stepper>
     </div>
+  </div>
 </div>
-

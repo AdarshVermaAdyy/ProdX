@@ -7,5 +7,6 @@
         <mat-icon >close</mat-icon>
         <span>No</span>
       </button>
-    <button mat-button [mat-dialog-close]="true" cdkFocusInitial routerLink="/auth/login"><mat-icon>check</mat-icon><span>Yes</span></button>
+    <button *ngIf="action === 'logout'" mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="logout()"><mat-icon>check</mat-icon><span>Yes</span></button>
+    <button *ngIf="action === 'delete-draft'" mat-button [mat-dialog-close]="true" cdkFocusInitial (click)="deleteDraft()"><mat-icon>check</mat-icon><span>Yes</span></button>
   </mat-dialog-actions>

@@ -1,4 +1,3 @@
-import { RiderInformationComponent } from './../../rider-information/rider-information.component';
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { TemplateManagementComponent } from './template-management/template-management.component';
@@ -7,39 +6,49 @@ import { ProductManagementComponent } from './product-management/product-managem
 import { ProdInfoFormComponent } from './prod-info-form/prod-info-form.component';
 import { CoverageInfoComponent } from './coverage-info/coverage-info.component';
 import { CreateUsingTemplateComponent } from './create-using-template/create-using-template.component';
+import { MydraftsComponent } from '../mydrafts/mydrafts.component';
 
 const routes: Routes = [
   {
-    path : '',
-    
-    children : [
+    path: '',
+
+    children: [
       {
-        path:'template-management',
+        path: 'template-management',
         component: TemplateManagementComponent,
-        data : {breadcrumb : 'Template Management'},
+        data: { breadcrumb: 'Template Management' },
       },
       {
-        path : '',
-        redirectTo : 'template-management',
-        pathMatch: 'full'
+        path: '',
+        redirectTo: 'template-management',
+        pathMatch: 'full',
       },
       {
-        path: "product-management",
+        path: 'product-management',
         component: ProductManagementComponent,
-        data : {breadcrumb : 'Product Management'}
+        data: { breadcrumb: 'Product Management' },
       },
       {
-        path:"create-product",
+        path: 'create-product',
         component: CreateUsingTemplateComponent,
-        data : {breadcrumb : 'Create product using template'}
-      }
-    ]
+        data: { breadcrumb: 'Create product using template' },
+      },
+      {
+        path: 'edit-product/:name',
+        component: CreateUsingTemplateComponent,
+        data: { breadcrumb: 'Create product using template' },
+      },
+      {
+        path: 'edit-draft/:name',
+        component: CreateUsingTemplateComponent,
+        data: { breadcrumb: 'Create product using template' },
+      },
+    ],
   },
- 
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class ProductRoutingModule { }
+export class ProductRoutingModule {}
