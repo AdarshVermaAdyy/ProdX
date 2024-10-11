@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component, Inject, OnInit } from '@angular/core';
 import {
   FormBuilder,
@@ -20,6 +21,7 @@ import { MatInput, MatInputModule } from '@angular/material/input';
   selector: 'app-edit-label',
   standalone: true,
   imports: [
+    CommonModule,
     FormsModule,
     ReactiveFormsModule,
     MatInputModule,
@@ -36,7 +38,7 @@ export class EditLabelComponent implements OnInit {
   constructor(
     private fb: FormBuilder,
     public dialogRef: MatDialogRef<EditLabelComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: { comment: string }
+    @Inject(MAT_DIALOG_DATA) public data: any
   ) {}
 
   ngOnInit(): void {

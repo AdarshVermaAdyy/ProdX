@@ -14,6 +14,7 @@ export class FormDataService {
   callAddDocument$ = this.callAddDocument.asObservable();
   private formData: any = {};
   private docList = [];
+  private commentList = [];
   mode = '';
 
   constructor(private route: Router) {}
@@ -36,6 +37,14 @@ export class FormDataService {
     this.updateDocument();
   }
 
+  addComment(data) {
+    this.commentList.push(data);
+  }
+
+  getComments(){
+    return this.commentList;
+  }
+
   deleteDocument(index) {
     this.docList.splice(index, 1);
     this.updateDocument();
@@ -56,6 +65,7 @@ export class FormDataService {
   clearFormData() {
     this.formData = {};
     this.docList = [];
+    this.commentList = [];
   }
 
   fetchDraftsFromLocalStorage() {
@@ -67,6 +77,8 @@ export class FormDataService {
       (draft) => draft.draftName === draftName
     )[0];
     this.formData = draftData.data || {};
+    this.docList = draftData.documents || [];
+    this.commentList = draftData.comments || [];
     return draftData;
   }
 
@@ -75,6 +87,8 @@ export class FormDataService {
       (product) => product.productName === productName
     )[0];
     this.formData = productData.data || {};
+    this.docList = productData.documents || [];
+    this.commentList = productData.controlComments || [];
     return productData;
   }
 
@@ -143,6 +157,7 @@ export class FormDataService {
       comments: comments,
       data: this.formData,
       documents: this.docList,
+      controlComments: this.commentList
     };
 
     products.push(newData);
@@ -156,7 +171,8 @@ export class FormDataService {
     const products = this.fetchProductsFromLocalStorage();
     products.forEach(product => {
       if(productName === product.productName){
-        product.status = ProductStatus.approved
+        product.status = ProductStatus.approved;
+        product.comments = this.commentList;
       }
     });
 
