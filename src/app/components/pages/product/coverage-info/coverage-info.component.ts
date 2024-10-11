@@ -42,6 +42,7 @@ interface InputField {
   options?: Options[] | [];
   isVisible?: boolean;
   isMandatory: boolean;
+
   category: string;
   defaultVal?: any;
 }
@@ -83,6 +84,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   coverageInfoForm: FormGroup;
   isBlankTemplete = '';
   userRole='';
+  controlComments=[];
   isPageBlank = true; //
   showsearchbar = true;
   private formService$ = new Subscription();
@@ -273,7 +275,7 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
     this.generateFormFeilds();
     this.groupFieldsByCategory();
     this.userRole = JSON.parse(localStorage.getItem('user')).role;
-
+this.fetchComments();
 
   }
 
@@ -496,33 +498,38 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
     this.groupCategoryList[field.category].push(field);
   }
 
+  fetchComments(){
+    this.controlComments = this.formDataService.getComments();
+  }
+
+  hasComments(formControlName){
+    return this.controlComments.some(comment => comment.formControlName === formControlName)? true : false;
+  }
+
   openCommentDialog(controlName, event?): void {
     if (event) {
       event.stopPropagation();
     }
-    const index = this.optionalFieldsList.findIndex(
-      (x) => x.formControlName == controlName
-    );
+    let comment = this.formDataService.getComments().find(comment => comment.formControlName === controlName);
     const dialogRef = this.dialog.open(EditLabelComponent, {
       width: '500px',
       disableClose: true,
       data: {
-        comment: this.optionalFieldsList[index].hasOwnProperty('comments')
-          ? this.optionalFieldsList[index]['comments']
-          : '',
+        comment: comment
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result != 'cancel' && result != '') {
-        if (index != -1) {
-          this.optionalFieldsList[index]['comments'] = result;
+        if(!comment){
+          comment = {
+            formControlName: controlName,
+            comments: [result]
+          }
+        } else {
+          comment.comments.push(result);
         }
-      } else if (
-        result == '' &&
-        this.optionalFieldsList[index].hasOwnProperty('comments')
-      ) {
-        delete this.optionalFieldsList[index]['comments'];
+        this.formDataService.addComment(comment);
       }
     });
   }

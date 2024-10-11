@@ -135,24 +135,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[0].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('ridercode1')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[0].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[0].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
 
                   <mat-error
                     *ngIf="
@@ -181,24 +166,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[1].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderName1')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[1].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[1].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
                   <mat-error
                     *ngIf="
                       riderName1?.invalid &&
@@ -226,24 +196,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[2].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderOption')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[2].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[0].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
                   <mat-error
                     *ngIf="
                       riderOption?.invalid &&
@@ -277,24 +232,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[3].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderTpye', $event)"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[3].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[3].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
                   <mat-error
                     *ngIf="
                       riderTpye?.invalid &&
@@ -327,24 +267,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[4].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderCoverAmount')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[4].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[4].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
 
                   <mat-error
                     *ngIf="
@@ -373,24 +298,9 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[5].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderTerm')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[5].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[5].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
                   <mat-error
                     *ngIf="
                       riderTerm?.invalid &&
@@ -427,24 +337,9 @@
                 >
                   <mat-icon>comment</mat-icon>
                 </button>
-                <button
-                  *ngIf="fieldsList[6].hasOwnProperty('comments')"
-                  matSuffix
-                  mat-icon-button
-                  matTooltip="Add Comments"
-                  class="add-comment"
-                  aria-label="comments"
-                  (click)="openCommentDialog('riderEffectiveDate')"
-                >
-                  <mat-icon
-                    [ngStyle]="{
-                      color: fieldsList[6].hasOwnProperty('comments')
-                        ? 'green'
-                        : ''
-                    }"
-                    >mark_chat_read</mat-icon
-                  >
-                </button>
+                <div class="notification-icon" *ngIf="hasComments(fieldsList[6].formControlName)">
+                  <mat-icon>mark_chat_read</mat-icon>
+                </div>
                   <mat-error
                     *ngIf="
                       riderEffectiveDate?.invalid &&
@@ -483,24 +378,11 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[7].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderExpiryDate')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[7].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[7].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
                   <mat-error
                     *ngIf="
                       riderExpiryDate?.invalid &&
@@ -528,24 +410,11 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[8].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderPremium')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[8].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[8].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
                   <mat-error
                     *ngIf="
                       riderPremium?.invalid &&
@@ -580,24 +449,11 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[9].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderWaitPeriod', $event)"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[9].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[9].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
                   <mat-error
                     *ngIf="
                       riderWaitPeriod?.invalid &&
@@ -633,24 +489,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[10].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderRenewal', $event)"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[10].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[10].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
                   <mat-error
                     *ngIf="
                       riderRenewal?.invalid &&
@@ -685,24 +529,11 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[11].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('ridersCoverOption', $event)"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[11].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[11].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
                   <mat-error
                     *ngIf="
                       ridersCoverOption?.invalid &&
@@ -737,24 +568,10 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[12].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderCondition')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[12].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                 <div class="notification-icon" *ngIf="hasComments(fieldsList[12].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
 
                   <mat-error
                     *ngIf="
@@ -790,24 +607,13 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[13].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('min')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[13].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[13].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
+
 
                   <mat-error
                     *ngIf="min?.invalid && (min?.dirty || min?.touched)"
@@ -839,24 +645,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[14].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('max')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[14].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+
+
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[14].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
 
                   <mat-error
                     *ngIf="max?.invalid && (max?.dirty || max?.touched)"
@@ -889,24 +683,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[15].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_benefits')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[15].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[15].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
 
                   <mat-error
                     *ngIf="
@@ -942,24 +724,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[16].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_limitation')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[16].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[16].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <mat-error
                     *ngIf="
                       rider_limitation?.invalid &&
@@ -994,24 +764,10 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[17].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_cancellation_term')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[17].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[17].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
 
                   <mat-error
                     *ngIf="
@@ -1065,24 +821,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[18].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_age_res')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[18].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[18].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1119,24 +863,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[19].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_cover_trigger')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[19].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[19].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1174,24 +906,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[20].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_cover_red')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[20].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[20].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1254,24 +974,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[21].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_payout_freq')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[21].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[21].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1308,24 +1016,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[22].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_prem_waiver')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[22].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[22].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1362,24 +1058,12 @@
                   >
                     <mat-icon>comment</mat-icon>
                   </button>
-                  <button
-                    *ngIf="fieldsList[23].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    class="add-comment"
-                    aria-label="comments"
-                    (click)="openCommentDialog('rider_auto_inc')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[23].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
+                  <div class="notification-icon" *ngIf="hasComments(fieldsList[23].formControlName)">
+                    <mat-icon>mark_chat_read</mat-icon>
+                  </div>
+
+
+
                   <button
                     matSuffix
                     mat-icon-button
@@ -1417,24 +1101,10 @@
                 >
                   <mat-icon>comment</mat-icon>
                 </button>
-                <button
-                  *ngIf="fieldsList[24].hasOwnProperty('comments')"
-                  matSuffix
-                  mat-icon-button
-                  matTooltip="Add Comments"
-                  class="add-comment"
-                  aria-label="comments"
-                  (click)="openCommentDialog('rider_settle_option')"
-                >
-                  <mat-icon
-                    [ngStyle]="{
-                      color: fieldsList[24].hasOwnProperty('comments')
-                        ? 'green'
-                        : ''
-                    }"
-                    >mark_chat_read</mat-icon
-                  >
-                </button>
+                <div class="notification-icon" *ngIf="hasComments(fieldsList[24].formControlName)">
+                  <mat-icon>mark_chat_read</mat-icon>
+                </div>
+
                 <button
                   matSuffix
                   mat-icon-button
@@ -1471,24 +1141,10 @@
                 >
                   <mat-icon>comment</mat-icon>
                 </button>
-                <button
-                  *ngIf="fieldsList[25].hasOwnProperty('comments')"
-                  matSuffix
-                  mat-icon-button
-                  matTooltip="Add Comments"
-                  class="add-comment"
-                  aria-label="comments"
-                  (click)="openCommentDialog('rider_contri_type')"
-                >
-                  <mat-icon
-                    [ngStyle]="{
-                      color: fieldsList[25].hasOwnProperty('comments')
-                        ? 'green'
-                        : ''
-                    }"
-                    >mark_chat_read</mat-icon
-                  >
-                </button>
+                <div class="notification-icon" *ngIf="hasComments(fieldsList[25].formControlName)">
+                  <mat-icon>mark_chat_read</mat-icon>
+                </div>
+
                 <button
                   matSuffix
                   mat-icon-button

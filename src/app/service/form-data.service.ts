@@ -178,6 +178,31 @@ export class FormDataService {
 
     this.saveProductsToLocalStorage(products);
   }
+  submitByIRDA(){
+    const productName = this.formData.productDetails.productName;
+    const products = this.fetchProductsFromLocalStorage();
+    products.forEach(product => {
+      if(productName === product.productName){
+        product.status = ProductStatus.reviewWithIRDA;
+        product.comments = this.commentList;
+      }
+    });
+
+    this.saveProductsToLocalStorage(products);
+  }
+  approvedByIRDA(){
+    const productName = this.formData.productDetails.productName;
+    const products = this.fetchProductsFromLocalStorage();
+    products.forEach(product => {
+      if(productName === product.productName){
+        product.status = ProductStatus.submittedToIRDA;
+        product.comments = this.commentList;
+      }
+    });
+
+    this.saveProductsToLocalStorage(products);
+  }
+
 
   deleteDraft(index) {
     const drafts = this.fetchDraftsFromLocalStorage();

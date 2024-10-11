@@ -62,6 +62,18 @@ export class HeaderRibbonComponent implements OnChanges {
       });
     }
   }
+  approvetoirda(){
+    const userRole = JSON.parse(localStorage.getItem('user')).role;
+    if (userRole === UserRole.actuary) {
+      this.formDataService.submitByIRDA();
+      this.router.navigate(['/main/dashboard']);
+    } else {
+      const dialogRef = this.matdialog.open(SubmitFormDialogComponent, {
+        height: 'auto',
+        width: '550px',
+      });
+    }
+  }
 
   deleteDraft() {
     const dialogRef = this.matdialog.open(ConfirmationDialogComponent, {
@@ -85,6 +97,14 @@ export class HeaderRibbonComponent implements OnChanges {
     this.router.navigate(['/main/drafts']);
   }
   movetoirda(){
-    this.router.navigate(['/main/irda']);
-  }
+    const userRole = JSON.parse(localStorage.getItem('user')).role;
+    if (userRole === UserRole.actuary) {
+      this.formDataService.submitByIRDA();
+      this.router.navigate(['/main/dashboard']);
+    } else {
+      const dialogRef = this.matdialog.open(SubmitFormDialogComponent, {
+        height: 'auto',
+        width: '550px',
+      });
+    }}
 }

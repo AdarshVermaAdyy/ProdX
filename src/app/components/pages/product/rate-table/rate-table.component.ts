@@ -10,6 +10,7 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatRadioButton, MatRadioGroup } from '@angular/material/radio';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableDataSource, MatTableModule } from '@angular/material/table';
+import { UserRole } from '../../../../enums';
 import { MatDialog,
   MatDialogActions,
   MatDialogClose,
@@ -17,6 +18,7 @@ import { MatDialog,
   MatDialogTitle, } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { MatStepperModule } from '@angular/material/stepper';
+import { FormDataService } from '../../../../service/form-data.service';
 
 export interface Element {
   column1: string;
@@ -66,7 +68,7 @@ export class RateTableComponent {
 
 
 
-  constructor(private http: HttpClient,public dialog: MatDialog,private router: Router) {}
+  constructor(private http: HttpClient,public dialog: MatDialog,private router: Router ,private formDataService: FormDataService) {}
 
 
 ngOnInit():void{
@@ -100,6 +102,11 @@ openDialog(): void {
       submissionDate: submissionDate
      }
   });
+  const userRole = JSON.parse(localStorage.getItem('user')).role;
+  if (userRole === UserRole.actuary) {
+    this.formDataService.submitByActuary();
+    this.router.navigate(['/main/dashboard']);
+  }
 
   dialogRef.afterClosed().subscribe(result => {
     this.router.navigate(['/dashboard']); // Replace '/target-page' with your target route

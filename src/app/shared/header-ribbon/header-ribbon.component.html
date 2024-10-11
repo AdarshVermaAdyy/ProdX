@@ -48,6 +48,10 @@
 
           <span>IRDA Submittion Details</span>
         </button>
+        <button *ngIf="stepper?.selectedIndex === stepper?.steps?.length -1" mat-menu-item (click)="approvetoirda()">
+
+          <span>IRDA Submittion Details</span>
+        </button>
       </mat-menu>
 
 

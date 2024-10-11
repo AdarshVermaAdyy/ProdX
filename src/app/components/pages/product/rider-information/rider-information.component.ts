@@ -41,6 +41,7 @@ interface InputField {
   type: 'select' | 'text' | 'radio' | 'checkbox';
   options?: Options[] | [];
   isVisible?: boolean;
+
   isMandatory: boolean;
   category: string;
   defaultVal: any;
@@ -84,6 +85,7 @@ export class RiderInformationComponent implements OnInit {
   isBlankTemplate = ''; // if the template is made from Blank template or not
   isPageBlank = true; //
   userRole = '';
+  controlComments=[];
   readonly panelOpenState = signal(true);
   private formService$ = new Subscription();
   @Input() productData!: any;
@@ -399,6 +401,7 @@ export class RiderInformationComponent implements OnInit {
     this.generateFormFeilds();
     this.groupFieldsByCategory();
     this.userRole = JSON.parse(localStorage.getItem('user')).role;
+    this.fetchComments();
 
   }
 
@@ -659,34 +662,41 @@ export class RiderInformationComponent implements OnInit {
     this.groupCategoryList[field.category].push(field);
   }
 
+  fetchComments(){
+    this.controlComments = this.formDataService.getComments();
+  }
+
+  hasComments(formControlName){
+    return this.controlComments.some(comment => comment.formControlName === formControlName)? true : false;
+  }
+
   openCommentDialog(controlName, event?): void {
     if (event) {
       event.stopPropagation();
     }
-    const index = this.fieldsList.findIndex(
-      (x) => x.formControlName == controlName
-    );
+    let comment = this.formDataService.getComments().find(comment => comment.formControlName === controlName);
     const dialogRef = this.dialog.open(EditLabelComponent, {
       width: '500px',
       disableClose: true,
       data: {
-        comment: this.fieldsList[index].hasOwnProperty('comments')
-          ? this.fieldsList[index]['comments']
-          : '',
+        comment: comment
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result != 'cancel' && result != '') {
-        if (index != -1) {
-          this.fieldsList[index]['comments'] = result;
+        if(!comment){
+          comment = {
+            formControlName: controlName,
+            comments: [result]
+          }
+        } else {
+          comment.comments.push(result);
         }
-      } else if (
-        result == '' &&
-        this.fieldsList[index].hasOwnProperty('comments')
-      ) {
-        delete this.fieldsList[index]['comments'];
+        this.formDataService.addComment(comment);
       }
     });
   }
+
+
 }

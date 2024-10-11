@@ -70,3 +70,11 @@ mat-form-field{
 mat-form-field:hover .add-comment{
   display: block;
 }
+.notification-icon {
+  position: absolute;
+  top: 0; /* Adjust based on input height */
+  right: -5px; /* Adjust for padding */
+  font-size: 3px; /* Adjust size */
+  color: #ffcc00; /* Color for the indication */
+  pointer-events: none; /* Prevents icon from interfering with input */
+}
