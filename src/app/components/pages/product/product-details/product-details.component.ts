@@ -250,6 +250,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
 
   searchFilterList: any = [];
   groupCategoryList: { [key: string]: any[] } = {};
+  controlComments = [];
 
   constructor(
     private _fb: FormBuilder,
@@ -273,6 +274,7 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     );
     this.generateFormFields();
     this.groupFieldsByCategory();
+    this.fetchComments();
   }
 
   initializeSearchForm() {
@@ -318,6 +320,14 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
       // Taking all fields
       this.searchFilterList = this.fieldsList;
     }
+  }
+
+  fetchComments(){
+    this.controlComments = this.formDataService.getComments();
+  }
+
+  hasComments(formControlName){
+    return this.controlComments.some(comment => comment.formControlName === formControlName)? true : false;
   }
 
   //getters
@@ -589,29 +599,26 @@ export class ProductDetailsComponent implements OnInit, OnDestroy {
     if (event) {
       event.stopPropagation();
     }
-    const index = this.fieldsList.findIndex(
-      (x) => x.formControlName == controlName
-    );
+    let comment = this.formDataService.getComments().find(comment => comment.formControlName === controlName);
     const dialogRef = this.dialog.open(EditLabelComponent, {
       width: '500px',
       disableClose: true,
       data: {
-        comment: this.fieldsList[index].hasOwnProperty('comments')
-          ? this.fieldsList[index]['comments']
-          : '',
+        comment: comment
       },
     });
 
     dialogRef.afterClosed().subscribe((result) => {
       if (result != 'cancel' && result != '') {
-        if (index != -1) {
-          this.fieldsList[index]['comments'] = result;
+        if(!comment){
+          comment = {
+            formControlName: controlName,
+            comments: [result]
+          }
+        } else {
+          comment.comments.push(result);
         }
-      } else if (
-        result == '' &&
-        this.fieldsList[index].hasOwnProperty('comments')
-      ) {
-        delete this.fieldsList[index]['comments'];
+        this.formDataService.addComment(comment);
       }
     });
   }

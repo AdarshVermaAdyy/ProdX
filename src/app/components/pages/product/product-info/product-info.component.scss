@@ -72,3 +72,11 @@ mat-form-field {
 .checkboxOptional-group {
   gap: 20px;
 }
+
+.add-comment{
+  display: none;
+}
+
+mat-form-field:hover .add-comment{
+  display: block;
+}

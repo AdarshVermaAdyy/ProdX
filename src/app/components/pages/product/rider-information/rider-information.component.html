@@ -130,6 +130,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('ridercode1')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -139,6 +140,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('ridercode1')"
                   >
@@ -174,6 +176,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderName1')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -183,6 +186,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderName1')"
                   >
@@ -217,6 +221,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderOption')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -226,6 +231,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderOption')"
                   >
@@ -266,6 +272,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderTpye', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -275,6 +282,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderTpye', $event)"
                   >
@@ -314,6 +322,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderCoverAmount')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -323,6 +332,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderCoverAmount')"
                   >
@@ -358,6 +368,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderTerm')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -367,6 +378,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderTerm')"
                   >
@@ -399,38 +411,40 @@
                     [matDatepicker]="picker"
                     formControlName="riderEffectiveDate"
                   />
-                  <button
-                    *ngIf="!fieldsList[6].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    aria-label="comment"
-                    matTooltip="Add Comments"
-                    (click)="openCommentDialog('riderEffectiveDate')"
-                  >
-                    <mat-icon>comment</mat-icon>
-                  </button>
-                  <button
-                    *ngIf="fieldsList[6].hasOwnProperty('comments')"
-                    matSuffix
-                    mat-icon-button
-                    matTooltip="Add Comments"
-                    aria-label="comments"
-                    (click)="openCommentDialog('riderEffectiveDate')"
-                  >
-                    <mat-icon
-                      [ngStyle]="{
-                        color: fieldsList[6].hasOwnProperty('comments')
-                          ? 'green'
-                          : ''
-                      }"
-                      >mark_chat_read</mat-icon
-                    >
-                  </button>
                   <mat-datepicker-toggle
                     matSuffix
                     [for]="picker"
                   ></mat-datepicker-toggle>
                   <mat-datepicker #picker></mat-datepicker>
+                  <button
+                  *ngIf="!fieldsList[6].hasOwnProperty('comments')"
+                  matSuffix
+                  mat-icon-button
+                  aria-label="comment"
+                  matTooltip="Add Comments"
+                  class="add-comment"
+                  (click)="openCommentDialog('riderEffectiveDate')"
+                >
+                  <mat-icon>comment</mat-icon>
+                </button>
+                <button
+                  *ngIf="fieldsList[6].hasOwnProperty('comments')"
+                  matSuffix
+                  mat-icon-button
+                  matTooltip="Add Comments"
+                  class="add-comment"
+                  aria-label="comments"
+                  (click)="openCommentDialog('riderEffectiveDate')"
+                >
+                  <mat-icon
+                    [ngStyle]="{
+                      color: fieldsList[6].hasOwnProperty('comments')
+                        ? 'green'
+                        : ''
+                    }"
+                    >mark_chat_read</mat-icon
+                  >
+                </button>
                   <mat-error
                     *ngIf="
                       riderEffectiveDate?.invalid &&
@@ -464,6 +478,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderExpiryDate')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -473,6 +488,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderExpiryDate')"
                   >
@@ -507,6 +523,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderPremium')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -516,6 +533,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderPremium')"
                   >
@@ -557,6 +575,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderWaitPeriod', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -566,6 +585,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderWaitPeriod', $event)"
                   >
@@ -608,6 +628,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderRenewal', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -617,6 +638,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderRenewal', $event)"
                   >
@@ -658,6 +680,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('ridersCoverOption', $event)"
                   >
                     <mat-icon>comment</mat-icon>
@@ -667,6 +690,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('ridersCoverOption', $event)"
                   >
@@ -708,6 +732,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('riderCondition')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -717,6 +742,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('riderCondition')"
                   >
@@ -759,6 +785,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('min')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -768,6 +795,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('min')"
                   >
@@ -806,6 +834,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('max')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -815,6 +844,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('max')"
                   >
@@ -854,6 +884,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_benefits')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -863,6 +894,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_benefits')"
                   >
@@ -905,6 +937,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_limitation')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -914,6 +947,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_limitation')"
                   >
@@ -955,6 +989,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_cancellation_term')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -964,6 +999,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_cancellation_term')"
                   >
@@ -1024,6 +1060,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_age_res')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1033,6 +1070,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_age_res')"
                   >
@@ -1076,6 +1114,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_cover_trigger')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1085,6 +1124,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_cover_trigger')"
                   >
@@ -1129,6 +1169,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_cover_red')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1138,6 +1179,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_cover_red')"
                   >
@@ -1207,6 +1249,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_payout_freq')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1216,6 +1259,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_payout_freq')"
                   >
@@ -1259,6 +1303,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_prem_waiver')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1268,6 +1313,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_prem_waiver')"
                   >
@@ -1311,6 +1357,7 @@
                     mat-icon-button
                     aria-label="comment"
                     matTooltip="Add Comments"
+                    class="add-comment"
                     (click)="openCommentDialog('rider_auto_inc')"
                   >
                     <mat-icon>comment</mat-icon>
@@ -1320,6 +1367,7 @@
                     matSuffix
                     mat-icon-button
                     matTooltip="Add Comments"
+                    class="add-comment"
                     aria-label="comments"
                     (click)="openCommentDialog('rider_auto_inc')"
                   >
@@ -1364,6 +1412,7 @@
                   mat-icon-button
                   aria-label="comment"
                   matTooltip="Add Comments"
+                  class="add-comment"
                   (click)="openCommentDialog('rider_settle_option')"
                 >
                   <mat-icon>comment</mat-icon>
@@ -1373,6 +1422,7 @@
                   matSuffix
                   mat-icon-button
                   matTooltip="Add Comments"
+                  class="add-comment"
                   aria-label="comments"
                   (click)="openCommentDialog('rider_settle_option')"
                 >
@@ -1416,6 +1466,7 @@
                   mat-icon-button
                   aria-label="comment"
                   matTooltip="Add Comments"
+                  class="add-comment"
                   (click)="openCommentDialog('rider_contri_type')"
                 >
                   <mat-icon>comment</mat-icon>
@@ -1425,6 +1476,7 @@
                   matSuffix
                   mat-icon-button
                   matTooltip="Add Comments"
+                  class="add-comment"
                   aria-label="comments"
                   (click)="openCommentDialog('rider_contri_type')"
                 >

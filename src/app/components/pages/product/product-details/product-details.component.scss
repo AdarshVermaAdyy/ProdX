@@ -58,13 +58,21 @@ mat-form-field {
 }
 
 .delete-field, .add-comment{
-    display: none;
+  display: none;
 }
 
 mat-form-field:hover .delete-field, mat-form-field:hover .add-comment{
-    display: block;
+  display: block;
 }
 
+.notification-icon {
+  position: absolute;
+  top: 0; /* Adjust based on input height */
+  right: -5px; /* Adjust for padding */
+  font-size: 3px; /* Adjust size */
+  color: #ffcc00; /* Color for the indication */
+  pointer-events: none; /* Prevents icon from interfering with input */
+}
 // .offcanvas{
 //     position: fixed !important;
 //     left: 4rem;
