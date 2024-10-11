@@ -62,3 +62,11 @@ mat-form-field{
 //   position: fixed !important;
 //   left: 4rem;
 // }
+
+.add-comment{
+  display: none;
+}
+
+mat-form-field:hover .add-comment{
+  display: block;
+}
