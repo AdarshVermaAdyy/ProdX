@@ -20,6 +20,8 @@ import { ReviewDocumentComponent } from '../review-document/review-document.comp
 import { ActivatedRoute, Router } from '@angular/router';
 import { FormDataService } from '../../../../service/form-data.service';
 import { ProductInfoComponent } from '../product-info/product-info.component';
+import { RateTableComponent } from '../rate-table/rate-table.component';
+import { CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-create-using-template',
@@ -35,11 +37,13 @@ import { ProductInfoComponent } from '../product-info/product-info.component';
     CoverageInfoComponent,
     ProdInfoFormComponent,
     HeaderRibbonComponent,
+    RateTableComponent,
     MatSidenavModule,
     MatIconModule,
     RiderInformationComponent,
     ReviewDocumentComponent,
     ProductInfoComponent,
+    CommonModule
   ],
   templateUrl: './create-using-template.component.html',
   styleUrl: './create-using-template.component.scss',
@@ -52,7 +56,8 @@ export class CreateUsingTemplateComponent {
   productData: any = {};
   mode = '';
   selectedStepperIdex = 0;
-
+  // journey2=true;
+  userRole='';
   @ViewChild(ProductDetailsComponent)
   ProductDetailsComponent: ProductDetailsComponent;
   @ViewChild(ProductInfoComponent)
@@ -63,7 +68,8 @@ export class CreateUsingTemplateComponent {
   RiderInformationComponent: RiderInformationComponent;
   @ViewChild(ReviewDocumentComponent)
   ReviewDocumentComponent: ReviewDocumentComponent;
-
+ @ViewChild(RateTableComponent)
+ RateTableComponent:RateTableComponent;
   constructor(
     private route: ActivatedRoute,
     private formDataService: FormDataService
@@ -94,6 +100,8 @@ export class CreateUsingTemplateComponent {
       'currentForm',
       JSON.stringify(this.currentSelectedIndex)
     );
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+
   }
 
   get productDetailsForm() {

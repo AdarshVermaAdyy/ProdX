@@ -60,6 +60,7 @@ export class ReviewDocumentComponent implements OnInit, OnDestroy {
     'action',
   ];
   isAddDocument: boolean = false;
+  journey2:boolean = true;
   addDocumentSubsscription = new Subscription();
   @ViewChild(MatSort) sort: MatSort;
   value: string = '';

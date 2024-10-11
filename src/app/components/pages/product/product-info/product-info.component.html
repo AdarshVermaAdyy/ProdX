@@ -18,7 +18,7 @@
   <div class="offcanvas-body">
     <div class="field-list-wrapper">
       <div>
-        <form [formGroup]="searchForm">
+        <form *ngIf="isFormVisible" [formGroup]="searchForm">
           <mat-form-field class="input-fields-height">
             <mat-label>Search</mat-label>
             <input matInput formControlName="search" (input)="search($event)" />
@@ -75,12 +75,14 @@
               <mat-checkbox
                 (change)="onSingleChange($event.checked)"
                 [disabled]="isOtherSelected"
+                formControlName="single"
               >
                 Single
               </mat-checkbox>
               <mat-checkbox
                 (change)="onChangeFrequency('Yearly')"
                 [disabled]="isSingleSelected"
+                formControlName="yearly"
                 [checked]="selectedFrequency.includes('Yearly')"
               >
                 Yearly
@@ -88,6 +90,7 @@
               <mat-checkbox
                 (change)="onChangeFrequency('Halfyearly')"
                 [disabled]="isSingleSelected"
+                formControlName="halfYearly"
                 [checked]="selectedFrequency.includes('Halfyearly')"
               >
                 Half-Yearly
@@ -95,6 +98,7 @@
               <mat-checkbox
                 (change)="onChangeFrequency('Quaterly')"
                 [disabled]="isSingleSelected"
+                formControlName="quarterly"
                 [checked]="selectedFrequency.includes('Quaterly')"
               >
                 Quaterly
@@ -102,6 +106,7 @@
               <mat-checkbox
                 (change)="onChangeFrequency('Monthly')"
                 [disabled]="isSingleSelected"
+                formControlName="monthly"
                 [checked]="selectedFrequency.includes('Monthly')"
               >
                 Monthly
@@ -390,7 +395,7 @@
                     </div>
                     <div class="col-md-6">
                       <mat-form-field class="input-fields-height">
-                        <mat-label>Bank Dating</mat-label>
+                        <mat-label>Back Dating</mat-label>
                         <mat-select [formControlName]="'backDating_single'">
                           <mat-option value="Yes">Yes</mat-option>
                           <mat-option value="No">No</mat-option>

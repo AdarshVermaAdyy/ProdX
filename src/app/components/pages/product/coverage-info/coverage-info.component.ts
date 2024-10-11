@@ -82,7 +82,9 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
   searchForm: FormGroup;
   coverageInfoForm: FormGroup;
   isBlankTemplete = '';
+  userRole='';
   isPageBlank = true; //
+  showsearchbar = true;
   private formService$ = new Subscription();
   @Input() productData!: any;
   @Input() mode!: string;
@@ -270,6 +272,9 @@ export class CoverageInfoComponent implements OnInit, OnDestroy {
 
     this.generateFormFeilds();
     this.groupFieldsByCategory();
+    this.userRole = JSON.parse(localStorage.getItem('user')).role;
+
+
   }
 
   initialiseForm() {
