@@ -68,7 +68,7 @@ export class SubmitFormDialogComponent implements OnInit {
     this.formDataService.saveData()
     this.formDataService.submit(this.submitForm.value)
     this.dialogRef.close();
-    this.route.navigate(['/main/dashboard'])
+    this.route.navigate(['/main/dashboard']);
   }
 
 }

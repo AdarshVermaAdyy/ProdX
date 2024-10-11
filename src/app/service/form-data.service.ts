@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import moment from 'moment';
 import { Subject } from 'rxjs';
-import { ProductStatus } from '../enums';
+import { ProductStatus, UserRole } from '../enums';
 
 @Injectable({
   providedIn: 'root',
@@ -130,7 +130,6 @@ export class FormDataService {
     if (Object.keys(this.formData).length === 0) {
       return;
     }
-
     const products = this.fetchProductsFromLocalStorage();
     const newData = {
       productName: this.formData.productDetails.productName,
@@ -150,6 +149,18 @@ export class FormDataService {
     this.saveProductsToLocalStorage(products);
 
     this.clearFormData();
+  }
+
+  submitByActuary(){
+    const productName = this.formData.productDetails.productName;
+    const products = this.fetchProductsFromLocalStorage();
+    products.forEach(product => {
+      if(productName === product.productName){
+        product.status = ProductStatus.approved
+      }
+    });
+
+    this.saveProductsToLocalStorage(products);
   }
 
   deleteDraft(index) {

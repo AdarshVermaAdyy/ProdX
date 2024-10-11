@@ -13,6 +13,7 @@ import { DraftDialogComponent } from '../draft-dialog/draft-dialog.component';
 import { ConfirmationDialogComponent } from '../confirmation-dialog/confirmation-dialog.component';
 import { FormDataService } from '../../service/form-data.service';
 import { Router } from '@angular/router';
+import { UserRole } from '../../enums';
 
 @Component({
   selector: 'app-header-ribbon',
@@ -37,9 +38,9 @@ export class HeaderRibbonComponent implements OnChanges {
     private matdialog: MatDialog,
     private formDataService: FormDataService,
     private router: Router
-  ) {}
+  ) { }
 
-  ngOnChanges(changes: SimpleChanges): void {}
+  ngOnChanges(changes: SimpleChanges): void { }
 
   docUpload() {
     const dialogRef = this.matdialog.open(DocUploadDialogComponent, {
@@ -50,10 +51,16 @@ export class HeaderRibbonComponent implements OnChanges {
   }
 
   submitProduct() {
-    const dialogRef = this.matdialog.open(SubmitFormDialogComponent, {
-      height: 'auto',
-      width: '550px',
-    });
+    const userRole = JSON.parse(localStorage.getItem('user')).role;
+    if (userRole === UserRole.actuary) {
+      this.formDataService.submitByActuary();
+      this.router.navigate(['/main/dashboard']);
+    } else {
+      const dialogRef = this.matdialog.open(SubmitFormDialogComponent, {
+        height: 'auto',
+        width: '550px',
+      });
+    }
   }
 
   deleteDraft() {
